@@ -6,7 +6,7 @@ local keymap = require "core.keymap"
 local style = require "core.style"
 local View = require "core.view"
 
-config.treeview_size = 200 * SCALE
+config.treeview_size = 230 * SCALE
 
 local function get_depth(filename)
   local n = 0
@@ -112,6 +112,7 @@ end
 
 function TreeView:on_mouse_pressed(button, x, y)
   if not self.hovered_item then
+    -- HERE :)
     return
   elseif self.hovered_item.type == "dir" then
     self.hovered_item.expanded = not self.hovered_item.expanded
@@ -121,7 +122,6 @@ function TreeView:on_mouse_pressed(button, x, y)
     end)
   end
 end
-
 
 function TreeView:update()
   -- update width
@@ -192,6 +192,20 @@ command.add(nil, {
   ["treeview:toggle"] = function()
     view.visible = not view.visible
   end,
+  ["treeview:larger"] = function()
+    if not view.init_size then
+      view.init_size = true
+    end
+    config.treeview_size = config.treeview_size + 10
+  end,
+  ["treeview:smaller"] = function()
+    if not view.init_size then
+      view.init_size = true
+    end
+    config.treeview_size = config.treeview_size - 10
+  end
 })
 
-keymap.add { ["ctrl+\\"] = "treeview:toggle" }
+keymap.add { ["ctrl+\\"] = "treeview:toggle",
+["ctrl+l"] = "treeview:larger",
+["ctrl+m"] = "treeview:smaller" }

@@ -84,11 +84,14 @@ local commands = {
     if doc():has_selection() then
       local text = doc():get_text(doc():get_selection())
       system.set_clipboard(text)
+      core.log("Copied \"%d\" bytes", #text)
     end
   end,
 
   ["doc:paste"] = function()
-    doc():text_input(system.get_clipboard():gsub("\r", ""))
+    local text = system.get_clipboard():gsub("\r", "")
+    doc():text_input(text)
+    core.log("Pasted \"%d\" bytes", #text)
   end,
 
   ["doc:newline"] = function()
