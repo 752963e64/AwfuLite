@@ -6,23 +6,91 @@ local Object = require "core.object"
 local View = require "core.view"
 local DocView = require "core.docview"
 
-
 local EmptyView = View:extend()
 
 function EmptyView:draw()
   self:draw_background(style.background)
   local pos = self.position
   local x, y, w, h = pos.x, pos.y, self.size.x, self.size.y
-  local _, y = common.draw_text(style.big_font, style.dim, "empty", "center", x, y, w, h)
+  local _, y = common.draw_doc(style.big_font, style.dim, "Keybindings", "center", x, y, w, h)
   local lines = {
-    { fmt = "%s to run a command", cmd = "core:command-finder" },
-    { fmt = "%s to open a file from the project", cmd = "core:file-finder" },
+    { fmt = "%s to run a command",                          cmd = "core:command-finder" },
+    { fmt = "%s to open a file from the project",           cmd = "core:file-finder" },
+    { fmt = "%s to open a file",                            cmd = "core:open-file" },
+    { fmt = "%s to open a new file",                        cmd = "core:new-doc" },
+    { fmt = "%s to save file",                              cmd = "doc:save" },
+    { fmt = "%s to save file as",                           cmd = "doc:save-as" },
+    { fmt = "%s to close file",                             cmd = "root:close" },
+    { fmt = "%s to quit lite",                              cmd = "core:quit" },
+
+    { fmt = "%s to split layout by left",                   cmd = "root:split-left" },
+    { fmt = "%s to split layout by right",                  cmd = "root:split-right" },
+    { fmt = "%s to split layout by top",                    cmd = "root:split-up" },
+    { fmt = "%s to split layout by bottom",                 cmd = "root:split-down" },
+    { fmt = "%s to switch to the left view",                cmd = "root:switch-to-left" },
+    { fmt = "%s to switch to the right view",               cmd = "root:switch-to-right" },
+    { fmt = "%s to switch to the top view",                 cmd = "root:switch-to-up" },
+    { fmt = "%s to switch to the bottom view",              cmd = "root:switch-to-down" },
+    
+    { fmt = "%s to switch to next tab",                     cmd = "root:switch-to-next-tab" },
+    { fmt = "%s to switch to previous tab",                 cmd = "root:switch-to-previous-tab" },
+    { fmt = "%s to move tab on left",                       cmd = "root:move-tab-left" },
+    { fmt = "%s to move tab on right",                      cmd = "root:move-tab-right" },
+
+    { fmt = "alt+NUM to switch to the tab NUM",             cmd = "" },
+
+    { fmt = "%s pattern search into the actual file",       cmd = "find-replace:find" },
+    { fmt = "%s pattern replace into the actual file",      cmd = "find-replace:replace" },
+    { fmt = "%s to repeat previous pattern search",         cmd = "find-replace:repeat-find" },
+    { fmt = "%s go back to the previous pattern search",    cmd = "find-replace:previous-find" },
+    { fmt = "%s go back to the next pattern search",        cmd = "find-replace:select-next" },
+
+    { fmt = "%s go to line",                                cmd = "doc:go-to-line" },
+
+    { fmt = "%s undo",                                      cmd = "doc:undo" },
+    { fmt = "%s redo",                                      cmd = "doc:redo" },
+    { fmt = "%s cut selection or cursor line",              cmd = "doc:cut" },
+    { fmt = "%s copy selection or cursor line",             cmd = "doc:copy" },
+    { fmt = "%s paste",                                     cmd = "doc:paste" },
+
+    { fmt = "%s select all",                                cmd = "doc:select-all" },
+    { fmt = "%s select entire line",                        cmd = "doc:select-lines" },
+
+    { fmt = "%s drop actual selection",                     cmd = "doc:select-none" },
+    { fmt = "%s to access autocompletion",                  cmd = "command:complete" },
+    { fmt = "%s to unindent cursor line",                   cmd = "doc:unindent" },
+    { fmt = "%s delete to previous word boundary",          cmd = "doc:delete-to-previous-word-boundary" },
+    { fmt = "%s delete to next word boundary",              cmd = "doc:delete-to-next-word-boundary" },
+
+    { fmt = "%s newline below",                             cmd = "doc:newline-below" },
+    { fmt = "%s newline above",                             cmd = "doc:newline-above" },
+    { fmt = "%s join lines",                                cmd = "doc:join-lines" },
+
+    { fmt = "%s line comment",                              cmd = "doc:toggle-line-comments" },
+
+    { fmt = "%s move line up",                              cmd = "doc:move-lines-up" },
+    { fmt = "%s move line down",                            cmd = "doc:move-lines-down" },
+
+    { fmt = "%s duplicate line",                            cmd = "doc:duplicate-lines" },
+    { fmt = "%s delete line",                               cmd = "doc:delete-lines" },
+
+    { fmt = "%s move to previous word boundary",            cmd = "doc:move-to-previous-word-boundary" },
+    { fmt = "%s move to next word boundary",                cmd = "doc:move-to-next-word-boundary" },
+
+    { fmt = "%s move to previous start of code block",      cmd = "doc:move-to-previous-start-of-block" },
+    { fmt = "%s move to next start of block",               cmd = "doc:move-to-next-start-of-block" },
+
+    { fmt = "%s move to the beginning of file",             cmd = "doc:move-to-start-of-doc" },
+    { fmt = "%s move to the end of file",                   cmd = "doc:move-to-end-of-doc" },
+
+    { fmt = "%s move to the beginning of file",             cmd = "doc:move-to-start-of-doc" },
+    { fmt = "%s move to the beginning of file",             cmd = "doc:move-to-start-of-doc" },
   }
   local th = style.font:get_height()
   for _, line in ipairs(lines) do
     local text = string.format(line.fmt, keymap.get_binding(line.cmd))
-    y = y + style.padding.y
-    common.draw_text(style.font, style.dim, text, "center", x, y, w, th)
+    y = y -- + style.padding.y
+    common.draw_doc(style.font, style.dim, text, "center", x, y, w, th)
     y = y + th
   end
 end

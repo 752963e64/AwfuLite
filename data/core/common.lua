@@ -126,6 +126,18 @@ function common.draw_text(font, color, text, align, x,y,w,h)
 end
 
 
+function common.draw_doc(font, color, text, align, x,y,w,h)
+  local tw, th = font:get_width(text), font:get_height(text)
+  if align == "center" then
+    x = x + (w - tw) / 2
+  elseif align == "right" then
+    x = x + (w - tw)
+  end
+  y = y + 10
+  return renderer.draw_text(font, text, x, y, color), y + th
+end
+
+
 function common.bench(name, fn, ...)
   local start = system.get_time()
   local res = fn(...)
