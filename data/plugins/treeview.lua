@@ -22,7 +22,7 @@ local TreeView = View:extend()
 function TreeView:new()
   TreeView.super.new(self)
   self.scrollable = true
-  self.visible = true
+  self.visible = false
   self.init_size = true
   self.cache = {}
 end
@@ -206,6 +206,6 @@ command.add(nil, {
   end
 })
 
-keymap.add { ["ctrl+\\"] = "treeview:toggle",
-["ctrl+l"] = "treeview:larger",
-["ctrl+m"] = "treeview:smaller" }
+keymap.add { ["ctrl+shift+t"] = "treeview:toggle",
+["ctrl+shift+l"] = "treeview:larger",
+["ctrl+shift+m"] = "treeview:smaller" }
