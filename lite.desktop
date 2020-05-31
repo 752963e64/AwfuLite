@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Lite
+GenericName=Text Editor by rxi
+Exec=lite %f
+Terminal=false
+Type=Application
+Icon=/usr/share/icons/lite/icon.ico
+Categories=Editor
+MimeType=text/plain
+StartupNotify=false
