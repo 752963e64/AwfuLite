@@ -73,25 +73,41 @@ local commands = {
   end,
 
   ["doc:cut"] = function()
+    local text = nil
     if doc():has_selection() then
-      local text = doc():get_text(doc():get_selection())
-      system.set_clipboard(text)
+      text = doc():get_text(doc():get_selection())
       doc():delete_to(0)
+    else -- then cut entire line
+      local line1, col1, line2 = doc():get_selection(true)
+      text = doc():get_text(line1, 1, line2 + 1, 1)
+      append_line_if_last_line(line2)
+      doc():remove(line1, 1, line2 + 1, 1)
+      doc():set_selection(line1, col1)
     end
+    if text then -- set clipboard
+      system.set_clipboard(text)
+    end
+    core.log("Copy \"%d\" bytes", #text)
   end,
 
   ["doc:copy"] = function()
+    local text = nil
     if doc():has_selection() then
-      local text = doc():get_text(doc():get_selection())
-      system.set_clipboard(text)
-      core.log("Copied \"%d\" bytes", #text)
+      text = doc():get_text(doc():get_selection())
+    else -- then copy entire line
+      local line1, col1, line2 = doc():get_selection(true)
+      text = doc():get_text(line1, 1, line2 + 1, 1)
     end
+    if text then
+      system.set_clipboard(text)
+    end
+    core.log("Copy \"%d\" bytes", #text)
   end,
 
   ["doc:paste"] = function()
     local text = system.get_clipboard():gsub("\r", "")
     doc():text_input(text)
-    core.log("Pasted \"%d\" bytes", #text)
+    core.log("Paste \"%d\" bytes", #text)
   end,
 
   ["doc:newline"] = function()
