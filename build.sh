@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cflags="-Wall -O3 -g -std=gnu11 -Isrc"
+cflags="-mfpmath=sse -march=core2 -mtune=core2 -fdiagnostics-color=always -pipe -O3 -Wall -g -std=gnu11 -Isrc"
 lflags="-lSDL2 -lm"
 
 if [[ $* == *windows* ]]; then
@@ -22,7 +22,6 @@ fi
 if command -v ccache >/dev/null; then
   compiler="ccache $compiler"
 fi
-
 
 echo "compiling ($platform)..."
 for f in `find src -name "*.c"`; do
