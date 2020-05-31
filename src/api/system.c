@@ -379,12 +379,21 @@ static int f_fuzzy_match(lua_State *L) {
 }
 
 
+static int f_set_window_opacity(lua_State *L) {
+  double n = luaL_checknumber(L, 1);
+  int r = SDL_SetWindowOpacity(window, n);
+  lua_pushboolean(L, r > -1);
+  return 1;
+}
+
+
 static const luaL_Reg lib[] = {
   { "poll_event",          f_poll_event          },
   { "wait_event",          f_wait_event          },
   { "set_cursor",          f_set_cursor          },
   { "set_window_title",    f_set_window_title    },
   { "set_window_mode",     f_set_window_mode     },
+  { "set_window_opacity",  f_set_window_opacity  },
   { "window_has_focus",    f_window_has_focus    },
   { "show_confirm_dialog", f_show_confirm_dialog },
   { "chdir",               f_chdir               },
@@ -405,3 +414,4 @@ int luaopen_system(lua_State *L) {
   luaL_newlib(L, lib);
   return 1;
 }
+

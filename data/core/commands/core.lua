@@ -6,6 +6,7 @@ local LogView = require "core.logview"
 
 
 local fullscreen = false
+local opacity = false
 
 command.add(nil, {
   ["core:quit"] = function()
@@ -19,6 +20,15 @@ command.add(nil, {
   ["core:toggle-fullscreen"] = function()
     fullscreen = not fullscreen
     system.set_window_mode(fullscreen and "fullscreen" or "normal")
+  end,
+
+  ["core:toggle-opacity"] = function()
+    opacity = not opacity
+    if opacity then
+      system.set_window_opacity(0.8)
+    else
+      system.set_window_opacity(1)
+    end
   end,
 
   ["core:reload-module"] = function()
