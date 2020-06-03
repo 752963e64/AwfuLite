@@ -374,9 +374,5 @@ command.add(nil, {
   end
 })
 
-keymap.add {
-  ["ctrl+."] = "console:toggle",
-  ["ctrl+shift+."] = "console:run",
-}
 
 return console

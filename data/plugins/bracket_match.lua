@@ -100,4 +100,3 @@ command.add("core.docview", {
   end,
 })
 
-keymap.add { ["ctrl+m"] = "bracket-match:move-to-matching" }

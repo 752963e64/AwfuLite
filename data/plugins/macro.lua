@@ -62,8 +62,3 @@ command.add(predicate, {
   end,
 })
 
-
-keymap.add {
-  ["ctrl+shift+;"] = "macro:toggle-record",
-  ["ctrl+;"] = "macro:play",
-}

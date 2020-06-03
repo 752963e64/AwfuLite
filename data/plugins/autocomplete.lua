@@ -273,12 +273,4 @@ command.add(predicate, {
 })
 
 
-keymap.add {
-  ["tab"]    = "autocomplete:complete",
-  ["up"]     = "autocomplete:previous",
-  ["down"]   = "autocomplete:next",
-  ["escape"] = "autocomplete:cancel",
-}
-
-
 return autocomplete

@@ -25,6 +25,3 @@ command.add("core.docview", {
   end,
 })
 
-keymap.add {
-  ["ctrl+'"] = "quote:quote",
-}

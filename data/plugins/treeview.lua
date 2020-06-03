@@ -206,6 +206,3 @@ command.add(nil, {
   end
 })
 
-keymap.add { ["ctrl+shift+t"] = "treeview:toggle",
-["ctrl+shift+l"] = "treeview:larger",
-["ctrl+shift+m"] = "treeview:smaller" }
