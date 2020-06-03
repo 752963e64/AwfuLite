@@ -42,4 +42,61 @@ style.syntax["string"] = { common.color "#f7c95c" }
 style.syntax["operator"] = { common.color "#93DDFA" }
 style.syntax["function"] = { common.color "#93DDFA" }
 
+style.icons = {
+  ["attention"] = "!",
+  ["angle-circled-down"] = "\"",
+  ["angle-circled-up"] = ",",
+  ["angle-circled-left"] = ")",
+  ["angle-circled-right"] = "*",
+  -- document
+  ["doc-text"] = "#",
+  ["file-archive"] = "/",
+  ["file-image"] = "0",
+  ["file-pdf"] = "1",
+  ["file-video"] = "J",
+  ["file-audio"] = "K",
+  ["file-code"] = "f",
+  -- align
+  ["align-left"] = "5",
+  ["align-center"] = "6",
+  ["align-right"] = "7",
+  -- lock
+  ["lock"] = "$",
+  ["lock-open-alt"] = "%",
+  -- feed back icon
+  ["ok"] = "&",
+  ["cancel"] = "x",
+  ["check-empty"] = "B",
+  ["check"] = "C",
+  ["sort"] = ";",
+  ["sort-down"] = "<",
+  ["sort-up"] = "=",
+  ["dot"] = ".",
+  ["dot-3"] = "I",
+  ["unlink"] = "?",
+  ["folder-open"] = "D",
+  ["folder-close"] = "d",
+  ["fold-close"] = "+",
+  ["fold-open"] = "-",
+  -- button
+  ["toggle-on"] = "@",
+  ["toggle-off"] = "A",
+  -- icon symbol
+  ["info-circled"] = "i",
+  ["chart-line"] = "g",
+  ["chart-bar"] = "G",
+  ["book"] = "p",
+  ["build"] = "'",
+  ["code"] = "3",
+  ["menu"] = "4",
+  ["git"] = "8",
+  ["fork"] = "9",
+  ["cube"] = ":",
+  ["right-angle"] = ">",
+  ["undo"] = "F",
+  ["redo"] = "H",
+  ["share"] = "L",
+  ["terminal"] = "T",
+}
+
 return style
