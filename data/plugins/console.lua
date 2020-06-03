@@ -313,7 +313,7 @@ end
 
 function ConsoleView:draw()
   self:draw_background(style.background)
-  local icon_w = style.icon_font:get_width("!")
+  local icon_w = style.icon_font:get_width(style.icons["attention"])
 
   for i, item, x, y, w, h in self:each_visible_line() do
     local tx = x + style.padding.x

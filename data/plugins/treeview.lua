@@ -163,15 +163,15 @@ function TreeView:draw()
     -- icons
     x = x + item.depth * style.padding.x + style.padding.x
     if item.type == "dir" then
-      local icon1 = item.expanded and "-" or "+"
-      local icon2 = item.expanded and "D" or "d"
+      local icon1 = item.expanded and style.icons["fold-open"] or style.icons["fold-close"]
+      local icon2 = item.expanded and style.icons["folder-open"] or style.icons["folder-close"]
       common.draw_text(style.icon_font, color, icon1, nil, x, y, 0, h)
       x = x + style.padding.x
       common.draw_text(style.icon_font, color, icon2, nil, x, y, 0, h)
       x = x + icon_width
     else
       x = x + style.padding.x
-      common.draw_text(style.icon_font, color, "f", nil, x, y, 0, h)
+      common.draw_text(style.icon_font, color, style.icons["file-code"], nil, x, y, 0, h)
       x = x + icon_width
     end
 

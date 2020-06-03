@@ -268,7 +268,7 @@ end
 
 
 function core.log(...)
-  return log("i", style.text, ...)
+  return log(style.icons["info-circled"], style.text, ...)
 end
 
 
@@ -278,7 +278,7 @@ end
 
 
 function core.error(...)
-  return log("!", style.accent, ...)
+  return log(style.icons["attention"], style.accent, ...)
 end
 
 
