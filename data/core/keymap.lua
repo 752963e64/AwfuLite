@@ -88,7 +88,7 @@ keymap.add {
   ["ctrl+p"] = "core:file-finder",
   ["ctrl+o"] = "core:open-file",
   ["ctrl+n"] = "core:new-doc",
-  ["alt+return"] = "core:toggle-fullscreen",
+  ["ctrl+w"] = "root:close",
 
   ["alt+shift+j"] = "root:split-left",
   ["alt+shift+l"] = "root:split-right",
@@ -99,7 +99,6 @@ keymap.add {
   ["alt+i"] = "root:switch-to-up",
   ["alt+k"] = "root:switch-to-down",
 
-  ["ctrl+w"] = "root:close",
   ["ctrl+tab"] = "root:switch-to-next-tab",
   ["ctrl+shift+tab"] = "root:switch-to-previous-tab",
   ["ctrl+pageup"] = "root:move-tab-left",
