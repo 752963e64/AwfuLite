@@ -16,13 +16,13 @@ command.add(nil, {
   end,
 
   ["core:toggle-fullscreen"] = function()
-    config.window_fullscreen = not config.window_fullscreen
-    system.set_window_mode(config.window_fullscreen and "fullscreen" or "normal")
+    config.window.fullscreen = not config.window.fullscreen
+    system.set_window_mode(config.window.fullscreen and "fullscreen" or "normal")
   end,
 
   ["core:toggle-opacity"] = function()
-    config.window_opacity = not config.window_opacity
-    if config.window_opacity then
+    config.window.opacity = not config.window.opacity
+    if config.window.opacity then
       system.set_window_opacity(0.8)
     else
       system.set_window_opacity(1)

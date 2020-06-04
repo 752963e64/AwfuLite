@@ -39,7 +39,7 @@ core.add_thread(function()
     end
 
     -- wait for next scan
-    coroutine.yield(config.project_scan_rate)
+    coroutine.yield(config.project.scan_rate)
   end
 end)
 

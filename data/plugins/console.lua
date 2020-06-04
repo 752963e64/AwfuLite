@@ -172,7 +172,7 @@ function console.run(opt)
   -- make sure static console is visible if it's the only ConsoleView
   local count = 0
   for _ in pairs(views) do count = count + 1 end
-  if count == 1 then visible = true end
+  if count == 1 then config.console.visible = true end
 end
 
 local ConsoleView = View:extend()

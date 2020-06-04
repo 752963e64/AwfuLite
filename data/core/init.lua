@@ -13,6 +13,7 @@ local core = {}
 
 
 local function project_scan_thread()
+  print("project_scan_thread()")
   local function diff_files(a, b)
     if #a ~= #b then return true end
     for i, v in ipairs(a) do
@@ -69,7 +70,7 @@ local function project_scan_thread()
     end
 
     -- wait for next scan
-    coroutine.yield(config.project_scan_rate)
+    coroutine.yield(config.project.scan_rate)
   end
 end
 
@@ -392,7 +393,7 @@ end
 
 local run_threads = coroutine.wrap(function()
   while true do
-    local max_time = 1 / config.fps - 0.004
+    local max_time = 1 / config.window.fps - 0.004
     local ran_any_threads = false
 
     for k, thread in pairs(core.threads) do
@@ -431,7 +432,7 @@ function core.run()
       system.wait_event(0.25)
     end
     local elapsed = system.get_time() - core.frame_start
-    system.sleep(math.max(0, 1 / config.fps - elapsed))
+    system.sleep(math.max(0, 1 / config.window.fps - elapsed))
   end
 end
 

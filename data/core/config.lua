@@ -1,9 +1,13 @@
 local config = {}
 
-config.project_scan_rate = 5
-config.fps = 30
-config.window_fullscreen = false
-config.window_opacity = false
+config.project = {}
+config.project.scan_rate = 5
+
+config.window = {}
+config.window.fps = 30
+config.window.fullscreen = false
+config.window.opacity = false
+
 config.max_log_items = 80
 config.message_timeout = 3
 config.mouse_wheel_scroll = 30 * SCALE
