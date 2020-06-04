@@ -76,8 +76,8 @@ local function push_output(str, opt)
     table.insert(output, {
       text = line,
       time = os.time(),
-      icon = line:find(opt.error_pattern) and "!"
-          or line:find(opt.warning_pattern) and "i",
+      icon = line:find(opt.error_pattern) and style.icons["attention"]
+          or line:find(opt.warning_pattern) and style.icons["info-circled"],
       file_pattern = opt.file_pattern,
     })
     if #output > config.max_console_lines then
@@ -356,11 +356,12 @@ end
 local last_command = ""
 
 command.add(nil, {
+  -- new console using a new view
   ["console:open-console"] = function()
     local node = core.root_view:get_active_node()
     node:add_view(ConsoleView())
   end,
-
+  -- toggle builtin console
   ["console:toggle"] = function()
     visible = not visible
   end,
