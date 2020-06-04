@@ -78,7 +78,7 @@ end
 
 local function get_word_limits(v, line_text, x, col)
   if col == 0 then col = 1 end
-  local _, e = line_text:sub(col):find(config.symbol_pattern)
+  local _, e = line_text:sub(col):find(config.core.symbol_pattern)
   if not e or e <= 0 then e = 1 end
   e = e + col - 1
 

@@ -198,7 +198,7 @@ end
 
 
 function ConsoleView:get_line_height()
-  return style.code_font:get_height() * config.line_height
+  return style.code_font:get_height() * config.core.line_height
 end
 
 

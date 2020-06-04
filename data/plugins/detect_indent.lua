@@ -43,10 +43,10 @@ local function with_indent_override(doc, fn, ...)
   if not c then
     return fn(...)
   end
-  local type, size = config.tab_type, config.indent_size
-  config.tab_type, config.indent_size = c.type, c.size or config.indent_size
+  local type, size = config.core.tab_type, config.core.indent_size
+  config.core.tab_type, config.core.indent_size = c.type, c.size or config.core.indent_size
   local r1, r2, r3 = fn(...)
-  config.tab_type, config.indent_size = type, size
+  config.core.tab_type, config.core.indent_size = type, size
   return r1, r2, r3
 end
 

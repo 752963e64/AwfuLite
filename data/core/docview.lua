@@ -101,7 +101,7 @@ end
 
 
 function DocView:get_line_height()
-  return math.floor(self:get_font():get_height() * config.line_height)
+  return math.floor(self:get_font():get_height() * config.core.line_height)
 end
 
 
@@ -304,7 +304,7 @@ function DocView:draw_line_body(idx, x, y)
   end
 
   -- draw line highlight if caret is on this line
-  if config.highlight_current_line and not self.doc:has_selection()
+  if config.core.highlight_current_line and not self.doc:has_selection()
   and line == idx and core.active_view == self then
     self:draw_line_highlight(x + self.scroll.x, y)
   end
@@ -339,7 +339,7 @@ function DocView:draw()
   self:draw_background(style.background)
 
   local font = self:get_font()
-  font:set_tab_width(font:get_width(" ") * config.indent_size)
+  font:set_tab_width(font:get_width(" ") * config.core.indent_size)
 
   local minline, maxline = self:get_visible_line_range()
   local lh = self:get_line_height()

@@ -33,7 +33,7 @@ core.add_thread(function()
     local i = 1
     local s = {}
     while i < #doc.lines do
-      for sym in doc.lines[i]:gmatch(config.symbol_pattern) do
+      for sym in doc.lines[i]:gmatch(config.core.symbol_pattern) do
         s[sym] = true
       end
       i = i + 1

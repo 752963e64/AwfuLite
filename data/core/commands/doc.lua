@@ -17,10 +17,10 @@ end
 
 
 local function get_indent_string()
-  if config.tab_type == "hard" then
+  if config.core.tab_type == "hard" then
     return "\t"
   end
-  return string.rep(" ", config.indent_size)
+  return string.rep(" ", config.core.indent_size)
 end
 
 
@@ -145,8 +145,8 @@ local commands = {
     local line, col = doc():get_selection()
     if not doc():has_selection() then
       local text = doc():get_text(line, 1, line, col)
-      if #text >= config.indent_size and text:find("^ *$") then
-        doc():delete_to(0, -config.indent_size)
+      if #text >= config.core.indent_size and text:find("^ *$") then
+        doc():delete_to(0, -config.core.indent_size)
         return
       end
     end

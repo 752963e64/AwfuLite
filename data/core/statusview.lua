@@ -35,7 +35,7 @@ function StatusView:show_message(icon, icon_color, text)
     icon_color, style.icon_font, icon,
     style.dim, style.font, StatusView.separator2, style.text, text
   }
-  self.message_timeout = system.get_time() + config.message_timeout
+  self.message_timeout = system.get_time() + config.statusview.message_timeout
 end
 
 
@@ -103,7 +103,7 @@ function StatusView:get_items()
       self.separator,
       "line: ", line,
       self.separator,
-      col > config.line_limit and style.accent or style.text, "col: ", col,
+      col > config.core.line_limit and style.accent or style.text, "col: ", col,
       style.text,
       self.separator,
       string.format("%d%%", line / #dv.doc.lines * 100),

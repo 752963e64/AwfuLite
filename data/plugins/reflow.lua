@@ -41,7 +41,7 @@ command.add("core.docview", {
       text = text:sub(#prefix1+1, -#trailing - 1):gsub("\n" .. prefix_set, "\n")
 
       -- split into blocks, wordwrap and join
-      local line_limit = config.line_limit - #prefix1
+      local line_limit = config.core.line_limit - #prefix1
       local blocks = {}
       text = text:gsub("\n\n", "\0")
       for block in text:gmatch("%Z+") do

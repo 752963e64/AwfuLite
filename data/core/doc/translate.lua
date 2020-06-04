@@ -8,7 +8,7 @@ local translate = {}
 
 
 local function is_non_word(char)
-  return config.non_word_chars:find(char, nil, true)
+  return config.core.non_word_chars:find(char, nil, true)
 end
 
 

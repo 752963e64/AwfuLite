@@ -31,12 +31,12 @@ local function project_scan_thread()
   local function get_files(path, t)
     coroutine.yield()
     t = t or {}
-    local size_limit = config.file_size_limit * 10e5
+    local size_limit = config.project.file_size_limit * 10e5
     local all = system.list_dir(path) or {}
     local dirs, files = {}, {}
 
     for _, file in ipairs(all) do
-      if not common.match_pattern(file, config.ignore_files) then
+      if not common.match_pattern(file, config.project.ignore_files) then
         local file = (path ~= "." and path .. PATHSEP or "") .. file
         local info = system.get_file_info(file)
         if info and info.size < size_limit then
@@ -261,7 +261,7 @@ local function log(icon, icon_color, fmt, ...)
   local at = string.format("%s:%d", info.short_src, info.currentline)
   local item = { text = text, time = os.time(), at = at }
   table.insert(core.log_items, item)
-  if #core.log_items > config.max_log_items then
+  if #core.log_items > config.core.max_log_items then
     table.remove(core.log_items, 1)
   end
   return item
