@@ -1,5 +1,8 @@
 local config = {}
 
+-- do not change config here
+-- re-define inside data/user/init.lua instead
+
 config.project = {}
 config.project.scan_rate = 5
 config.project.file_size_limit = 10

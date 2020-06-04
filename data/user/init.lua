@@ -13,6 +13,10 @@ config.console.size = 250 * SCALE
 config.console.max_lines = 200
 config.console.visible = false
 
+
+-- re-define default conf
+config.project.ignore_files = { "^%.", "^lite$", "%.zip$" }
+
 -- light theme:
 -- require "user.colors.summer"
 
