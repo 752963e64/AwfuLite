@@ -8,9 +8,10 @@ local style = require "core.style"
 
 -- plugins config
 -- plugins/console.lua
-config.console_size = 250 * SCALE
-config.max_console_lines = 200
-config.builtin_console_visible = false
+config.console = {}
+config.console.size = 250 * SCALE
+config.console.max_lines = 200
+config.console.visible = false
 
 -- light theme:
 -- require "user.colors.summer"

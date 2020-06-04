@@ -75,7 +75,7 @@ local function push_output(str, opt)
           or line:find(opt.warning_pattern) and style.icons["info-circled"],
       file_pattern = opt.file_pattern,
     })
-    if #output > config.max_console_lines then
+    if #output > config.console.max_lines then
       table.remove(output, 1)
       for view in pairs(views) do
         view:on_line_removed()
@@ -340,7 +340,7 @@ local node = core.root_view:get_active_node()
 node:split("down", view, true)
 
 function view:update(...)
-  local dest = config.builtin_console_visible and config.console_size or 0
+  local dest = config.console.visible and config.console.size or 0
   self:move_towards(self.size, "y", dest)
   ConsoleView.update(self, ...)
 end
@@ -356,7 +356,7 @@ command.add(nil, {
   end,
   -- toggle builtin console
   ["console:toggle"] = function()
-    config.builtin_console_visible = not config.builtin_console_visible
+    config.console.visible = not config.console.visible
   end,
 
   ["console:run"] = function()
