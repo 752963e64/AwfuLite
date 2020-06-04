@@ -11,7 +11,7 @@ local style = require "core.style"
 -- key binding:
 keymap.add {
   -- plugins/console.lua
-  ["ctrl+."]        = "console:toggle",
+  ["ctrl+:"]        = "console:toggle",
   ["ctrl+shift+:"]  = "console:run",
 
   -- plugins/autocomplete.lua
