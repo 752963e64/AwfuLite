@@ -60,7 +60,7 @@ local t = {
   end,
 }
 
-
+-- numerical tab cmds
 for i = 1, 9 do
   t["root:switch-to-tab-" .. i] = function()
     local node = core.root_view:get_active_node()
@@ -71,7 +71,7 @@ for i = 1, 9 do
   end
 end
 
-
+-- node split cmds
 for _, dir in ipairs { "left", "right", "up", "down" } do
   t["root:split-" .. dir] = function()
     local node = core.root_view:get_active_node()
