@@ -6,10 +6,6 @@ local config = require "core.config"
 local style = require "core.style"
 local View = require "core.view"
 
-config.console_size = 250 * SCALE
-config.max_console_lines = 200
-
-
 local uid = os.tmpname():gsub("%W", "")
 
 local files = {
@@ -42,7 +38,7 @@ local pending_threads = {}
 local thread_active = false
 local output = { { text = "", time = os.time() } }
 local output_id = 0
-local visible = false
+local visible = config.builtin_console_visible
 
 
 local function read_file(filename, offset)
@@ -179,8 +175,6 @@ function console.run(opt)
   for _ in pairs(views) do count = count + 1 end
   if count == 1 then visible = true end
 end
-
-
 
 local ConsoleView = View:extend()
 

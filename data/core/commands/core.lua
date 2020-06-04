@@ -1,12 +1,10 @@
 local core = require "core"
 local common = require "core.common"
+local config = require "core.config"
 local command = require "core.command"
 local keymap = require "core.keymap"
 local LogView = require "core.logview"
 
-
-local fullscreen = false
-local opacity = false
 
 command.add(nil, {
   ["core:quit"] = function()
@@ -18,13 +16,13 @@ command.add(nil, {
   end,
 
   ["core:toggle-fullscreen"] = function()
-    fullscreen = not fullscreen
-    system.set_window_mode(fullscreen and "fullscreen" or "normal")
+    config.window_fullscreen = not config.window_fullscreen
+    system.set_window_mode(config.window_fullscreen and "fullscreen" or "normal")
   end,
 
   ["core:toggle-opacity"] = function()
-    opacity = not opacity
-    if opacity then
+    config.window_opacity = not config.window_opacity
+    if config.window_opacity then
       system.set_window_opacity(0.8)
     else
       system.set_window_opacity(1)

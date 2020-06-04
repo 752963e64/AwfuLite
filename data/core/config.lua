@@ -2,6 +2,8 @@ local config = {}
 
 config.project_scan_rate = 5
 config.fps = 30
+config.window_fullscreen = false
+config.window_opacity = false
 config.max_log_items = 80
 config.message_timeout = 3
 config.mouse_wheel_scroll = 30 * SCALE
@@ -16,5 +18,6 @@ config.line_height = 1.2
 config.indent_size = 2
 config.tab_type = "soft"
 config.line_limit = 80
+
 
 return config

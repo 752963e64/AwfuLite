@@ -5,6 +5,13 @@ local keymap = require "core.keymap"
 local config = require "core.config"
 local style = require "core.style"
 
+
+-- plugins config
+-- plugins/console.lua
+config.console_size = 250 * SCALE
+config.max_console_lines = 200
+config.builtin_console_visible = false
+
 -- light theme:
 -- require "user.colors.summer"
 
