@@ -140,7 +140,7 @@ end
 function TreeView:draw()
   self:draw_background(style.background2)
 
-  local icon_width = style.icon_font:get_width("D")
+  local icon_width = style.icon_font:get_width(style.icons["folder-open"])
   local spacing = style.font:get_width(" ") * 2
 
   local doc = core.active_view.doc
