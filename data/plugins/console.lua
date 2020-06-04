@@ -38,7 +38,6 @@ local pending_threads = {}
 local thread_active = false
 local output = { { text = "", time = os.time() } }
 local output_id = 0
-local visible = config.builtin_console_visible
 
 
 local function read_file(filename, offset)
@@ -341,7 +340,7 @@ local node = core.root_view:get_active_node()
 node:split("down", view, true)
 
 function view:update(...)
-  local dest = visible and config.console_size or 0
+  local dest = config.builtin_console_visible and config.console_size or 0
   self:move_towards(self.size, "y", dest)
   ConsoleView.update(self, ...)
 end
@@ -357,7 +356,7 @@ command.add(nil, {
   end,
   -- toggle builtin console
   ["console:toggle"] = function()
-    visible = not visible
+    config.builtin_console_visible = not config.builtin_console_visible
   end,
 
   ["console:run"] = function()
