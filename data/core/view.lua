@@ -145,6 +145,7 @@ end
 
 
 function View:draw()
+  -- no-op
 end
 
 
