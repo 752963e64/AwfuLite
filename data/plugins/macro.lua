@@ -36,7 +36,7 @@ end
 
 
 command.add(predicate, {
-  ["macro:toggle-record"] = function()
+  ["macro:record"] = function()
     if state == "stopped" then
       state = "recording"
       event_buffer = {}

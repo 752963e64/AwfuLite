@@ -42,7 +42,7 @@ keymap.add {
   ["ctrl+m"]        = "bracket-match:move-to-matching",
 
   -- plugins/macro.lua
-  ["ctrl+shift+;"]  = "macro:toggle-record",
+  ["ctrl+shift+;"]  = "macro:record",
   ["ctrl+;"]        = "macro:play",
 
   -- plugins/project_search.lua
