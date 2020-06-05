@@ -25,7 +25,7 @@ function StatusView:on_mouse_pressed()
   core.set_active_view(core.last_active_view)
   if system.get_time() < self.message_timeout
   and not core.active_view:is(LogView) then
-    command.perform "core:open-log"
+    command.perform "log:open"
   end
 end
 

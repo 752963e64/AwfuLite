@@ -9,10 +9,16 @@ local style = require "core.style"
 -- plugins config
 -- plugins/console.lua
 config.console = {}
-config.console.size = 250 * SCALE
 config.console.max_lines = 200
 config.console.visible = false
 
+-- plugins/log.lua
+config.log = {}
+config.log.visible = false
+
+-- plugins/treeview.lua
+config.treeview = {}
+config.treeview.size = 230 * SCALE
 
 -- re-define default conf
 config.project.ignore_files = { "^%.", "^lite$", "%.zip$" }

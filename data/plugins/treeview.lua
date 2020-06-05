@@ -6,8 +6,6 @@ local keymap = require "core.keymap"
 local style = require "core.style"
 local View = require "core.view"
 
-config.treeview_size = 230 * SCALE
-
 local function get_depth(filename)
   local n = 0
   for sep in filename:gmatch("[\\/]") do
@@ -125,7 +123,7 @@ end
 
 function TreeView:update()
   -- update width
-  local dest = self.visible and config.treeview_size or 0
+  local dest = self.visible and config.treeview.size or 0
   if self.init_size then
     self.size.x = dest
     self.init_size = false
@@ -196,13 +194,13 @@ command.add(nil, {
     if not view.init_size then
       view.init_size = true
     end
-    config.treeview_size = config.treeview_size + 10
+    config.treeview.size = config.treeview.size + 10
   end,
   ["treeview:smaller"] = function()
     if not view.init_size then
       view.init_size = true
     end
-    config.treeview_size = config.treeview_size - 10
+    config.treeview.size = config.treeview.size - 10
   end
 })
 

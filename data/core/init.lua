@@ -113,7 +113,7 @@ function core.init()
   end
 
   if got_plugin_error or got_user_error or got_project_error then
-    command.perform("core:open-log")
+    -- command.perform("core:open-log")
   end
 
   local info = ARGS[2] and system.get_file_info(ARGS[2])

@@ -17,7 +17,7 @@ config.window.opacity = false
 
 config.core = {}
 config.core.max_log_items = 80
-config.core.mouse_wheel_scroll = 30 * SCALE
+config.core.mouse_wheel_scroll = 50 * SCALE
 config.core.symbol_pattern = "[%a_][%w_]*"
 config.core.non_word_chars = " \t\n/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-"
 config.core.undo_merge_timeout = 0.3
@@ -32,5 +32,8 @@ config.core.line_limit = 80
 config.statusview = {}
 config.statusview.message_timeout = 3
 --
+
+config.common = {}
+config.common.default_split_size = 200 * SCALE
 
 return config

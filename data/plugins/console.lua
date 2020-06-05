@@ -340,7 +340,7 @@ local node = core.root_view:get_active_node()
 node:split("down", view, true)
 
 function view:update(...)
-  local dest = config.console.visible and config.console.size or 0
+  local dest = config.console.visible and config.common.default_split_size or 0
   self:move_towards(self.size, "y", dest)
   ConsoleView.update(self, ...)
 end
