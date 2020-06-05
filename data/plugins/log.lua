@@ -3,7 +3,7 @@ local config = require "core.config"
 local command = require "core.command"
 local LogView = require "core.logview"
 
--- init static bottom-of-screen console
+-- init static bottom-logview
 local view = LogView()
 local node = core.root_view:get_active_node()
 node:split("down", view, true)
@@ -15,7 +15,7 @@ function view:update(...)
 end
 
 command.add(nil, {
-  -- toggle builtin console
+  -- toggle builtin logview
   ["log:toggle"] = function()
     config.log.visible = not config.log.visible
   end,

@@ -1,3 +1,7 @@
+--
+-- Used into /data/core/commands/findreplace.lua
+--
+
 local search = {}
 
 local default_opt = {}
