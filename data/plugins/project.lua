@@ -214,15 +214,21 @@ local function begin_search(text, fn)
 end
 
 
+local function has_selection()
+  local view = core.active_view
+  local text = ""
+  if view.doc then
+    local selection = { view.doc:get_selection() }
+    text = view.doc:get_text(table.unpack(selection))
+  end
+  if text ~= "" then
+    core.command_view:set_text(text, true)
+  end
+end
+
 command.add(nil, {
-  ["project-search:find"] = function()
-    local view = core.active_view
-    local text
-    if view.doc then
-      local selection = { view.doc:get_selection() }
-      text = view.doc:get_text(table.unpack(selection))
-      core.command_view:set_text(text, true)
-    end
+  ["project:find"] = function()
+    has_selection()
     core.command_view:enter("Find Text In Project", function(text)
       text = text:lower()
       begin_search(text, function(line_text)
@@ -231,13 +237,13 @@ command.add(nil, {
     end)
   end,
 
-  ["project-search:find-pattern"] = function()
+  ["project:find-pattern"] = function()
     core.command_view:enter("Find Pattern In Project", function(text)
       begin_search(text, function(line_text) return line_text:find(text) end)
     end)
   end,
 
-  ["project-search:fuzzy-find"] = function()
+  ["project:fuzzy-find"] = function()
     core.command_view:enter("Fuzzy Find Text In Project", function(text)
       begin_search(text, function(line_text)
         return common.fuzzy_match(line_text, text) and 1
@@ -248,23 +254,23 @@ command.add(nil, {
 
 
 command.add(ResultsView, {
-  ["project-search:select-previous"] = function()
+  ["project:select-previous"] = function()
     local view = core.active_view
     view.selected_idx = math.max(view.selected_idx - 1, 1)
     view:scroll_to_make_selected_visible()
   end,
 
-  ["project-search:select-next"] = function()
+  ["project:select-next"] = function()
     local view = core.active_view
     view.selected_idx = math.min(view.selected_idx + 1, #view.results)
     view:scroll_to_make_selected_visible()
   end,
 
-  ["project-search:open-selected"] = function()
+  ["project:open-selected"] = function()
     core.active_view:open_selected_result()
   end,
 
-  ["project-search:refresh"] = function()
+  ["project:refresh"] = function()
     core.active_view:refresh()
   end,
 })

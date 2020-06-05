@@ -92,7 +92,7 @@ end
 
 
 command.add("core.docview", {
-  ["bracket-match:move-to-matching"] = function()
+  ["bracket:move-to-matching"] = function()
     update_state()
     if state.line2 then
       core.active_view.doc:set_selection(state.line2, state.col2)

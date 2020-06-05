@@ -38,19 +38,19 @@ keymap.add {
   ["down"]                      = "autocomplete:next",
   ["escape"]                    = "autocomplete:cancel",
 
-  -- plugins/bracket_match.lua
-  ["ctrl+m"]                    = "bracket-match:move-to-matching",
+  -- plugins/bracket.lua
+  ["ctrl+m"]                    = "bracket:move-to-matching",
 
   -- plugins/macro.lua
   ["ctrl+shift+;"]              = "macro:record",
   ["ctrl+;"]                    = "macro:play",
 
-  -- plugins/project_search.lua
-  ["f5"]                        = "project-search:refresh",
-  ["ctrl+shift+f"]              = "project-search:find",
-  ["up"]                        = "project-search:select-previous",
-  ["down"]                      = "project-search:select-next",
-  ["return"]                    = "project-search:open-selected",
+  -- plugins/project.lua
+  ["f5"]                        = "project:refresh",
+  ["ctrl+shift+f"]              = "project:find",
+  ["up"]                        = "project:select-previous",
+  ["down"]                      = "project:select-next",
+  ["return"]                    = "project:open-selected",
 
   -- plugins/quote.lua
   ["ctrl+'"]                    = "quote:quote",
