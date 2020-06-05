@@ -2,7 +2,6 @@ local core = require "core"
 local common = require "core.common"
 local config = require "core.config"
 local command = require "core.command"
-local keymap = require "core.keymap"
 local LogView = require "core.logview"
 
 
@@ -43,7 +42,7 @@ command.add(nil, {
     end)
   end,
 
-  ["core:command-finder"] = function()
+  ["core:find-command"] = function()
     local commands = command.get_all_valid()
     core.command_view:enter("Do Command", function(text, item)
       if item then
@@ -62,7 +61,7 @@ command.add(nil, {
     end)
   end,
 
-  ["core:file-finder"] = function()
+  ["core:find-file"] = function()
     core.command_view:enter("Open File From Project", function(text, item)
       text = item and item.text or text
       core.root_view:open_doc(core.open_doc(text))
@@ -77,7 +76,7 @@ command.add(nil, {
     end)
   end,
 
-  ["core:new-doc"] = function()
+  ["core:new-file"] = function()
     core.root_view:open_doc(core.open_doc())
   end,
 

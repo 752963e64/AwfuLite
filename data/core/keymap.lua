@@ -83,11 +83,11 @@ function keymap.on_key_released(k)
 end
 
 keymap.add {
-  ["ctrl+shift+p"]              = "core:command-finder",
+  ["ctrl+shift+p"]              = "core:find-command",
   -- common text editor keybinding
-  ["ctrl+p"]                    = "core:file-finder",
+  ["ctrl+p"]                    = "core:find-file",
   ["ctrl+o"]                    = "core:open-file",
-  ["ctrl+n"]                    = "core:new-doc",
+  ["ctrl+n"]                    = "core:new-file",
   ["ctrl+s"]                    = "doc:save",
   ["ctrl+shift+s"]              = "doc:save-as",
   ["ctrl+w"]                    = "root:close",
