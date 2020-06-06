@@ -90,7 +90,7 @@ local function has_selection()
 end
 
 command.add(has_selection, {
-  ["find-replace:select-next"] = function()
+  ["find:select-next"] = function()
     local l1, c1, l2, c2 = doc():get_selection(true)
     local text = doc():get_text(l1, c1, l2, c2)
     local l1, c1, l2, c2 = search.find(doc(), l2, c2, text, { wrap = true })
@@ -99,21 +99,21 @@ command.add(has_selection, {
 })
 
 command.add("core.docview", {
-  ["find-replace:find"] = function()
+  ["find:text"] = function()
     find("Find Text", function(doc, line, col, text)
       local opt = { wrap = true, no_case = true }
       return search.find(doc, line, col, text, opt)
     end)
   end,
 
-  ["find-replace:find-pattern"] = function()
+  ["find:pattern"] = function()
     find("Find Text Pattern", function(doc, line, col, text)
       local opt = { wrap = true, no_case = true, pattern = true }
       return search.find(doc, line, col, text, opt)
     end)
   end,
 
-  ["find-replace:repeat-find"] = function()
+  ["find:repeat"] = function()
     if not last_fn then
       core.error("No find to continue from")
     else
@@ -127,7 +127,7 @@ command.add("core.docview", {
     end
   end,
 
-  ["find-replace:previous-find"] = function()
+  ["find:previous"] = function()
     local sel = table.remove(previous_finds)
     if not sel or doc() ~= last_doc then
       core.error("No previous finds")
@@ -137,19 +137,19 @@ command.add("core.docview", {
     core.active_view:scroll_to_line(sel[3], true)
   end,
 
-  ["find-replace:replace"] = function()
+  ["find:replace"] = function()
     replace("Text", "", function(text, old, new)
       return text:gsub(old:gsub("%W", "%%%1"), new:gsub("%%", "%%%%"), nil)
     end)
   end,
 
-  ["find-replace:replace-pattern"] = function()
+  ["find:replace-pattern"] = function()
     replace("Pattern", "", function(text, old, new)
       return text:gsub(old, new)
     end)
   end,
 
-  ["find-replace:replace-symbol"] = function()
+  ["find:replace-symbol"] = function()
     local first = ""
     if doc():has_selection() then
       local text = doc():get_text(doc():get_selection())

@@ -103,7 +103,7 @@ keymap.add {
 
   ["ctrl+a"]                    = "doc:select-all",
   ["ctrl+l"]                    = "doc:select-lines",
-  ["ctrl+d"]                    = { "find-replace:select-next", "doc:select-word" },
+  ["ctrl+d"]                    = { "find:select-next", "doc:select-word" },
   ["shift+left"]                = "doc:select-to-previous-char",
   ["shift+right"]               = "doc:select-to-next-char",
   ["shift+up"]                  = "doc:select-to-previous-line",
@@ -133,10 +133,10 @@ keymap.add {
   ["ctrl+shift+return"]         = "doc:newline-above",
   ["ctrl+j"]                    = "doc:join-lines",
 
-  ["ctrl+f"]                    = "find-replace:find",
-  ["ctrl+r"]                    = "find-replace:replace",
-  ["f3"]                        = "find-replace:repeat-find",
-  ["shift+f3"]                  = "find-replace:previous-find",
+  ["ctrl+f"]                    = "find:find",
+  ["ctrl+r"]                    = "find:replace",
+  ["f3"]                        = "find:repeat",
+  ["shift+f3"]                  = "find:previous",
 
   ["tab"]                       = { "command:complete", "doc:indent" },
   ["shift+tab"]                 = "doc:unindent",
