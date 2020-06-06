@@ -87,7 +87,7 @@ local commands = {
     if text then -- set clipboard
       system.set_clipboard(text)
     end
-    core.log("Copy \"%d\" bytes", #text)
+    core.log("Cut \"%d\" bytes", #text)
   end,
 
   ["doc:copy"] = function()
@@ -331,6 +331,19 @@ local commands = {
       if filename ~= old_filename then
         os.remove(old_filename)
       end
+    end, common.path_suggest)
+  end,
+
+  ["doc:remove"] = function()
+    local old_filename = doc().filename
+    if not old_filename then
+      core.error("Cannot remove this file")
+      return
+    end
+    core.command_view:set_text(old_filename)
+    core.command_view:enter("Remove", function(filename)
+      os.remove(old_filename)
+      core.log("Removed \"%s\"", old_filename)
     end, common.path_suggest)
   end,
 }
