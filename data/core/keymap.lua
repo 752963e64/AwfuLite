@@ -85,7 +85,6 @@ end
 keymap.add {
   ["ctrl+shift+p"]              = "core:find-command",
   -- common text editor keybinding
-  ["ctrl+p"]                    = "core:find-file",
   ["ctrl+o"]                    = "core:open-file",
   ["ctrl+n"]                    = "core:new-file",
   ["ctrl+s"]                    = "doc:save",

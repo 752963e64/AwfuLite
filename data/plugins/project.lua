@@ -227,7 +227,33 @@ local function has_selection()
 end
 
 command.add(nil, {
-  ["project:find"] = function()
+  ["project:open-project"] = function()
+    local filename = ".lite_project.lua"
+    if system.get_file_info(filename) then
+      core.root_view:open_doc(core.open_doc(filename))
+    else
+      local doc = core.open_doc()
+      core.root_view:open_doc(doc)
+      doc:save(filename)
+    end
+  end,
+
+  ["project:find-file"] = function()
+    core.command_view:enter("Open File From Project", function(text, item)
+      text = item and item.text or text
+      core.root_view:open_doc(core.open_doc(text))
+    end, function(text)
+      local files = {}
+      for _, item in pairs(core.project_files) do
+        if item.type == "file" then
+          table.insert(files, item.filename)
+        end
+      end
+      return common.fuzzy_match(files, text)
+    end)
+  end,
+
+  ["project:find-text"] = function()
     has_selection()
     core.command_view:enter("Find Text In Project", function(text)
       text = text:lower()

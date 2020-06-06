@@ -17,7 +17,7 @@ local function draw_text(x, y, color)
   renderer.draw_rect(x, y, math.ceil(1 * SCALE), dh, color)
   local lines = {
     { fmt = "%s to run a command", cmd = "core:find-command" },
-    { fmt = "%s to open a file from the project", cmd = "core:open-file" },
+    { fmt = "%s to open a file from the project", cmd = "project:find-file" },
   }
   th = style.font:get_height()
   y = y + (dh - th * 2 - style.padding.y) / 2

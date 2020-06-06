@@ -47,10 +47,11 @@ keymap.add {
 
   -- plugins/project.lua
   ["f5"]                        = "project:refresh",
-  ["ctrl+shift+f"]              = "project:find",
+  ["ctrl+shift+f"]              = "project:find-text",
   ["up"]                        = "project:select-previous",
   ["down"]                      = "project:select-next",
   ["return"]                    = "project:open-selected",
+  ["ctrl+p"]                    = "project:find-file",
 
   -- plugins/quote.lua
   ["ctrl+'"]                    = "quote:quote",
