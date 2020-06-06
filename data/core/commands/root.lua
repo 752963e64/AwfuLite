@@ -6,11 +6,6 @@ local common = require "core.common"
 
 
 local t = {
-  ["root:close"] = function()
-    local node = core.root_view:get_active_node()
-    node:close_active_view(core.root_view.root_node)
-  end,
-
   ["root:switch-to-previous-tab"] = function()
     local node = core.root_view:get_active_node()
     local idx = node:get_view_idx(core.active_view)

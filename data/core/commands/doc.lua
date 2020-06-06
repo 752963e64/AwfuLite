@@ -311,6 +311,11 @@ local commands = {
     end, common.path_suggest)
   end,
 
+  ["doc:close"] = function()
+    local node = core.root_view:get_active_node()
+    node:close_active_view(core.root_view.root_node)
+  end,
+
   ["doc:save-as"] = function()
     if doc().filename then
       core.command_view:set_text(doc().filename)
