@@ -301,6 +301,16 @@ local commands = {
     doc().crlf = not doc().crlf
   end,
 
+  ["doc:new-file"] = function()
+    core.root_view:open_doc(core.open_doc())
+  end,
+
+  ["doc:open-file"] = function()
+    core.command_view:enter("Open File", function(text)
+      core.root_view:open_doc(core.open_doc(text))
+    end, common.path_suggest)
+  end,
+
   ["doc:save-as"] = function()
     if doc().filename then
       core.command_view:set_text(doc().filename)
