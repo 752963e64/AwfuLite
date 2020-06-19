@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include "api.h"
 #include "rencache.h"
+
 #ifdef _WIN32
   #include <windows.h>
 #endif
@@ -321,6 +322,33 @@ static int f_set_clipboard(lua_State *L) {
 }
 
 
+
+#ifdef __LINUX__
+
+/* Get/Set PRIMARY BUFFER from X
+
+int XSetSelectionOwner(Display *display, Atom selection, Window owner, Time time);
+
+Window XGetSelectionOwner(Display *display, Atom selection);
+
+ */
+static int f_get_selection_clipboard(lua_State *L) {
+  char *text = SDL_GetSelectionClipboardText();
+  lua_pushstring(L, text);
+  SDL_free(text);
+  return 1;
+}
+
+static int f_set_selection_clipboard(lua_State *L) {
+  const char *text = luaL_checkstring(L, 1);
+  if (!text) { return 0; }
+  SDL_SetSelectionClipboardText(text);
+  return 0;
+}
+
+#endif /* __LINUX__ */
+
+
 static int f_get_time(lua_State *L) {
   double n = SDL_GetPerformanceCounter() / (double) SDL_GetPerformanceFrequency();
   lua_pushnumber(L, n);
@@ -378,34 +406,40 @@ static int f_fuzzy_match(lua_State *L) {
   return 1;
 }
 
-
+#if SDL_VERSION_ATLEAST(2, 0, 5)
 static int f_set_window_opacity(lua_State *L) {
   double n = luaL_checknumber(L, 1);
   int r = SDL_SetWindowOpacity(window, n);
   lua_pushboolean(L, r > -1);
   return 1;
 }
-
+#endif
 
 static const luaL_Reg lib[] = {
-  { "poll_event",          f_poll_event          },
-  { "wait_event",          f_wait_event          },
-  { "set_cursor",          f_set_cursor          },
-  { "set_window_title",    f_set_window_title    },
-  { "set_window_mode",     f_set_window_mode     },
-  { "set_window_opacity",  f_set_window_opacity  },
-  { "window_has_focus",    f_window_has_focus    },
-  { "show_confirm_dialog", f_show_confirm_dialog },
-  { "chdir",               f_chdir               },
-  { "list_dir",            f_list_dir            },
-  { "absolute_path",       f_absolute_path       },
-  { "get_file_info",       f_get_file_info       },
-  { "get_clipboard",       f_get_clipboard       },
-  { "set_clipboard",       f_set_clipboard       },
-  { "get_time",            f_get_time            },
-  { "sleep",               f_sleep               },
-  { "exec",                f_exec                },
-  { "fuzzy_match",         f_fuzzy_match         },
+  { "poll_event",                       f_poll_event          },
+  { "wait_event",                       f_wait_event          },
+  { "set_cursor",                       f_set_cursor          },
+  { "set_window_title",                 f_set_window_title    },
+  { "set_window_mode",                  f_set_window_mode     },
+#if SDL_VERSION_ATLEAST(2, 0, 5)
+  { "set_window_opacity",               f_set_window_opacity  },
+#endif
+  { "window_has_focus",                 f_window_has_focus    },
+  { "show_confirm_dialog",              f_show_confirm_dialog },
+  { "chdir",                            f_chdir               },
+  { "list_dir",                         f_list_dir            },
+  { "absolute_path",                    f_absolute_path       },
+  { "get_file_info",                    f_get_file_info       },
+#ifdef __linux__
+  { "get_selection_clipboard",          f_get_selection_clipboard       },
+  { "set_selection_clipboard",          f_set_selection_clipboard       },
+#endif
+  { "get_clipboard",                    f_get_clipboard       },
+  { "set_clipboard",                    f_set_clipboard       },
+  { "get_time",                         f_get_time            },
+  { "sleep",                            f_sleep               },
+  { "exec",                             f_exec                },
+  { "fuzzy_match",                      f_fuzzy_match         },
   { NULL, NULL }
 };
 

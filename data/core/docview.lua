@@ -198,11 +198,11 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
     return
   end
   local line, col = self:resolve_screen_position(x, y)
-  if clicks == 2 then
+  if clicks == 2 then -- select word after 2 clicks
     local line1, col1 = translate.start_of_word(self.doc, line, col)
     local line2, col2 = translate.end_of_word(self.doc, line, col)
     self.doc:set_selection(line2, col2, line1, col1)
-  elseif clicks == 3 then
+  elseif clicks == 3 then --select entire line after 3 clicks
     if line == #self.doc.lines then
       self.doc:insert(math.huge, math.huge, "\n")
     end
