@@ -197,12 +197,17 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
   if caught then
     return
   end
+  if button == "middle" and clicks == 1 then
+    local text = system.get_selection_clipboard()
+    if text then
+      self.doc:text_input(text)
+  end
   local line, col = self:resolve_screen_position(x, y)
   if clicks == 2 then -- select word after 2 clicks
     local line1, col1 = translate.start_of_word(self.doc, line, col)
     local line2, col2 = translate.end_of_word(self.doc, line, col)
     self.doc:set_selection(line2, col2, line1, col1)
-  elseif clicks == 3 then --select entire line after 3 clicks
+  elseif clicks == 3 then -- select entire line after 3 clicks
     if line == #self.doc.lines then
       self.doc:insert(math.huge, math.huge, "\n")
     end
@@ -229,6 +234,7 @@ function DocView:on_mouse_moved(x, y, ...)
   end
 
   if self.mouse_selecting then
+    self.still_selecting = true
     local _, _, line2, col2 = self.doc:get_selection()
     local line1, col1 = self:resolve_screen_position(x, y)
     self.doc:set_selection(line1, col1, line2, col2)
@@ -238,6 +244,13 @@ end
 
 function DocView:on_mouse_released(button)
   DocView.super.on_mouse_released(self, button)
+  if self.mouse_selecting and self.still_selecting then
+    local text = self.doc:get_text(self.doc:get_selection())
+    if text then
+      system.set_selection_clipboard(text)
+    end
+  end
+  self.still_selecting = false
   self.mouse_selecting = false
 end
 

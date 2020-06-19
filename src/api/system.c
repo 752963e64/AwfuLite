@@ -322,16 +322,13 @@ static int f_set_clipboard(lua_State *L) {
 }
 
 
+/*
 
-#ifdef __LINUX__
-
-/* Get/Set PRIMARY BUFFER from X
-
-int XSetSelectionOwner(Display *display, Atom selection, Window owner, Time time);
-
-Window XGetSelectionOwner(Display *display, Atom selection);
+Get/Set X11 PRIMARY BUFFER(selection clipboard)
 
  */
+#ifdef __LINUX__
+
 static int f_get_selection_clipboard(lua_State *L) {
   char *text = SDL_GetSelectionClipboardText();
   lua_pushstring(L, text);
