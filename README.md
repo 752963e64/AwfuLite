@@ -12,8 +12,8 @@
 - scroll feedback using sort* icons into the statusview
 
 ## HINT'ING
-- linux clipboards needs to be added with either X lib or XCB to the api
-it needs to pickup the PRIMARY X clipboard when window get focus... it also needs to set it up internally and externally... you have to set it back to the PRIMARY X clipboard when loosing focus...(so you can paste to another window...)
+- <s>linux clipboards needs to be added with either X lib or XCB to the api</s>
+Done through **[a customized SDL2](https://github.com/HackIT/mySDL2)**
 - rounded rectangle in my guess still need some modification into the api...
 like implementing the primitives to draw rounded corners a like the squared one is done...
 - code folding should be easy as there is already block search functions, I just need more info about document's buffers...
