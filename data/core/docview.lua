@@ -201,6 +201,7 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
     local text = system.get_selection_clipboard()
     if text then
       self.doc:text_input(text)
+    end
   end
   local line, col = self:resolve_screen_position(x, y)
   if clicks == 2 then -- select word after 2 clicks

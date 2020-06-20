@@ -15,7 +15,8 @@
 - <s>linux clipboards needs to be added with either X lib or XCB to the api</s>
 
 Done through **[a customized SDL2](https://github.com/HackIT/mySDL2)**
-In WIP state... still need to resolv some coords and write the perfect formula...
+
+lua part in WIP state... still need to resolv some coords and write the perfect formula...
 
 - rounded rectangle in my guess still need some modification into the api...
 
