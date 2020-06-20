@@ -234,7 +234,9 @@ function DocView:on_mouse_moved(x, y, ...)
   end
 
   if self.mouse_selecting then
-    self.still_selecting = true
+    if not self.still_selecting then
+      self.still_selecting = true
+    end
     local _, _, line2, col2 = self.doc:get_selection()
     local line1, col1 = self:resolve_screen_position(x, y)
     self.doc:set_selection(line1, col1, line2, col2)

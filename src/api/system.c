@@ -8,10 +8,6 @@
 #include "api.h"
 #include "rencache.h"
 
-#ifdef _WIN32
-  #include <windows.h>
-#endif
-
 extern SDL_Window *window;
 
 
@@ -202,12 +198,6 @@ static int f_window_has_focus(lua_State *L) {
 static int f_show_confirm_dialog(lua_State *L) {
   const char *title = luaL_checkstring(L, 1);
   const char *msg = luaL_checkstring(L, 2);
-
-#if _WIN32
-  int id = MessageBox(0, msg, title, MB_YESNO | MB_ICONWARNING);
-  lua_pushboolean(L, id == IDYES);
-
-#else
   SDL_MessageBoxButtonData buttons[] = {
     { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Yes" },
     { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "No" },
@@ -221,7 +211,7 @@ static int f_show_confirm_dialog(lua_State *L) {
   int buttonid;
   SDL_ShowMessageBox(&data, &buttonid);
   lua_pushboolean(L, buttonid == 1);
-#endif
+
   return 1;
 }
 
@@ -259,11 +249,6 @@ static int f_list_dir(lua_State *L) {
   return 1;
 }
 
-
-#ifdef _WIN32
-  #include <windows.h>
-  #define realpath(x, y) _fullpath(y, x, MAX_PATH)
-#endif
 
 static int f_absolute_path(lua_State *L) {
   const char *path = luaL_checkstring(L, 1);
@@ -327,7 +312,6 @@ static int f_set_clipboard(lua_State *L) {
 Get/Set X11 PRIMARY BUFFER(selection clipboard)
 
  */
-#ifdef __LINUX__
 
 static int f_get_selection_clipboard(lua_State *L) {
   char *text = SDL_GetSelectionClipboardText();
@@ -342,9 +326,6 @@ static int f_set_selection_clipboard(lua_State *L) {
   SDL_SetSelectionClipboardText(text);
   return 0;
 }
-
-#endif /* __LINUX__ */
-
 
 static int f_get_time(lua_State *L) {
   double n = SDL_GetPerformanceCounter() / (double) SDL_GetPerformanceFrequency();
@@ -365,14 +346,9 @@ static int f_exec(lua_State *L) {
   const char *cmd = luaL_checklstring(L, 1, &len);
   char *buf = malloc(len + 32);
   if (!buf) { luaL_error(L, "buffer allocation failed"); }
-#if _WIN32
-  sprintf(buf, "cmd /c \"%s\"", cmd);
-  WinExec(buf, SW_HIDE);
-#else
   sprintf(buf, "%s &", cmd);
   int res = system(buf);
   (void) res;
-#endif
   free(buf);
   return 0;
 }
@@ -427,10 +403,8 @@ static const luaL_Reg lib[] = {
   { "list_dir",                         f_list_dir            },
   { "absolute_path",                    f_absolute_path       },
   { "get_file_info",                    f_get_file_info       },
-#ifdef __linux__
   { "get_selection_clipboard",          f_get_selection_clipboard       },
   { "set_selection_clipboard",          f_set_selection_clipboard       },
-#endif
   { "get_clipboard",                    f_get_clipboard       },
   { "set_clipboard",                    f_set_clipboard       },
   { "get_time",                         f_get_time            },
