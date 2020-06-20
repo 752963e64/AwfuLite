@@ -15,11 +15,6 @@ local files = {
   complete = EXEDIR .. "/.lite_console_" .. uid .. "_complete",
 }
 
-if PLATFORM == "Windows" then
-  files.script  = files.script  .. ".bat"
-  files.script2 = files.script2 .. ".bat"
-end
-
 local function clean_up()
   for _, file in pairs(files) do
     os.remove(file)
@@ -108,30 +103,15 @@ function console.run(opt)
 
   local function thread()
     -- init script file(s)
-    if PLATFORM == "Windows" then
-      write_file(files.script, opt.command .. "\n")
-      write_file(files.script2, string.format([[
-        @echo off
-        call %q >%q 2>&1
-        echo "" >%q
-        exit
-      ]], files.script, files.output, files.complete))
-      os.execute(string.format("start /min call %q", files.script2))
-    else
-      write_file(files.script, string.format([[
-        %s
-        touch %q
-      ]], opt.command, files.complete))
-      os.execute(string.format("bash %q >%q 2>&1 &", files.script, files.output))
-    end
+    write_file(files.script, string.format([[
+      %s
+      touch %q
+    ]], opt.command, files.complete))
+    os.execute(string.format("bash %q >%q 2>&1 &", files.script, files.output))
 
     -- checks output file for change and reads
     local last_size = 0
     local function check_output_file()
-      if PLATFORM == "Windows" then
-        local fp = io.open(files.output)
-        if fp then fp:close() end
-      end
       local info = system.get_file_info(files.output)
       if info and info.size > last_size then
         local text = read_file(files.output, last_size)
