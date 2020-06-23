@@ -6,7 +6,7 @@ local config = {}
 config.project = {}
 config.project.scan_rate = 5
 config.project.file_size_limit = 10
-config.project.ignore_files = "^%."
+config.project.ignore_files = ""
 --
 
 config.window = {}
