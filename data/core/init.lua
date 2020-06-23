@@ -13,7 +13,6 @@ local core = {}
 
 
 local function project_scan_thread()
-  print("project_scan_thread()")
   local function diff_files(a, b)
     if #a ~= #b then return true end
     for i, v in ipairs(a) do
