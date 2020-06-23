@@ -197,30 +197,29 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
   if caught then
     return
   end
-  if button == "middle" and clicks == 1 then
-    local text = system.get_selection_clipboard()
-    if text then
-      self.doc:text_input(text)
-    end
-  end
+
   local line, col = self:resolve_screen_position(x, y)
-  if clicks == 2 then -- select word after 2 clicks
-    local line1, col1 = translate.start_of_word(self.doc, line, col)
-    local line2, col2 = translate.end_of_word(self.doc, line, col)
-    self.doc:set_selection(line2, col2, line1, col1)
-  elseif clicks == 3 then -- select entire line after 3 clicks
-    if line == #self.doc.lines then
-      self.doc:insert(math.huge, math.huge, "\n")
+
+  if button == "left" then
+    if clicks == 2 then -- select word after 2 clicks
+      local line1, col1 = translate.start_of_word(self.doc, line, col)
+      local line2, col2 = translate.end_of_word(self.doc, line, col)
+      self.doc:set_selection(line2, col2, line1, col1)
+    elseif clicks == 3 then -- select entire line after 3 clicks
+      if line == #self.doc.lines then
+        self.doc:insert(math.huge, math.huge, "\n")
+      end
+      self.doc:set_selection(line + 1, 1, line, 1)
+    else
+      local line2, col2
+      if keymap.modkeys["shift"] then
+        line2, col2 = select(3, self.doc:get_selection())
+      end
+      self.doc:set_selection(line, col, line2, col2)
+      self.mouse_selecting = true
     end
-    self.doc:set_selection(line + 1, 1, line, 1)
-  else
-    local line2, col2
-    if keymap.modkeys["shift"] then
-      line2, col2 = select(3, self.doc:get_selection())
-    end
-    self.doc:set_selection(line, col, line2, col2)
-    self.mouse_selecting = true
   end
+
   self.blink_timer = 0
 end
 
@@ -247,11 +246,20 @@ end
 
 function DocView:on_mouse_released(button)
   DocView.super.on_mouse_released(self, button)
-  if self.mouse_selecting and self.still_selecting then
+
+  if button == "left" and self.mouse_selecting and self.still_selecting then
     local text = self.doc:get_text(self.doc:get_selection())
     if text then
       system.set_selection_clipboard(text)
     end
+  end
+
+  if button == "middle" then
+    local text = system.get_selection_clipboard()
+    if text then
+      self.doc:text_input(text)
+    end
+    return
   end
   self.still_selecting = false
   self.mouse_selecting = false
