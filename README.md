@@ -1,7 +1,7 @@
 ## This is my fork
 
 * **[Get the original lite here](https://github.com/rxi/lite)** — Download
-  for Windows and Linux
+  for unix and unix like.
 
 ## TODO
 - linux clipboards
