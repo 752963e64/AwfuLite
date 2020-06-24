@@ -244,8 +244,8 @@ function DocView:on_mouse_moved(x, y, ...)
 end
 
 
-function DocView:on_mouse_released(button)
-  DocView.super.on_mouse_released(self, button)
+function DocView:on_mouse_released(button, x, y)
+  DocView.super.on_mouse_released(self, button, x, y)
 
   if button == "left" and self.mouse_selecting and self.still_selecting then
     local text = self.doc:get_text(self.doc:get_selection())
