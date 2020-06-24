@@ -12,7 +12,7 @@
 - rounded rectangle
 - code folding
 - more plugins
-- remove the ugly tabs and keep track/handling with mouse/key press events into statusview
+- remove the ugly tabs and keep track/handling with mouse/key press events with feedback into statusview
 - scroll feedback using sort* icons into the statusview
 
 ## HINT'ING
