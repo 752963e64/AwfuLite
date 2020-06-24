@@ -257,9 +257,11 @@ function DocView:on_mouse_released(button, x, y)
   if button == "middle" then
     local text = system.get_selection_clipboard()
     if text then
-      self.doc:text_input(text)
+      local line, col = self:resolve_screen_position(x, y)
+      if line and col then
+        self.doc:insert(line, col, text)
+      end
     end
-    return
   end
   self.still_selecting = false
   self.mouse_selecting = false
