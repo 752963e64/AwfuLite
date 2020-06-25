@@ -322,8 +322,7 @@ static int f_get_selection_clipboard(lua_State *L) {
 
 static int f_set_selection_clipboard(lua_State *L) {
   const char *text = luaL_checkstring(L, 1);
-  if (!text) { return 0; }
-  SDL_SetSelectionClipboardText(text);
+  if (text) { SDL_SetSelectionClipboardText(text); }
   return 0;
 }
 
