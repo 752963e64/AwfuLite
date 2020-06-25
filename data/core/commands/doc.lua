@@ -72,10 +72,6 @@ local commands = {
     doc():redo()
   end,
 
-  ["doc:test"] = function()
-    print(system.get_selection_clipboard())
-  end,
-
   ["doc:cut"] = function()
     local text = nil
     if doc():has_selection() then
