@@ -23,6 +23,20 @@ static void get_exe_filename(char *buf, int sz) {
   buf[len] = '\0';
 }
 
+static void init_window_icon(void) {
+  #include "../icons/icon.inl"
+  (void) icon_rgba_len; /* unused */
+  SDL_Surface *surf = SDL_CreateRGBSurfaceFrom(
+    icon_rgba, 64, 64,
+    32, 64 * 4,
+    0x000000ff,
+    0x0000ff00,
+    0x00ff0000,
+    0xff000000);
+  SDL_SetWindowIcon(window, surf);
+  SDL_FreeSurface(surf);
+}
+
 int main(int argc, char **argv) {
 
   SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
@@ -43,6 +57,7 @@ int main(int argc, char **argv) {
   window = SDL_CreateWindow(
     "", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, dm.w * 0.8, dm.h * 0.8,
     SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_HIDDEN);
+  init_window_icon();
   ren_init(window);
 
 
