@@ -198,9 +198,8 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
     return
   end
 
-  local line, col = self:resolve_screen_position(x, y)
-
   if button == "left" then
+    local line, col = self:resolve_screen_position(x, y)
     if clicks == 2 then -- select word after 2 clicks
       local line1, col1 = translate.start_of_word(self.doc, line, col)
       local line2, col2 = translate.end_of_word(self.doc, line, col)
