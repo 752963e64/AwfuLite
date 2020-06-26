@@ -54,10 +54,10 @@ keymap.add {
   ["ctrl+p"]                    = "project:find-file",
 
   -- plugins/quote.lua
-  ["ctrl+'"]                    = "quote:quote",
+  ["ctrl+k"]                    = "quote:quote",
 
   -- plugins/reflow.lua
-  ["ctrl+shift+q"]              = "reflow:reflow",
+  ["ctrl+shift+r"]              = "reflow:reflow",
 
   -- plugins/treeview.lua
   ["ctrl+shift+t"]              = "treeview:toggle",
