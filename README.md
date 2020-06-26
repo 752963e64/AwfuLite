@@ -3,30 +3,24 @@
 * **[Get the original lite here](https://github.com/rxi/lite)** — Download
   for unix and unix like.
 
-### picz
+### picz from the lab
 
 ![screenshot](https://raw.githubusercontent.com/HackIT/lite/master/screenshot.png)
 
 ## TODO
-- linux clipboards
+- <s>linux clipboards</s>
 - rounded rectangle
 - code folding
 - more plugins
-- remove the ugly tabs and keep track/handling with mouse/key press events with feedback into statusview
+- remove the ugly tabs
+- keep track/handling with mouse/key press events and feedback into statusview
 - scroll feedback using sort* icons into the statusview
 
 ## HINT'ING
-- <s>linux clipboards needs to be added with either X lib or XCB to the api</s>
-
-Done through **[a customized SDL2](https://github.com/HackIT/mySDL2)**
-
-<s>lua part in WIP state... still need to resolv some coords and write the perfect formula...</s>
-
-Done
 
 - rounded rectangle in my guess still need some modification into the api...
 
-like implementing the primitives to draw rounded corners a like the squared one is done...
+like implementing the primitives to draw rounded corners...
 
 - code folding should be easy as there is already block search functions, I just need more info about document's buffers...
 - tabs should be easy to remove and implement a new way to browse file...
