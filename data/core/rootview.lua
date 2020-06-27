@@ -417,25 +417,24 @@ function RootView:open_doc(doc)
   return view
 end
 
-
 function RootView:on_mouse_pressed(button, x, y, clicks)
   local node = self.root_node:get_child_overlapping_point(x, y)
+
   if button == "left" then
     local div = self.root_node:get_divider_overlapping_point(x, y)
     if div then
       self.dragged_divider = div
       return
     end
-  end
+  end  -- do not forward when grabing divider
   if node then
     local idx = node:get_tab_overlapping_point(x, y)
     if idx then
-      node:set_active_view(node.views[idx])
       return
     end
-  end
-  core.set_active_view(node.active_view)
-  node.active_view:on_mouse_pressed(button, x, y, clicks)
+    core.set_active_view(node.active_view)
+    node.active_view:on_mouse_pressed(button, x, y, clicks)
+  end -- do not forward when clicking on tab
 end
 
 
@@ -445,11 +444,16 @@ function RootView:on_mouse_released(button, x, y, clicks)
     if self.dragged_divider then
       self.dragged_divider = nil
       return
-    end
+    end -- do not forward when grabing divider
   end
   if node then
     local idx = node:get_tab_overlapping_point(x, y)
-    if idx then return end
+    if idx and button == "left" then
+      node:set_active_view(node.views[idx])
+      return
+    elseif idx then
+      return
+    end
   end
   self.root_node:on_mouse_released(button, x, y, clicks)
 end
