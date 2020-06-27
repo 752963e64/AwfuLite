@@ -143,15 +143,17 @@ function TreeView:on_mouse_moved(px, py)
 end
 
 
-function TreeView:on_mouse_pressed(button, x, y)
-  if not self.hovered_item then
-    return
-  elseif self.hovered_item.type == "dir" then
-    self.hovered_item.expanded = not self.hovered_item.expanded
-  else
-    core.try(function()
-      core.root_view:open_doc(core.open_doc(self.hovered_item.filename))
-    end)
+function TreeView:on_mouse_pressed(button, x, y, clicks)
+  if button == "left" then
+    if not self.hovered_item then
+      return
+    elseif self.hovered_item.type == "dir" then
+      self.hovered_item.expanded = not self.hovered_item.expanded
+    else
+      core.try(function()
+        core.root_view:open_doc(core.open_doc(self.hovered_item.filename))
+      end)
+    end
   end
 end
 
