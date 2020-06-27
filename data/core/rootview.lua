@@ -419,34 +419,41 @@ end
 
 
 function RootView:on_mouse_pressed(button, x, y, clicks)
+  local div = self.root_node:get_divider_overlapping_point(x, y)
+  local node = self.root_node:get_child_overlapping_point(x, y)
   if button == "left" then
-    local div = self.root_node:get_divider_overlapping_point(x, y)
     if div then
       self.dragged_divider = div
       return
     end
-    local node = self.root_node:get_child_overlapping_point(x, y)
     local idx = node:get_tab_overlapping_point(x, y)
     if idx then
       node:set_active_view(node.views[idx])
       -- if button == "middle" then
         -- node:close_active_view(self.root_node)
       -- end
-    else
-      core.set_active_view(node.active_view)
-      node.active_view:on_mouse_pressed(button, x, y, clicks)
+      return
     end
   end
+  core.set_active_view(node.active_view)
+  node.active_view:on_mouse_pressed(button, x, y, clicks)
 end
 
 
-function RootView:on_mouse_released(button, ...)
+function RootView:on_mouse_released(button, x, y, clicks)
+  local div = self.root_node:get_divider_overlapping_point(x, y)
+  local node = self.root_node:get_child_overlapping_point(x, y)
+  local idx = node:get_tab_overlapping_point(x, y)
+    if idx then return end
+
   if button == "left" then
     if self.dragged_divider then
       self.dragged_divider = nil
+      return
     end
-    self.root_node:on_mouse_released(...)
   end
+
+  self.root_node:on_mouse_released(button, x, y, clicks)
 end
 
 
