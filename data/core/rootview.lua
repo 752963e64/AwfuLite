@@ -453,7 +453,7 @@ function RootView:on_mouse_released(button, x, y, clicks)
       return
     elseif idx then
       return
-    end
+    end -- do not forward when clicking on tab
   end
   self.root_node:on_mouse_released(button, x, y, clicks)
 end
