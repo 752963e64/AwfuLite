@@ -70,5 +70,4 @@ function LogView:draw()
   end
 end
 
-
 return LogView

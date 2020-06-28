@@ -23,4 +23,8 @@ command.add(nil, {
     local node = core.root_view:get_active_node()
     node:add_view(LogView())
   end,
+  ["log:close"] = function()
+    local node = core.root_view:get_active_node()
+    node:close_active_view(core.root_view.root_node)
+  end,
 })

@@ -90,7 +90,7 @@ keymap.add {
   ["ctrl+n"]                    = "doc:new-file",
   ["ctrl+s"]                    = "doc:save",
   ["ctrl+shift+s"]              = "doc:save-as",
-  ["ctrl+w"]                    = "doc:close",
+  ["ctrl+w"]                    = { "doc:close", "log:close" },
 
   ["ctrl+q"]                    = "core:quit",
 
