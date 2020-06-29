@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cflags="-mfpmath=sse -march=core2 -mtune=core2 -fdiagnostics-color=always -fno-strict-aliasing -pipe -O3 -Wall -std=gnu11 -Isrc"
+cflags="-fdiagnostics-color=always -fno-strict-aliasing -pipe -O3 -Wall -std=gnu11 -Isrc"
 lflags="-lSDL2 -lm"
 
 platform="unix"
