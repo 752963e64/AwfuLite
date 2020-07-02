@@ -3,9 +3,14 @@
 * **[Get the original lite here](https://github.com/rxi/lite)** — Download
   for unix and unix like.
 
+
+* You'll need a custom SDL2 — **[mySDL2](https://github.com/HackIT/mySDL2)**
+
 ### picz from the lab
 
+
 ![screenshot](https://raw.githubusercontent.com/HackIT/lite/master/screenshot.png)
+
 
 ## TODO
 - <s>linux clipboards</s>
