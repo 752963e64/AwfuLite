@@ -48,6 +48,16 @@ command.add(nil, {
     end)
   end,
 
+  ["core:new-file"] = function()
+    core.root_view:open_doc(core.open_doc())
+  end,
+
+  ["core:open-file"] = function()
+    core.command_view:enter("Open File", function(text)
+      core.root_view:open_doc(core.open_doc(text))
+    end, common.path_suggest)
+  end,
+
   --  ["core:open-log"] = function()
   --    local node = core.root_view:get_active_node()
   --    node:add_view(LogView())

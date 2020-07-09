@@ -301,16 +301,6 @@ local commands = {
     doc().crlf = not doc().crlf
   end,
 
-  ["doc:new-file"] = function()
-    core.root_view:open_doc(core.open_doc())
-  end,
-
-  ["doc:open-file"] = function()
-    core.command_view:enter("Open File", function(text)
-      core.root_view:open_doc(core.open_doc(text))
-    end, common.path_suggest)
-  end,
-
   ["doc:close"] = function()
     local node = core.root_view:get_active_node()
     node:close_active_view(core.root_view.root_node)
