@@ -28,14 +28,20 @@ local function update_state(line_limit)
   end
 
   -- find matching rbracket if we have an lbracket
-  local line2, col2
-  local chr = doc:get_text(line, col - 1, line, col)
-  local rbracket = bracket_map[chr]
+  local line2, col2, rbracket, chr
+  local dir = 1
+  chr = doc:get_text(line, col - 1, line, col)
+
+  if not bracket_map[chr] then
+    dir, chr = 0, doc:get_text(line, col + 1, line, col)
+  end
+
+  rbracket = bracket_map[chr]
 
   if rbracket then
     local ptn = "[%" .. chr .. "%" .. rbracket .. "]"
     local offset = col - 1
-    local depth = 1
+    local depth = dir
 
     for i = line, math.min(#doc.lines, line + line_limit) do
       while offset do
