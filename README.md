@@ -14,6 +14,7 @@
 
 ## TODO
 - <s>linux clipboards</s>
+- store session
 - rounded rectangle
 - code folding
 - more plugins
@@ -30,6 +31,18 @@ like implementing the primitives to draw rounded corners...
 - code folding should be easy as there is already block search functions, I just need more info about document's buffers...
 - tabs should be easy to remove and implement a new way to browse file...
 - scroll feedback should be extremly easy... just need to find an handy place to make it cool...
+
+## HACK lite/.lite_project.lua
+
+- project session for rapid devel...
+
+local core = require "core"
+
+core.root_view:open_doc(core.open_doc("/home/<user>/lite/LICENSE"))
+core.root_view:open_doc(core.open_doc("/home/<user>/lite/README.md"))
+core.root_view:open_doc(core.open_doc("/home/<user>/lite/data/<file>"))
+
+print("hello world o/")
 
 ## License
 This project is free software; you can redistribute it and/or modify it under
