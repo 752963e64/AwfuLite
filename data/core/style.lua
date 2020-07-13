@@ -20,6 +20,7 @@ style.background3 = { common.color "#252529" }
 style.text = { common.color "#97979c" }
 style.caret = { common.color "#FFA94D" }
 style.accent = { common.color "#e1e1e6" }
+style.accent2 = { common.color "#FFA94D" }
 style.dim = { common.color "#757e84" }
 -- style.dim = { common.color "#525257" }
 style.divider = { common.color "#202024" }

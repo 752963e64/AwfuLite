@@ -96,7 +96,7 @@ function StatusView:get_items()
     local dirty = dv.doc:is_dirty()
 
     return {
-      dirty and style.accent or style.text, style.icon_font, style.icons["code"],
+      dirty and style.accent2 or style.text, style.icon_font, style.icons["code"],
       style.dim, style.font, self.separator2, style.text,
       dv.doc.filename and style.text or style.dim, dv.doc:get_name(),
       style.text,
