@@ -1,9 +1,15 @@
 local core = require "core"
+local config = require "core.config"
 local common = require "core.common"
 local style = require "core.style"
 local Doc = require "core.doc"
 local DocView = require "core.docview"
 local View = require "core.view"
+
+
+if config.debug then
+  print("commandview.lua -> loaded")
+end
 
 
 local SingleLineDoc = Doc:extend()

@@ -1,3 +1,11 @@
+local config = require "core.config"
+
+
+if config.debug then
+  print("strict.lua -> loaded")
+end
+
+
 local strict = {}
 strict.defined = {}
 

@@ -6,6 +6,11 @@ local config = require "core.config"
 local style = require "core.style"
 local View = require "core.view"
 
+if config.debug then
+  print("console.lua -> loaded")
+end
+
+
 local uid = os.tmpname():gsub("%W", "")
 
 local files = {
@@ -28,7 +33,7 @@ os.exit = function(...) clean_up() return exit(...) end
 
 local console = {}
 
-local views = {}
+-- local views = {}
 local pending_threads = {}
 local thread_active = false
 local output = { { text = "", time = os.time() } }
@@ -72,9 +77,12 @@ local function push_output(str, opt)
     })
     if #output > config.console.max_lines then
       table.remove(output, 1)
-      for view in pairs(views) do
-        view:on_line_removed()
-      end
+
+      -- for view in pairs(views) do
+      --   print("viewsss check")
+      --   view:on_line_removed()
+      -- end
+    
     end
     first = false
   end
@@ -150,9 +158,9 @@ function console.run(opt)
   end
 
   -- make sure static console is visible if it's the only ConsoleView
-  local count = 0
-  for _ in pairs(views) do count = count + 1 end
-  if count == 1 then config.console.visible = true end
+  -- local count = 0
+  -- for _ in pairs(views) do count = count + 1 end
+  -- if count == 1 then config.console.visible = true end
 end
 
 local ConsoleView = View:extend()
@@ -162,13 +170,16 @@ function ConsoleView:new()
   self.scrollable = true
   self.hovered_idx = -1
   self.focusable = false
-  views[self] = true
+  self.height = config.common.default_split_size
+  self.visible = config.console.visible
+  -- views[self] = true
 end
 
 
 function ConsoleView:try_close(...)
-  ConsoleView.super.try_close(self, ...)
-  views[self] = nil
+  -- ConsoleView.super.try_close(self, ...)
+  -- views[self] = nil
+  core.log("Use console:toggle command to hide the console.")
 end
 
 
@@ -276,11 +287,16 @@ end
 
 
 function ConsoleView:update(...)
+  local dest = self.visible and self.height or 0
+  
   if self.last_output_id ~= output_id then
     self.scroll.to.y = self:get_scrollable_size()
     self.last_output_id = output_id
   end
-  ConsoleView.super.update(self, ...)
+
+  self:move_towards(self.size, "y", dest)
+  -- ConsoleView.update(self, ...)
+  -- ConsoleView.super.update(self, ...)
 end
 
 
@@ -319,24 +335,25 @@ local view = ConsoleView()
 local node = core.root_view:get_active_node()
 node:split("down", view, true)
 
-function view:update(...)
-  local dest = config.console.visible and config.common.default_split_size or 0
-  self:move_towards(self.size, "y", dest)
-  ConsoleView.update(self, ...)
-end
+-- function view:update(...)
+--   local dest = config.console.visible and config.common.default_split_size or 0
+--   self:move_towards(self.size, "y", dest)
+--   ConsoleView.update(self, ...)
+-- end
 
 
 local last_command = ""
 
 command.add(nil, {
   -- new console using a new view
-  ["console:open"] = function()
-    local node = core.root_view:get_active_node()
-    node:add_view(ConsoleView())
-  end,
+  -- ["console:open"] = function()
+  --  local node = core.root_view:get_active_node()
+  --  node:add_view(ConsoleView())
+  -- end,
+
   -- toggle builtin console
   ["console:toggle"] = function()
-    config.console.visible = not config.console.visible
+    view.visible = not view.visible
   end,
 
   ["console:run"] = function()
@@ -344,9 +361,10 @@ command.add(nil, {
     core.command_view:enter("Run Console Command", function(cmd)
       console.run { command = cmd }
       last_command = cmd
+      if not view.visible then
+        command.perform("console:toggle")
+      end
     end)
   end
 })
 
-
-return console

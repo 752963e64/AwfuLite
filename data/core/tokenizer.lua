@@ -1,3 +1,11 @@
+local config = require "core.config"
+
+
+if config.debug then
+  print("tokenizer.lua -> loaded")
+end
+
+
 local tokenizer = {}
 
 

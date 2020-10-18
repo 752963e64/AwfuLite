@@ -7,6 +7,11 @@ local translate = require "core.doc.translate"
 local View = require "core.view"
 
 
+if config.debug then
+  print("docview.lua -> loaded")
+end
+
+
 local DocView = View:extend()
 
 
@@ -91,7 +96,7 @@ end
 
 
 function DocView:get_scrollable_size()
-  return self:get_line_height() * (#self.doc.lines - 1) + self.size.y
+  return self:get_line_height() * (#self.doc.lines + 1) -- + self.size.y
 end
 
 

@@ -1,4 +1,4 @@
-## This is my fork
+## This is another of my fork(s)
 
 * **[Get the original lite here](https://github.com/rxi/lite)** — Download
   for unix and unix like.
@@ -11,9 +11,28 @@
 
 ![screenshot](https://raw.githubusercontent.com/HackIT/lite/master/screenshot.png)
 
+#### the console behavior is non-interactive, throw a cmd and get feedback... nah enouf? use your terminal...
+- ctrl+: => open a console view...
+- ctrl+shift+: => throw a command to your bash shell...
+
+- ctrl+! => open up **the** log view
+
+- ctrl+shift+t => open up a semi interactive file browser walking CWD...
+
+- ctrl+shift+p => open up internal command handler...
+
+- ctrl+o => open up an existing file...
+- ctrl+n => open up a new file...
+- ctrl+s => save up the current files with modifs...
+
+## DONE
+- linux clipboards
+- moved syntaxes and colors to their own dir...
+- removed plugins and now loading them using a list
+- reloading modules works out of the box without overlaping...
+- swapped some keybinding to more common one... (at least for me...)
 
 ## TODO
-- <s>linux clipboards</s>
 - store session
 - rounded rectangle
 - code folding
@@ -21,16 +40,6 @@
 - remove the ugly tabs
 - keep track/handling with mouse/key press events and feedback into statusview
 - scroll feedback using sort* icons into the statusview
-
-## HINT'ING
-
-- rounded rectangle in my guess still need some modification into the api...
-
-like implementing the primitives to draw rounded corners...
-
-- code folding should be easy as there is already block search functions, I just need more info about document's buffers...
-- tabs should be easy to remove and implement a new way to browse file...
-- scroll feedback should be extremly easy... just need to find an handy place to make it cool...
 
 ## HACK lite/.lite_project.lua
 

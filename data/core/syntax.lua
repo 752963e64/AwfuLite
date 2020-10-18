@@ -1,7 +1,15 @@
 local common = require "core.common"
+local config = require "core.config"
+
+
+if config.debug then
+  print("syntax.lua -> loaded")
+end
+
 
 local syntax = {}
 syntax.items = {}
+
 
 local plain_text_syntax = { patterns = {}, symbols = {} }
 
@@ -21,5 +29,5 @@ function syntax.get(filename)
   return plain_text_syntax
 end
 
-
 return syntax
+

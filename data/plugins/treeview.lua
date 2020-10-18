@@ -6,6 +6,12 @@ local keymap = require "core.keymap"
 local style = require "core.style"
 local View = require "core.view"
 
+
+if config.debug then
+  print("treeview.lua -> loaded")
+end
+
+
 local mimetypes = {
   code = { "%.c$", "%.h$", "%.inl$", "%.cpp$", "%.hpp$",
   "%.sh$", "%.rc$", "%.lua$", "%.js$", "%.css$", "%.html$", "%.md$",
@@ -16,6 +22,7 @@ local mimetypes = {
   image = { "%.ico$", "%.png$", "%.jpg$", "%.jpeg$", "%.gif$" },
   archive = { "%.tar$", "%.gz$", "%.xz$", "%.bz2$", "%.bz$", "%.zip$" },
 }
+
 
 local function get_depth(filename)
   local n = 0
@@ -28,21 +35,27 @@ end
 
 local TreeView = View:extend()
 
+
 function TreeView:new()
   TreeView.super.new(self)
   self.scrollable = true
-  self.visible = false
   self.init_size = true
+  self.visible = config.treeview.visible
+  self.width = config.treeview.size
+  self.font = config.treeview.font
   self.cache = {}
 end
+
 
 local function matches_ext(filename, patterns)
   local match = nil
   for _, ptn in ipairs(patterns) do
     if filename:find(ptn) then match = true end
   end
+
   return match
 end
+
 
 function TreeView:get_cached(item)
   local t = self.cache[item.filename]
@@ -72,17 +85,33 @@ function TreeView:get_cached(item)
     end
     self.cache[t.filename] = t
   end
+
   return t
 end
 
 
 function TreeView:get_name()
-  return "Project"
+  return "Treeview"
+end
+
+
+function TreeView:get_font()
+  return style[self.font]
 end
 
 
 function TreeView:get_item_height()
-  return style.font:get_height() + style.padding.y
+  return self:get_font():get_height() + style.padding.y
+end
+
+
+function TreeView:get_scrollable_size()
+  local visible_item = 0
+  for k,v in pairs(self.cache) do
+    visible_item = visible_item + 1
+  end
+  
+  return self:get_item_height() * (visible_item + 1)
 end
 
 
@@ -92,6 +121,7 @@ function TreeView:check_cache()
     for _, v in pairs(self.cache) do
       v.skip = nil
     end
+
     self.last_project_files = core.project_files
   end
 end
@@ -149,7 +179,7 @@ function TreeView:on_mouse_pressed(button, x, y, clicks)
       return
     elseif self.hovered_item.type == "dir" then
       self.hovered_item.expanded = not self.hovered_item.expanded
-    else
+    else -- open file...
       core.try(function()
         core.root_view:open_doc(core.open_doc(self.hovered_item.filename))
       end)
@@ -157,9 +187,10 @@ function TreeView:on_mouse_pressed(button, x, y, clicks)
   end
 end
 
+
 function TreeView:update()
   -- update width
-  local dest = self.visible and config.treeview.size or 0
+  local dest = self.visible and self.width or 0
   if self.init_size then
     self.size.x = dest
     self.init_size = false
@@ -167,7 +198,7 @@ function TreeView:update()
     self:move_towards(self.size, "x", dest)
   end
 
-  TreeView.super.update(self)
+  -- TreeView.super.update(self)
 end
 
 
@@ -230,13 +261,13 @@ command.add(nil, {
     if not view.init_size then
       view.init_size = true
     end
-    config.treeview.size = config.treeview.size + 10
+    view.width = view.width + 10
   end,
   ["treeview:smaller"] = function()
     if not view.init_size then
       view.init_size = true
     end
-    config.treeview.size = config.treeview.size - 10
+    view.width = view.width - 10
   end
 })
 

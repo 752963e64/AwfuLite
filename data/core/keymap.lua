@@ -1,9 +1,18 @@
 local command = require "core.command"
+local config = require "core.config"
+
+if config.debug then
+  print("keymap.lua -> loaded")
+end
+
+
 local keymap = {}
+
 
 keymap.modkeys = {}
 keymap.map = {}
 keymap.reverse_map = {}
+
 
 local modkey_map = {
   ["left ctrl"]   = "ctrl",
@@ -14,7 +23,9 @@ local modkey_map = {
   ["right alt"]   = "altgr",
 }
 
+
 local modkeys = { "ctrl", "alt", "altgr", "shift" }
+
 
 local function key_to_stroke(k)
   local stroke = ""
@@ -140,7 +151,7 @@ keymap.add {
 
   ["tab"]                       = { "command:complete", "doc:indent" },
   ["shift+tab"]                 = "doc:unindent",
-  ["ctrl+:"]                    = "doc:toggle-line-comments",
+  ["ctrl+*"]                    = "doc:toggle-line-comments",
 
   -- cursor control
   ["left"]                      = "doc:move-to-previous-char",

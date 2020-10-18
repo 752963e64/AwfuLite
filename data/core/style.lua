@@ -1,5 +1,14 @@
+local config = require "core.config"
 local common = require "core.common"
+
+
+if config.debug then
+  print("style.lua -> loaded")
+end
+
+
 local style = {}
+
 
 style.padding = { x = common.round(14 * SCALE), y = common.round(7 * SCALE) }
 style.divider_size = common.round(1 * SCALE)
@@ -42,6 +51,7 @@ style.syntax["literal"] = { common.color "#FFA94D" }
 style.syntax["string"] = { common.color "#f7c95c" }
 style.syntax["operator"] = { common.color "#93DDFA" }
 style.syntax["function"] = { common.color "#93DDFA" }
+
 
 style.icons = {
   ["attention"] = "!",

@@ -1,4 +1,19 @@
+local config = require "core.config"
+
+
+if config.debug then
+  print("common.lua -> loaded")
+end
+
+
 local common = {}
+
+
+-- rootview, node
+function common.copy_position_and_size(dst, src)
+  dst.position.x, dst.position.y = src.position.x, src.position.y
+  dst.size.x, dst.size.y = src.size.x, src.size.y
+end
 
 
 function common.is_utf8_cont(char)

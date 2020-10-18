@@ -1,9 +1,16 @@
 local core = require "core"
+local config = require "core.config"
+
 local command = {}
 
 command.map = {}
 
 local always_true = function() return true end
+
+
+if config.debug then
+  print("command.lua -> loaded")
+end
 
 
 function command.add(predicate, map)
@@ -16,8 +23,12 @@ function command.add(predicate, map)
     predicate = function() return core.active_view:is(class) end
   end
   for name, fn in pairs(map) do
-    assert(not command.map[name], "command already exists: " .. name)
-    command.map[name] = { predicate = predicate, perform = fn }
+    if not command.map[name] then
+    -- assert(not command.map[name], "command already exists: " .. name)
+      command.map[name] = { predicate = predicate, perform = fn }
+    else
+      print( "command already exists: " .. name )
+    end
   end
 end
 

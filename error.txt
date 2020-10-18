@@ -1,0 +1,21 @@
+Error: /home/one/lite.mod/data/core/view.lua:25: stack overflow
+stack traceback:
+	/home/one/lite.mod/data/core/view.lua:25: in function 'move_towards'
+	/home/one/lite.mod/data/plugins/log.lua:99: in function 'update'
+	/home/one/lite.mod/data/plugins/log.lua:100: in function 'update'
+	/home/one/lite.mod/data/plugins/log.lua:100: in function 'update'
+	/home/one/lite.mod/data/plugins/log.lua:100: in function 'update'
+	/home/one/lite.mod/data/plugins/log.lua:100: in function 'update'
+	/home/one/lite.mod/data/plugins/log.lua:100: in function 'update'
+	...
+	/home/one/lite.mod/data/core/node.lua:304: in function 'update'
+	/home/one/lite.mod/data/core/node.lua:308: in function 'update'
+	/home/one/lite.mod/data/core/node.lua:307: in function 'update'
+	/home/one/lite.mod/data/core/node.lua:308: in function 'update'
+	/home/one/lite.mod/data/core/node.lua:307: in function 'update'
+	/home/one/lite.mod/data/core/rootview.lua:139: in function 'update'
+	/home/one/lite.mod/data/core/init.lua:370: in function 'step'
+	/home/one/lite.mod/data/core/init.lua:436: in function 'run'
+	[string "local core..."]:10: in function <[string "local core..."]:2>
+	[C]: in function 'xpcall'
+	[string "local core..."]:2: in main chunk

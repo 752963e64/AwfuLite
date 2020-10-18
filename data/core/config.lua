@@ -1,12 +1,18 @@
 local config = {}
 
+config.debug = true
+
+if config.debug then
+  print("config.lua -> loaded")
+end
+
 -- do not change config here
 -- re-define inside data/user/init.lua instead
 
 config.project = {}
 config.project.scan_rate = 5
 config.project.file_size_limit = 10
-config.project.ignore_files = ""
+config.project.ignore_files = {}
 --
 
 config.window = {}
@@ -35,5 +41,6 @@ config.statusview.message_timeout = 3
 
 config.common = {}
 config.common.default_split_size = 200 * SCALE
+
 
 return config

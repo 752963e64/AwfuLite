@@ -9,6 +9,12 @@ local StatusView
 local CommandView
 local Doc
 
+
+if config.debug then
+  print("core.lua -> loaded")
+end
+
+
 local core = {}
 
 
@@ -99,8 +105,8 @@ function core.init()
 
   core.add_thread(project_scan_thread)
   command.add_defaults()
-  local got_plugin_error = not core.load_plugins()
-  local got_user_error = not core.try(require, "user")
+  local got_syntax_error = not core.load("languages")
+  local got_plugin_error = not core.try(require, "plugins")
   local got_project_error = not core.load_project_module()
 
   for i = 2, #ARGS do
@@ -111,7 +117,7 @@ function core.init()
     end
   end
 
-  if got_plugin_error or got_user_error or got_project_error then
+  if got_plugin_error or got_syntax_error or got_project_error then
     -- command.perform("core:open-log")
   end
 
@@ -145,17 +151,19 @@ function core.quit(force)
   core.quit(true)
 end
 
-
-function core.load_plugins()
+-- loads languages, plugins
+function core.load(dirname)
   local no_errors = true
-  local files = system.list_dir(EXEDIR .. "/data/plugins")
-  for _, filename in ipairs(files) do
-    local modname = "plugins." .. filename:gsub(".lua$", "")
-    local ok = core.try(require, modname)
-    if ok then
-      core.log_quiet("Loaded plugin %q", modname)
-    else
-      no_errors = false
+  local module = system.list_dir(EXEDIR .. "/data/" .. dirname)
+  for _, filename in ipairs(module) do
+    local modname, ret = filename:gsub(".lua$", "")
+    if ret ~= 0 then modname = dirname .. "." .. modname
+      local ok = core.try(require, modname)
+      if ok then
+        core.log_quiet("Loaded %q", modname)
+      else
+        no_errors = false
+      end
     end
   end
   return no_errors

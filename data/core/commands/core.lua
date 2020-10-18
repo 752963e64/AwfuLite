@@ -3,7 +3,6 @@ local common = require "core.common"
 local config = require "core.config"
 local keymap = require "core.keymap"
 local command = require "core.command"
-local LogView = require "core.logview"
 
 
 command.add(nil, {
