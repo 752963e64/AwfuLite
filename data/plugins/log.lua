@@ -10,20 +10,8 @@ if config.debug then
   print("log.lua -> loaded")
 end
 
+
 local LogView = View:extend()
-
-
-function LogView:get_name()
-  return "Log"
-end
-
-function LogView:get_font()
-  return style[self.font]
-end
-
-function LogView:try_close(...)
-  core.log("Use log:toggle " .. keymap.get_binding("log:toggle") .. "command to hide the console.")
-end
 
 
 function LogView:new()
@@ -32,9 +20,20 @@ function LogView:new()
   self.scrollable = true
   self.focusable = false
   self.visible = config.log.visible
-  self.height = config.common.default_split_size
+  self.height = config.console.size
   self.font = "font"
 end
+
+
+function LogView:get_name()
+  return "Log"
+end
+
+
+function LogView:get_font()
+  return style[self.font]
+end
+
 
 function LogView:update()
   local dest = self.visible and self.height or 0
@@ -44,8 +43,6 @@ function LogView:update()
   end
 
   self:move_towards(self.size, "y", dest)
-
-  --LogView.super.update(self)
 end
 
 

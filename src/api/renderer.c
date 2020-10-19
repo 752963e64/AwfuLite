@@ -83,6 +83,11 @@ static int f_draw_text(lua_State *L) {
   return 1;
 }
 
+static int f_draw_image(lua_State *L) {
+  const char *fullpath = luaL_checkstring(L, 1);
+  rencache_draw_image(fullpath);
+  return 0;
+}
 
 static const luaL_Reg lib[] = {
   { "show_debug",    f_show_debug    },
@@ -92,6 +97,7 @@ static const luaL_Reg lib[] = {
   { "set_clip_rect", f_set_clip_rect },
   { "draw_rect",     f_draw_rect     },
   { "draw_text",     f_draw_text     },
+  { "draw_image",    f_draw_image    },
   { NULL,            NULL            }
 };
 

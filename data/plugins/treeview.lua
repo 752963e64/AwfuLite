@@ -47,6 +47,16 @@ function TreeView:new()
 end
 
 
+function TreeView:get_name()
+  return "Treeview"
+end
+
+
+function TreeView:get_font()
+  return style[self.font]
+end
+
+
 local function matches_ext(filename, patterns)
   local match = nil
   for _, ptn in ipairs(patterns) do
@@ -87,16 +97,6 @@ function TreeView:get_cached(item)
   end
 
   return t
-end
-
-
-function TreeView:get_name()
-  return "Treeview"
-end
-
-
-function TreeView:get_font()
-  return style[self.font]
 end
 
 
@@ -189,7 +189,6 @@ end
 
 
 function TreeView:update()
-  -- update width
   local dest = self.visible and self.width or 0
   if self.init_size then
     self.size.x = dest
@@ -197,8 +196,6 @@ function TreeView:update()
   else
     self:move_towards(self.size, "x", dest)
   end
-
-  -- TreeView.super.update(self)
 end
 
 

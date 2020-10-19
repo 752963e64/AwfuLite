@@ -8,6 +8,7 @@ local command = require "core.command"
 -- re-define default conf
 -- config.project.ignore_files = { "^%.", "^lite$", "%.zip$", "%.ttf$", "%.png$" }
 
+-- renderer.show_debug(true)
 
 -- plugins/treeview.lua
 config.treeview = {}
@@ -18,19 +19,22 @@ config.treeview.font = "font"
 
 -- plugins/console.lua
 config.console = {}
+config.console.size = config.common.default_split_size
 config.console.max_lines = 200
 config.console.visible = false
 
 
 -- plugins/log.lua
 config.log = {}
+config.log.size = config.common.default_split_size
 config.log.visible = false
 
 
 config.plugins = { 
   "plugins.treeview",
   "plugins.console",
-  "plugins.log"
+  "plugins.log",
+  "plugins.testing"
 }
 
 
@@ -57,7 +61,7 @@ keymap.add {
 }
 
 -- light theme:
-require "colors.summer"
+-- require "colors.summer"
 
 
 -- key binding:
@@ -102,3 +106,4 @@ require "colors.summer"
 --   ["ctrl+shift+m"]              = "treeview:smaller",
 -- }
 -- 
+

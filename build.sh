@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cflags="-fdiagnostics-color=always -fno-strict-aliasing -pipe -O3 -Wall -std=gnu11 -Isrc"
-lflags="-lSDL2 -lm"
+lflags="-lSDL2 -lSDL2_image -lm"
 
 platform="unix"
 outfile="lite"
