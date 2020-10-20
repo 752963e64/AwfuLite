@@ -240,6 +240,7 @@ function core.open_doc(filename)
       end
     end
   end
+
   -- no existing doc for filename; create new
   local doc = Doc(filename)
   table.insert(core.docs, doc)

@@ -66,6 +66,17 @@ end
 
 function Doc:load(filename)
   local fp = assert( io.open(filename, "rb") )
+  for c in fp:lines(1) do
+    if c:byte() == 0 then
+      fp = nil
+      break
+    end
+  end
+  if fp == nil then
+    fp = assert( io.popen( "hexdump -C " .. filename ) )
+  else
+    fp = assert( io.open(filename, "rb") )
+  end
   self:reset()
   self.filename = filename
   self.lines = {}

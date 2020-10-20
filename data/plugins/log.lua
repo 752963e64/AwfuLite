@@ -20,7 +20,7 @@ function LogView:new()
   self.scrollable = true
   self.focusable = false
   self.visible = config.log.visible
-  self.height = config.console.size
+  self.height = config.log.size
   self.font = "font"
 end
 

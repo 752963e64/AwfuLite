@@ -5,6 +5,7 @@
 
 
 * You'll need a custom SDL2 — **[mySDL2](https://github.com/HackIT/mySDL2)**
+* And also SDL2_image
 
 ### picz from the lab
 
@@ -15,15 +16,25 @@
 - ctrl+: => open a console view...
 - ctrl+shift+: => throw a command to your bash shell...
 
+#### to keep track from runtime errors and information.
 - ctrl+! => open up **the** log view
 
-- ctrl+shift+t => open up a semi interactive file browser walking CWD...
+#### a context menu is planned...
+- ctrl+shift+t => open up a semi interactive file browser on the window's left side walking CWD...
 
+#### walk through cmd by typing... it doesn't list entirely...
 - ctrl+shift+p => open up internal command handler...
 
+#### file related... should be common to writerz.
 - ctrl+o => open up an existing file...
 - ctrl+n => open up a new file...
 - ctrl+s => save up the current files with modifs...
+- ctrl+w => to close the current file...
+
+#### syntax based binding
+- ctrl+* => comment up a line using syntax's pattern.
+
+- ctrl+q => quit the software...
 
 ## DONE
 - linux clipboards
@@ -33,6 +44,8 @@
 - swapped some keybinding to more common one... (at least for me...)
 
 ## TODO
+- audio engine
+- binary report tools
 - store session
 - rounded rectangle
 - code folding
@@ -45,14 +58,16 @@
 
 - project session for rapid devel...
 
-local core = require "core"
 
-core.root_view:open_doc(core.open_doc("/home/<user>/lite/LICENSE"))
-core.root_view:open_doc(core.open_doc("/home/<user>/lite/README.md"))
-core.root_view:open_doc(core.open_doc("/home/<user>/lite/data/<file>"))
+	local core = require "core"
 
-print("hello world o/")
+	core.root_view:open_doc(core.open_doc("/home/<user>/lite/LICENSE"))
+	core.root_view:open_doc(core.open_doc("/home/<user>/lite/README.md"))
+	core.root_view:open_doc(core.open_doc("/home/<user>/lite/data/<file>"))
+
+	print("hello world o/")
 
 ## License
 This project is free software; you can redistribute it and/or modify it under
 the terms of the MIT license. See [LICENSE](LICENSE) for details.
+
