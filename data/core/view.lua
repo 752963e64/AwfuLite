@@ -4,9 +4,7 @@ local style = require "core.style"
 local common = require "core.common"
 local Object = require "core.object"
 
-if config.debug then
-  print("view.lua -> loaded")
-end
+config.dprint("view.lua -> loaded")
 
 
 local View = Object:extend()
@@ -49,7 +47,7 @@ end
 
 function View:get_scrollable_size()
   --no-op
-  return 0
+  return math.huge
 end
 
 

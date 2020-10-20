@@ -1,11 +1,9 @@
 local style = require "core.style"
 local View = require "core.view"
 local keymap = require "core.keymap"
-
 local config = require "core.config"
-if config.debug then
-  print("emptyview.lua -> loaded")
-end
+
+config.dprint("emptyview.lua -> loaded")
 
 local EmptyView = View:extend()
 

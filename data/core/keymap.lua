@@ -1,9 +1,7 @@
 local command = require "core.command"
 local config = require "core.config"
 
-if config.debug then
-  print("keymap.lua -> loaded")
-end
+config.dprint("keymap.lua -> loaded")
 
 
 local keymap = {}

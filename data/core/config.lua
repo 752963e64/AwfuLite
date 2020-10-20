@@ -1,10 +1,14 @@
 local config = {}
 
-config.debug = true
+config.debug = false
 
-if config.debug then
-  print("config.lua -> loaded")
+function config.dprint(message)
+  if config.debug == true then
+    print(message)
+  end
 end
+
+config.dprint("config.lua -> loaded")
 
 -- do not change config here
 -- re-define inside data/user/init.lua instead

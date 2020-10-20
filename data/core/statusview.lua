@@ -7,9 +7,7 @@ local DocView = require "core.docview"
 local View = require "core.view"
 
 
-if config.debug then
-  print("statuview.lua -> loaded")
-end
+config.dprint("statuview.lua -> loaded")
 
 
 local StatusView = View:extend()

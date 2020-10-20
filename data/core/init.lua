@@ -10,9 +10,7 @@ local CommandView
 local Doc
 
 
-if config.debug then
-  print("core.lua -> loaded")
-end
+config.dprint("core.lua -> loaded")
 
 
 local core = {}

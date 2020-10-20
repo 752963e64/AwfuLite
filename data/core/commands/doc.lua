@@ -59,7 +59,6 @@ end
 
 local function save(filename)
   doc():save(filename)
-  core.log("Saved \"%s\"", doc().filename)
 end
 
 

@@ -6,9 +6,7 @@ local keymap = require "core.keymap"
 local View = require "core.view"
 
 
-if config.debug then
-  print("log.lua -> loaded")
-end
+config.dprint("log.lua -> loaded")
 
 
 local LogView = View:extend()
@@ -35,14 +33,16 @@ function LogView:get_font()
 end
 
 
-function LogView:update()
-  local dest = self.visible and self.height or 0
+function LogView:update(...)
   local item = core.log_items[#core.log_items]
   if self.last_item ~= item then
     self.last_item = item
   end
 
+  local dest = self.visible and self.height or 0
   self:move_towards(self.size, "y", dest)
+
+  LogView.super.update(self)
 end
 
 
@@ -52,7 +52,10 @@ end
 
 
 function LogView:get_scrollable_size()
-  return self:get_item_height() * (#core.log_items + 1)
+  if self.visible then
+    return self:get_item_height() * (#core.log_items + 1)
+  end
+  return 0
 end
 
 

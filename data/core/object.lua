@@ -1,8 +1,6 @@
 local config = require "core.config"
 
-if config.debug then
-  print("object.lua -> loaded")
-end
+config.dprint("object.lua -> loaded")
 
 local Object = {}
 Object.__index = Object

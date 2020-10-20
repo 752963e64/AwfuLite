@@ -6,9 +6,7 @@ local config = require "core.config"
 local style = require "core.style"
 local View = require "core.view"
 
-if config.debug then
-  print("console.lua -> loaded")
-end
+config.dprint("console.lua -> loaded")
 
 
 local uid = os.tmpname():gsub("%W", "")
@@ -272,14 +270,16 @@ end
 
 
 function ConsoleView:update(...)
-  local dest = self.visible and self.height or 0
   
   if self.last_output_id ~= output_id then
     self.scroll.to.y = self:get_scrollable_size()
     self.last_output_id = output_id
   end
 
+  local dest = self.visible and self.height or 0
   self:move_towards(self.size, "y", dest)
+
+  ConsoleView.super.update(self)
 end
 
 

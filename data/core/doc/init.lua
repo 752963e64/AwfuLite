@@ -1,3 +1,4 @@
+local core = require "core"
 local Object = require "core.object"
 local Highlighter = require "core.doc.highlighter"
 local syntax = require "core.syntax"
@@ -38,6 +39,7 @@ end
 
 function Doc:new(filename)
   self:reset()
+  self.is_hexdump = false
   if filename then
     self:load(filename)
   end
@@ -78,6 +80,7 @@ function Doc:load(filename)
   else
     fp:close()
     fp = assert( io.popen( "hexdump -C " .. filename ) )
+    self.is_hexdump = true
   end
   self:reset()
   self.filename = filename
@@ -98,6 +101,10 @@ end
 
 
 function Doc:save(filename)
+  if self.is_hexdump then
+    core.log("Can't save hexdump report. use hexdump from your terminal.")
+    return
+  end
   filename = filename or assert(self.filename, "no filename set to default to")
   local fp = assert( io.open(filename, "wb") )
   for _, line in ipairs(self.lines) do
@@ -108,6 +115,7 @@ function Doc:save(filename)
   self.filename = filename or self.filename
   self:reset_syntax()
   self:clean()
+  core.log("Saved \"%s\"", self.filename)
 end
 
 

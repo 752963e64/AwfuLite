@@ -4,9 +4,8 @@ local command = require "core.command"
 local keymap = require "core.keymap"
 
 
-if config.debug then
-  print("testing.lua -> loaded")
-end
+config.dprint("testing.lua -> loaded")
+
 
 command.add(nil, {
   ["testing:toggle"] = function()

@@ -7,9 +7,7 @@ local style = require "core.style"
 local View = require "core.view"
 
 
-if config.debug then
-  print("treeview.lua -> loaded")
-end
+config.dprint("treeview.lua -> loaded")
 
 
 local mimetypes = {
@@ -109,8 +107,10 @@ function TreeView:get_scrollable_size()
   local visible_item = 0
   for k,v in pairs(self.cache) do
     visible_item = visible_item + 1
+    if v.skip == nil then
+      visible_item = visible_item - 1
+    end
   end
-  
   return self:get_item_height() * (visible_item + 1)
 end
 
@@ -188,7 +188,7 @@ function TreeView:on_mouse_pressed(button, x, y, clicks)
 end
 
 
-function TreeView:update()
+function TreeView:update(...)
   local dest = self.visible and self.width or 0
   if self.init_size then
     self.size.x = dest
@@ -196,6 +196,8 @@ function TreeView:update()
   else
     self:move_towards(self.size, "x", dest)
   end
+
+  TreeView.super.update(self)
 end
 
 

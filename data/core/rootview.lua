@@ -4,12 +4,10 @@ local DocView = require "core.docview"
 local Node = require "core.node"
 local EmptyView = require "core.emptyview"
 local common = require "core.common"
-
-
 local config = require "core.config"
-if config.debug then
-  print("rootview.lua -> loaded")
-end
+
+
+config.dprint("rootview.lua -> loaded")
 
 
 local RootView = View:extend()

@@ -1,9 +1,7 @@
 local config = require "core.config"
 
 
-if config.debug then
-  print("strict.lua -> loaded")
-end
+config.dprint("strict.lua -> loaded")
 
 
 local strict = {}

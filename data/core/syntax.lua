@@ -2,9 +2,7 @@ local common = require "core.common"
 local config = require "core.config"
 
 
-if config.debug then
-  print("syntax.lua -> loaded")
-end
+config.dprint("syntax.lua -> loaded")
 
 
 local syntax = {}

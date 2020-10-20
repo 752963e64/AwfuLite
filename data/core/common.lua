@@ -1,9 +1,7 @@
 local config = require "core.config"
 
 
-if config.debug then
-  print("common.lua -> loaded")
-end
+config.dprint("common.lua -> loaded")
 
 
 local common = {}

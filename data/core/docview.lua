@@ -7,9 +7,7 @@ local translate = require "core.doc.translate"
 local View = require "core.view"
 
 
-if config.debug then
-  print("docview.lua -> loaded")
-end
+config.dprint("docview.lua -> loaded")
 
 
 local DocView = View:extend()

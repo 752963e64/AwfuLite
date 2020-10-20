@@ -7,9 +7,7 @@ local DocView = require "core.docview"
 local View = require "core.view"
 
 
-if config.debug then
-  print("commandview.lua -> loaded")
-end
+config.dprint("commandview.lua -> loaded")
 
 
 local SingleLineDoc = Doc:extend()

@@ -8,9 +8,7 @@ command.map = {}
 local always_true = function() return true end
 
 
-if config.debug then
-  print("command.lua -> loaded")
-end
+config.dprint("command.lua -> loaded")
 
 
 function command.add(predicate, map)
