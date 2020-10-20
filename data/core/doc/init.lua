@@ -66,16 +66,18 @@ end
 
 function Doc:load(filename)
   local fp = assert( io.open(filename, "rb") )
+  local sane = true
   for c in fp:lines(1) do
     if c:byte() == 0 then
-      fp = nil
+      sane = false
       break
     end
   end
-  if fp == nil then
-    fp = assert( io.popen( "hexdump -C " .. filename ) )
+  if sane == true then
+    fp:seek("set")
   else
-    fp = assert( io.open(filename, "rb") )
+    fp:close()
+    fp = assert( io.popen( "hexdump -C " .. filename ) )
   end
   self:reset()
   self.filename = filename
