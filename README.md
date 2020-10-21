@@ -19,7 +19,7 @@
 #### to keep track from runtime errors and information.
 - ctrl+! => open up **the** log view
 
-#### a context menu is planned...
+#### filemanager, a context menu is planned...
 - ctrl+shift+t => open up a semi interactive file browser on the window's left side walking CWD...
 
 #### walk through cmd by typing... it doesn't list entirely...
@@ -44,6 +44,7 @@
 - swapped some keybinding to more common one... (at least for me...)
 
 ## TODO
+- auto increase mouse selection for document while close to the frame edges 
 - audio engine
 - binary report tools
 - store session

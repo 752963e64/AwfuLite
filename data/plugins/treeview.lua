@@ -107,9 +107,6 @@ function TreeView:get_scrollable_size()
   local visible_item = 0
   for k,v in pairs(self.cache) do
     visible_item = visible_item + 1
-    if v.skip == nil then
-      visible_item = visible_item - 1
-    end
   end
   return self:get_item_height() * (visible_item + 1)
 end

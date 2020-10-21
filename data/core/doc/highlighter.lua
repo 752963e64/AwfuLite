@@ -10,7 +10,6 @@ local Highlighter = Object:extend()
 function Highlighter:new(doc)
   self.doc = doc
   self:reset()
-
   -- init incremental syntax highlighting
   core.add_thread(function()
     while true do

@@ -13,7 +13,7 @@ local command = require "core.command"
 -- plugins/treeview.lua
 config.treeview = {}
 config.treeview.size = config.common.default_split_size
-config.treeview.visible = false
+config.treeview.visible = true
 config.treeview.font = "font"
 
 
@@ -34,6 +34,7 @@ config.plugins = {
   "plugins.treeview",
   "plugins.console",
   "plugins.log",
+  "plugins.color",
   "plugins.testing"
 }
 
