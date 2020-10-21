@@ -23,6 +23,7 @@ config.window = {}
 config.window.fps = 30
 config.window.fullscreen = false
 config.window.opacity = false
+config.window.blink_period = 0.8
 --
 
 config.core = {}

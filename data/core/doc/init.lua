@@ -40,6 +40,7 @@ end
 function Doc:new(filename)
   self:reset()
   self.is_hexdump = false
+  self.editable = true
   if filename then
     self:load(filename)
   end
@@ -81,6 +82,7 @@ function Doc:load(filename)
     fp:close()
     fp = assert( io.popen( "hexdump -C " .. filename ) )
     self.is_hexdump = true
+    self.editable = false
   end
   self:reset()
   self.filename = filename
@@ -353,6 +355,9 @@ end
 
 
 function Doc:text_input(text)
+  if not self.editable then
+    return
+  end
   if self:has_selection() then
     self:delete_to()
   end

@@ -50,8 +50,7 @@ DocView.translate = {
   end,
 }
 
-local blink_period = 0.8
-
+local blink_period = config.window.blink_period
 
 function DocView:new(doc)
   DocView.super.new(self)
