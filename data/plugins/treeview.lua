@@ -42,6 +42,8 @@ function TreeView:new()
   self.width = config.treeview.size
   self.font = config.treeview.font
   self.cache = {}
+  self._update = nil
+  self.visible_item = 0
 end
 
 
@@ -103,27 +105,31 @@ end
 
 
 function TreeView:get_scrollable_size()
-  local i, visible_item = 1, 0
-  while i <= #core.project_files do
-    local item = core.project_files[i]
-    local cached = self:get_cached(item)
-    i = i + 1
-    visible_item = visible_item + 1
-    if not cached.expanded then
-      if cached.skip then
-        i = cached.skip
-      else
-        local depth = cached.depth
-        while i <= #core.project_files do
-          local filename = core.project_files[i].filename
-          if get_depth(filename) <= depth then break end
-          i = i + 1
+  if self._update then
+    self.visible_item = 0
+    local i = 1
+    while i <= #core.project_files do
+      local item = core.project_files[i]
+      local cached = self:get_cached(item)
+      i = i + 1
+      self.visible_item = self.visible_item + 1
+      if not cached.expanded then
+        if cached.skip then
+          i = cached.skip
+        else
+          local depth = cached.depth
+          while i <= #core.project_files do
+            local filename = core.project_files[i].filename
+            if get_depth(filename) <= depth then break end
+            i = i + 1
+          end
+          cached.skip = i
         end
-        cached.skip = i
       end
     end
+    self._update = nil
   end
-  return self:get_item_height() * (visible_item + 1)
+  return self:get_item_height() * (self.visible_item + 1)
 end
 
 
@@ -185,6 +191,7 @@ end
 
 function TreeView:on_mouse_pressed(button, x, y, clicks)
   if button == "left" then
+    self._update = true
     if not self.hovered_item then
       return
     elseif self.hovered_item.type == "dir" then

@@ -14,7 +14,7 @@ style.scrollbar_size = common.round(4 * SCALE)
 style.caret_width = common.round(2 * SCALE)
 style.tab_width = common.round(170 * SCALE)
 
-local xft = "/data/fonts/font.ttf"
+local xft = "/data/fonts/ubuntu-r.ttf"
 
 style.font = renderer.font.load(EXEDIR .. xft, 14 * SCALE)
 style.small_font = style.font
