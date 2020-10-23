@@ -14,12 +14,14 @@ style.scrollbar_size = common.round(4 * SCALE)
 style.caret_width = common.round(2 * SCALE)
 style.tab_width = common.round(170 * SCALE)
 
-style.font = renderer.font.load(EXEDIR .. "/data/fonts/ubuntu-r.ttf", 14 * SCALE)
+local xft = "/data/fonts/font.ttf"
+
+style.font = renderer.font.load(EXEDIR .. xft, 14 * SCALE)
 style.small_font = style.font
-style.mid_font = renderer.font.load(EXEDIR .. "/data/fonts/ubuntu-r.ttf", 22 * SCALE)
-style.big_font = renderer.font.load(EXEDIR .. "/data/fonts/ubuntu-r.ttf", 34 * SCALE)
+style.mid_font = renderer.font.load(EXEDIR .. xft, 22 * SCALE)
+style.big_font = renderer.font.load(EXEDIR .. xft, 34 * SCALE)
 style.icon_font = renderer.font.load(EXEDIR .. "/data/fonts/icons.ttf", 14 * SCALE)
-style.code_font = renderer.font.load(EXEDIR .. "/data/fonts/ubuntu-r.ttf", 16 * SCALE)
+style.code_font = renderer.font.load(EXEDIR .. xft, 16 * SCALE)
 
 style.background = { common.color "#2e2e32" }
 style.background2 = { common.color "#252529" }
