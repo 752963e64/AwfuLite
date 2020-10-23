@@ -105,30 +105,6 @@ end
 
 
 function TreeView:get_scrollable_size()
-  if self._update then
-    self.visible_item = 0
-    local i = 1
-    while i <= #core.project_files do
-      local item = core.project_files[i]
-      local cached = self:get_cached(item)
-      i = i + 1
-      self.visible_item = self.visible_item + 1
-      if not cached.expanded then
-        if cached.skip then
-          i = cached.skip
-        else
-          local depth = cached.depth
-          while i <= #core.project_files do
-            local filename = core.project_files[i].filename
-            if get_depth(filename) <= depth then break end
-            i = i + 1
-          end
-          cached.skip = i
-        end
-      end
-    end
-    self._update = nil
-  end
   return self:get_item_height() * (self.visible_item + 1)
 end
 
@@ -145,6 +121,9 @@ end
 
 
 function TreeView:each_item()
+  if self._update then
+    self.visible_item = 0
+  end
   return coroutine.wrap(function()
     self:check_cache()
     local ox, oy = self:get_content_offset()
@@ -160,6 +139,10 @@ function TreeView:each_item()
       y = y + h
       i = i + 1
 
+      if self._update then
+        self.visible_item = self.visible_item + 1
+      end
+
       if not cached.expanded then
         if cached.skip then
           i = cached.skip
@@ -174,6 +157,7 @@ function TreeView:each_item()
         end
       end -- not expand
     end -- loop project_files
+    self._update = nil
   end) -- coroutine
 end
 
