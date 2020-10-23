@@ -56,17 +56,16 @@ end
 
 
 local function matches_ext(filename, patterns)
-  local match = nil
   for _, ptn in ipairs(patterns) do
-    if filename:find(ptn) then match = true end
+    if filename:find(ptn) then return true end
   end
-
-  return match
+  return nil
 end
 
 
 function TreeView:get_cached(item)
   local t = self.cache[item.filename]
+
   if not t then
     t = {}
     t.filename = item.filename
@@ -104,9 +103,25 @@ end
 
 
 function TreeView:get_scrollable_size()
-  local visible_item = 0
-  for k,v in pairs(self.cache) do
+  local i, visible_item = 1, 0
+  while i <= #core.project_files do
+    local item = core.project_files[i]
+    local cached = self:get_cached(item)
+    i = i + 1
     visible_item = visible_item + 1
+    if not cached.expanded then
+      if cached.skip then
+        i = cached.skip
+      else
+        local depth = cached.depth
+        while i <= #core.project_files do
+          local filename = core.project_files[i].filename
+          if get_depth(filename) <= depth then break end
+          i = i + 1
+        end
+        cached.skip = i
+      end
+    end
   end
   return self:get_item_height() * (visible_item + 1)
 end
@@ -118,7 +133,6 @@ function TreeView:check_cache()
     for _, v in pairs(self.cache) do
       v.skip = nil
     end
-
     self.last_project_files = core.project_files
   end
 end
@@ -131,7 +145,6 @@ function TreeView:each_item()
     local y = oy + style.padding.y
     local w = self.size.x
     local h = self:get_item_height()
-
     local i = 1
     while i <= #core.project_files do
       local item = core.project_files[i]
@@ -153,9 +166,9 @@ function TreeView:each_item()
           end
           cached.skip = i
         end
-      end
-    end
-  end)
+      end -- not expand
+    end -- loop project_files
+  end) -- coroutine
 end
 
 
@@ -200,7 +213,6 @@ end
 
 function TreeView:draw()
   self:draw_background(style.background2)
-
   local icon_width = style.icon_font:get_width(style.icons["folder-open"])
   local spacing = style.font:get_width(" ") * 2
 
