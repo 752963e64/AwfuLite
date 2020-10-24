@@ -32,7 +32,7 @@
 - **ctrl+s** => save up the current files with modifs...
 - **ctrl+shift+s** => save up current file to the desired filename
 - **ctrl+z** => undo
-- **ctrl+shift+a** => redo
+- **ctrl+shift+z** => redo
 - **ctrl+w** => to close the current file...
 
 #### related to selection into a document...
@@ -54,7 +54,7 @@
 - removed plugins and now loading them using a list.
 - reloading modules works out of the box without overlaping...
 - swapped some keybinding to more common one... (at least for me...)
-- added accurate scrolling methods to every view using needing a scroll method.
+- added accurate scrolling methods to every view needing a scroll method.
 
 ## TODO
 - focus between plugin and active doc
