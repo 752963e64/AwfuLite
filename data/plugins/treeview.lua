@@ -12,13 +12,13 @@ config.dprint("treeview.lua -> loaded")
 
 local mimetypes = {
   code = { "%.c$", "%.h$", "%.inl$", "%.cpp$", "%.hpp$",
-  "%.sh$", "%.rc$", "%.lua$", "%.js$", "%.css$", "%.html$", "%.md$",
+  "%.sh$", "%.rc$", "%.lua$", "%.js$", "%.css$", "%.html?$", "%.md$",
   "%.py$", "%.xml$" },
   video = { "%.avi$", "%.mov$", "%.mp4$" },
   audio = { "%.mp3$", "%.wma$", "%.ogg$" },
   pdf = { "%.pdf$" },
-  image = { "%.ico$", "%.png$", "%.jpg$", "%.jpeg$", "%.gif$" },
-  archive = { "%.tar$", "%.gz$", "%.xz$", "%.bz2$", "%.bz$", "%.zip$" },
+  image = { "%.ico$", "%.png$", "%.jpe?g$", "%.gif$" },
+  archive = { "%.tar$", "%.gz$", "%.xz$", "%.bz2?$", "%.zip$" },
 }
 
 
@@ -178,6 +178,9 @@ function TreeView:on_mouse_pressed(button, x, y, clicks)
       return
     elseif self.hovered_item.type == "dir" then
       self.hovered_item.expanded = not self.hovered_item.expanded
+      if core.last_active_view then
+        core.set_active_view(core.last_active_view)
+      end
     else -- open file...
       core.try(function()
         core.root_view:open_doc(core.open_doc(self.hovered_item.filename))
