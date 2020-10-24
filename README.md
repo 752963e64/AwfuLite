@@ -57,6 +57,8 @@
 - added accurate scrolling methods to every view using needing a scroll method.
 
 ## TODO
+- focus between plugin and active doc
+- phased rendering, orchestration and composition
 - windowed plugins using lite
 - audio engine
 - binary report tools
