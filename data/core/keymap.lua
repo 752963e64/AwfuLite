@@ -104,7 +104,7 @@ keymap.add {
   ["ctrl+q"]                    = "core:quit",
 
   ["ctrl+z"]                    = "doc:undo",
-  ["ctrl+y"]                    = "doc:redo",
+  ["ctrl+shift+a"]              = "doc:redo",
 
   ["ctrl+x"]                    = "doc:cut",
   ["ctrl+c"]                    = "doc:copy",
