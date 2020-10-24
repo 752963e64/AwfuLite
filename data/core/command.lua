@@ -1,14 +1,15 @@
 local core = require "core"
 local config = require "core.config"
 
-local command = {}
-
-command.map = {}
-
-local always_true = function() return true end
-
 
 config.dprint("command.lua -> loaded")
+
+
+local command = {}
+command.map = {}
+
+
+local always_true = function() return true end
 
 
 function command.add(predicate, map)
