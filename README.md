@@ -30,7 +30,18 @@
 - **ctrl+o** => open up an existing file...
 - **ctrl+n** => open up a new file...
 - **ctrl+s** => save up the current files with modifs...
+- **ctrl+shift+s** => save up current file to the desired filename
+- **ctrl+z** => undo
+- **ctrl+shift+a** => redo
 - **ctrl+w** => to close the current file...
+
+#### related to selection into a document...
+- **ctrl+a** => select all from the current file.
+- **ctrl+x** => cut selection
+- **ctrl+c** => copy selection
+- **ctrl+l** => select entire line
+- **ctrl+d** => select word
+- **ctrl+v** => paste selection to the current cursor position
 
 #### syntax based binding
 - **ctrl+*** => comment up a line using syntax's pattern.
@@ -40,12 +51,13 @@
 ## DONE
 - linux clipboards
 - moved syntaxes and colors to their own dir...
-- removed plugins and now loading them using a list
+- removed plugins and now loading them using a list.
 - reloading modules works out of the box without overlaping...
 - swapped some keybinding to more common one... (at least for me...)
+- added accurate scrolling methods to every view using needing a scroll method.
 
 ## TODO
-- auto increase mouse selection for document while close to the frame edges 
+- windowed plugins using lite
 - audio engine
 - binary report tools
 - store session
@@ -53,6 +65,7 @@
 - code folding
 - more plugins
 - remove the ugly tabs
+- auto increase mouse selection for document while close to the frame edges
 - keep track/handling with mouse/key press events and feedback into statusview
 - scroll feedback using sort* icons into the statusview
 
