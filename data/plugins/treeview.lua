@@ -121,9 +121,7 @@ end
 
 
 function TreeView:each_item()
-  if self._update then
-    self.visible_item = 0
-  end
+  if self._update then self.visible_item = 0 end
   return coroutine.wrap(function()
     self:check_cache()
     local ox, oy = self:get_content_offset()
