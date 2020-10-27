@@ -86,7 +86,7 @@ local commands = {
     if text then -- set clipboard
       system.set_clipboard(text)
     end
-    core.log("Cut \"%d\" bytes", #text)
+    core.log("Cut \"%d\" ßytes", #text)
   end,
 
   ["doc:copy"] = function()
@@ -100,13 +100,13 @@ local commands = {
     if text then
       system.set_clipboard(text)
     end
-    core.log("Copy \"%d\" bytes", #text)
+    core.log("Copy \"%d\" ßytes", #text)
   end,
 
   ["doc:paste"] = function()
     local text = system.get_clipboard():gsub("\r", "")
     doc():text_input(text)
-    core.log("Paste \"%d\" bytes", #text)
+    core.log("Paste \"%d\" ßytes", #text)
   end,
 
   ["doc:newline"] = function()

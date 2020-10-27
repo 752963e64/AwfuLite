@@ -252,6 +252,7 @@ function DocView:on_mouse_released(button, x, y)
     local text = self.doc:get_text(self.doc:get_selection())
     if text then
       system.set_selection_clipboard(text)
+      core.log("Copy \"%d\" ßytes", #text)
     end
   end
 
@@ -261,6 +262,7 @@ function DocView:on_mouse_released(button, x, y)
       local line, col = self:resolve_screen_position(x, y)
       if line and col then
         self.doc:insert(line, col, text)
+        core.log("Paste \"%d\" ßytes", #text)
       end
     end
   end
