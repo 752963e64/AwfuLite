@@ -268,13 +268,13 @@ end
 function Node:update_layout()
   if self.type == "leaf" then
     local av = self.active_view
-    if #self.views > 1 then
-      local _, _, _, th = self:get_tab_rect(1)
-      av.position.x, av.position.y = self.position.x, self.position.y + th
-      av.size.x, av.size.y = self.size.x, self.size.y - th
-    else
-      common.copy_position_and_size(av, self)
-    end
+    -- if #self.views > 1 then
+    --   local _, _, _, th = self:get_tab_rect(1)
+    --   av.position.x, av.position.y = self.position.x, self.position.y + th
+    --   av.size.x, av.size.y = self.size.x, self.size.y - th
+    -- else
+    common.copy_position_and_size(av, self)
+    -- end
   else
     local x1, y1 = self.a:get_locked_size()
     local x2, y2 = self.b:get_locked_size()
@@ -334,9 +334,9 @@ end
 
 function Node:draw()
   if self.type == "leaf" then
-    if #self.views > 1 then
-      self:draw_tabs()
-    end
+    -- if #self.views > 1 then
+    --   self:draw_tabs()
+    -- end
     local pos, size = self.active_view.position, self.active_view.size
     core.push_clip_rect(pos.x, pos.y, size.x + pos.x % 1, size.y + pos.y % 1)
     self.active_view:draw()
