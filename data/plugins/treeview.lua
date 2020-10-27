@@ -13,7 +13,7 @@ config.dprint("treeview.lua -> loaded")
 local mimetypes = {
   code = { "%.c$", "%.h$", "%.inl$", "%.cpp$", "%.hpp$",
   "%.sh$", "%.rc$", "%.lua$", "%.js$", "%.css$", "%.html?$", "%.md$",
-  "%.py$", "%.xml$" },
+  "%.py$", "%.xml$", "%.pl$" },
   video = { "%.avi$", "%.mov$", "%.mp4$" },
   audio = { "%.mp3$", "%.wma$", "%.ogg$" },
   pdf = { "%.pdf$" },
