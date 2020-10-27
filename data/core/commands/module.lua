@@ -17,7 +17,7 @@ command.add(nil, {
     end)
   end,
 
-  ["module:open-user-config"] = function()
-    core.root_view:open_doc(core.open_doc(EXEDIR .. "/data/user/init.lua"))
-  end,
+  -- ["module:open-user-config"] = function()
+  --   core.root_view:open_doc(core.open_doc(EXEDIR .. "/data/user/init.lua"))
+  -- end,
 })
