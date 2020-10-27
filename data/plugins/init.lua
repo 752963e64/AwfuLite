@@ -10,6 +10,7 @@ local command = require "core.command"
 
 -- renderer.show_debug(true)
 
+
 -- plugins/treeview.lua
 config.treeview = {}
 config.treeview.size = config.common.default_split_size
@@ -32,7 +33,7 @@ config.log.visible = false
 
 config.plugins = { 
   "plugins.treeview",
-  "plugins.console",
+  "plugins.terminal",
   "plugins.log",
   "plugins.color",
   "plugins.testing"

@@ -55,9 +55,9 @@
 - reloading modules works out of the box without overlaping...
 - swapped some keybinding to more common one... (at least for me...)
 - added accurate scrolling methods to every view needing a scroll method.
+- added correct focus to let current doc keep focus as well.
 
 ## TODO
-- focus between plugin and active doc
 - phased rendering, orchestration and composition
 - windowed plugins using lite
 - audio engine
