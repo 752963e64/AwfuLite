@@ -33,7 +33,7 @@ config.log.visible = false
 
 config.plugins = { 
   "plugins.treeview",
-  "plugins.terminal",
+  "plugins.console",
   "plugins.log",
   "plugins.color",
   "plugins.testing"

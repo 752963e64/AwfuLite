@@ -51,6 +51,7 @@ function RootView:open_doc(doc)
   return view
 end
 
+
 function RootView:on_mouse_pressed(button, x, y, clicks)
   local node = self.root_node:get_child_overlapping_point(x, y)
 

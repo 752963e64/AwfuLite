@@ -56,8 +56,12 @@
 - swapped some keybinding to more common one... (at least for me...)
 - added accurate scrolling methods to every view needing a scroll method.
 - added correct focus to let current doc keep focus as well.
+- removed tabs to use that space for the documents which is better, to me.
+
 
 ## TODO
+- numerical file handler into statuview, which were already planned see the com down...
+- keep track/handling with mouse/key press events and feedback into statusview
 - phased rendering, orchestration and composition
 - windowed plugins using lite
 - audio engine
@@ -68,7 +72,6 @@
 - more plugins
 - remove the ugly tabs
 - auto increase mouse selection for document while close to the frame edges
-- keep track/handling with mouse/key press events and feedback into statusview
 - scroll feedback using sort* icons into the statusview
 
 ## HACK lite/.lite_project.lua
