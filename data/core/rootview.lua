@@ -63,10 +63,10 @@ function RootView:on_mouse_pressed(button, x, y, clicks)
     end
   end  -- do not forward when grabing divider
   if node then
-    local idx = node:get_tab_overlapping_point(x, y)
-    if idx then
-      return
-    end
+    -- local idx = node:get_tab_overlapping_point(x, y)
+    -- if idx then
+    --   return
+    -- end
     core.set_active_view(node.active_view)
     node.active_view:on_mouse_pressed(button, x, y, clicks)
   end -- do not forward when clicking on tab
