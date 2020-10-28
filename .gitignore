@@ -2,3 +2,4 @@ lite
 .lite_project.lua
 data/fonts/ubuntu-r.ttf
 data/core/style.lua
+data/plugins/terminal.lua
