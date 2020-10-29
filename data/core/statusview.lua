@@ -99,8 +99,6 @@ function StatusView:get_items()
     local dirty = dv.doc:is_dirty()
     local node = core.root_view:get_active_node()
     local idx = node:get_view_idx(core.active_view)
-    idx = idx - 1
-    if idx < 1 then idx = #node.views end
 
     return {
       dirty and style.accent2 or
