@@ -59,7 +59,7 @@ local type_map = { up="vsplit", down="vsplit", left="hsplit", right="hsplit" }
 
 
 function Node:split(dir, view, locked)
-  config.dprint( #self.views .. " " .. type(view) .. " " .. view.get_name() )
+  -- config.dprint( #self.views .. " " .. type(view) .. " " .. view.get_name() )
 
   assert(self.type == "leaf", "Tried to split non-leaf node")
   local type = assert(type_map[dir], "Invalid direction")
