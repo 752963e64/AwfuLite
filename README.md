@@ -57,10 +57,12 @@
 - added accurate scrolling methods to every view needing a scroll method.
 - added correct focus to let current doc keep focus as well.
 - removed tabs to use that space for the documents which is better, to me.
+- numerical file handler into statusview, mouse handling to be added still...
 
+     # statusview scheme
+     dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending 
 
 ## TODO
-- numerical file handler into statuview, which were already planned see the com down...
 - keep track/handling with mouse/key press events and feedback into statusview
 - phased rendering, orchestration and composition
 - windowed plugins using lite
