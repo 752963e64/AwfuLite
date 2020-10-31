@@ -72,7 +72,6 @@
 - rounded rectangle
 - code folding
 - more plugins
-- remove the ugly tabs
 - auto increase mouse selection for document while close to the frame edges
 - scroll feedback using sort* icons into the statusview
 
