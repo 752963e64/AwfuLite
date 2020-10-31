@@ -104,7 +104,7 @@ function StatusView:get_items()
       dirty and style.accent2 or
         style.text, style.icon_font, style.icons["code"],
       style.dim, style.font, self.separator2, style.text,
-      style.dim, style.font, #node.views .."/"..idx, style.text,
+      style.text, style.font, #node.views .."/"..idx, style.text,
       style.dim, style.font, self.separator2, style.text,
       dv.doc.filename and style.text or style.dim, dv.doc:get_name(),
       style.text,
