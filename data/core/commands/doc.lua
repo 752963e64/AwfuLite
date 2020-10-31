@@ -104,7 +104,7 @@ local commands = {
   end,
 
   ["doc:paste"] = function()
-    if doc().is_hexdump then
+    if not doc().editable then
       return
     end
     local text = system.get_clipboard():gsub("\r", "")

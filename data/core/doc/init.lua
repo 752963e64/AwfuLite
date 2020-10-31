@@ -39,7 +39,6 @@ end
 
 function Doc:new(filename)
   self:reset()
-  self.is_hexdump = false
   self.editable = true
   if filename then
     self:load(filename)
@@ -81,7 +80,6 @@ function Doc:load(filename)
   else
     fp:close()
     fp = assert( io.popen( "hexdump -C " .. filename ) )
-    self.is_hexdump = true
     self.editable = false
   end
   self:reset()
@@ -103,7 +101,7 @@ end
 
 
 function Doc:save(filename)
-  if self.is_hexdump then
+  if not self.editable then
     core.log("Can't save hexdump report. use hexdump from your terminal.")
     return
   end

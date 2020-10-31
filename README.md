@@ -63,6 +63,8 @@
      dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending 
 
 ## TODO
+- saving unamed document leads to full doc buffer as file name...
+- highlight gutter instead line
 - keep track/handling with mouse/key press events and feedback into statusview
 - phased rendering, orchestration and composition
 - windowed plugins using lite
