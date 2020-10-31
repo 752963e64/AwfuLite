@@ -63,13 +63,9 @@ function RootView:on_mouse_pressed(button, x, y, clicks)
     end
   end  -- do not forward when grabing divider
   if node then
-    -- local idx = node:get_tab_overlapping_point(x, y)
-    -- if idx then
-    --   return
-    -- end
     core.set_active_view(node.active_view)
     node.active_view:on_mouse_pressed(button, x, y, clicks)
-  end -- do not forward when clicking on tab
+  end
 end
 
 
@@ -82,15 +78,9 @@ function RootView:on_mouse_released(button, x, y, clicks)
     end -- do not forward when grabing divider
   end
   if node then
-    -- local idx = node:get_tab_overlapping_point(x, y)
-    -- if idx and button == "left" then
-    --   node:set_active_view(node.views[idx])
-    --   return
-    -- elseif idx then
-    --   return
-    -- end -- do not forward when clicking on tab
+    self.root_node:on_mouse_released(button, x, y, clicks)
   end
-  self.root_node:on_mouse_released(button, x, y, clicks)
+  -- self.root_node:on_mouse_released(button, x, y, clicks)
 end
 
 
@@ -113,8 +103,8 @@ function RootView:on_mouse_moved(x, y, dx, dy)
   local div = self.root_node:get_divider_overlapping_point(x, y)
   if div then
     system.set_cursor(div.type == "hsplit" and "sizeh" or "sizev")
-  elseif node:get_tab_overlapping_point(x, y) then
-    system.set_cursor("arrow")
+  -- elseif node:get_tab_overlapping_point(x, y) then
+  --  system.set_cursor("arrow")
   else
     system.set_cursor(node.active_view.cursor)
   end
