@@ -329,6 +329,9 @@ end
 
 
 function Doc:insert(line, col, text)
+  if not self.editable then
+    return
+  end
   self.redo_stack = { idx = 1 }
   line, col = self:sanitize_position(line, col)
   self:raw_insert(line, col, text, self.undo_stack, system.get_time())
