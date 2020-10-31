@@ -200,8 +200,10 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
     return
   end
 
+  local line, col = self:resolve_screen_position(x, y)
+  if not line then return end
+
   if button == "left" then
-    local line, col = self:resolve_screen_position(x, y)
     if clicks == 2 then -- select word after 2 clicks
       local line1, col1 = translate.start_of_word(self.doc, line, col)
       local line2, col2 = translate.end_of_word(self.doc, line, col)
@@ -248,13 +250,18 @@ end
 function DocView:on_mouse_released(button, x, y)
   DocView.super.on_mouse_released(self, button, x, y)
 
-  if button == "left" and self.mouse_selecting and self.still_selecting then
+  if button == "left" and
+    self.mouse_selecting and self.still_selecting then
     local text = self.doc:get_text(self.doc:get_selection())
-    if text then
+    if #text > 0 then
       system.set_selection_clipboard(text)
       core.log("Copy \"%d\" ßytes", #text)
     end
   end
+
+  -- print(self.doc:get_name())
+  self.still_selecting = false
+  self.mouse_selecting = false
 
   if button == "middle" then
     local text = system.get_selection_clipboard()
@@ -266,8 +273,6 @@ function DocView:on_mouse_released(button, x, y)
       end
     end
   end
-  self.still_selecting = false
-  self.mouse_selecting = false
 end
 
 
