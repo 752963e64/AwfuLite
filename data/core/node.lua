@@ -31,7 +31,6 @@ end
 
 
 function Node:on_mouse_moved(x, y, ...)
-  self.hovered_tab = self:get_tab_overlapping_point(x, y)
   if self.type == "leaf" then
     self.active_view:on_mouse_moved(x, y, ...)
   else
@@ -59,8 +58,6 @@ local type_map = { up="vsplit", down="vsplit", left="hsplit", right="hsplit" }
 
 
 function Node:split(dir, view, locked)
-  -- config.dprint( #self.views .. " " .. type(view) .. " " .. view.get_name() )
-
   assert(self.type == "leaf", "Tried to split non-leaf node")
   local type = assert(type_map[dir], "Invalid direction")
   local last_active = core.active_view
@@ -185,15 +182,6 @@ function Node:get_divider_overlapping_point(px, py)
 end
 
 
-function Node:get_tab_overlapping_point(px, py)
-  if #self.views == 1 then return nil end
-  local x, y, w, h = self:get_tab_rect(1)
-  if px >= x and py >= y and px < x + w * #self.views and py < y + h then
-    return math.floor((px - x) / w) + 1
-  end
-end
-
-
 function Node:get_child_overlapping_point(x, y)
   local child
   if self.type == "leaf" then
@@ -204,13 +192,6 @@ function Node:get_child_overlapping_point(x, y)
     child = (y < self.b.position.y) and self.a or self.b
   end
   return child:get_child_overlapping_point(x, y)
-end
-
-
-function Node:get_tab_rect(idx)
-  local tw = math.min(style.tab_width, math.ceil(self.size.x / #self.views))
-  local h = style.font:get_height() + style.padding.y * 2
-  return self.position.x + (idx-1) * tw, self.position.y, tw, h
 end
 
 
@@ -268,13 +249,7 @@ end
 function Node:update_layout()
   if self.type == "leaf" then
     local av = self.active_view
-    -- if #self.views > 1 then
-    --   local _, _, _, th = self:get_tab_rect(1)
-    --   av.position.x, av.position.y = self.position.x, self.position.y + th
-    --   av.size.x, av.size.y = self.size.x, self.size.y - th
-    -- else
     common.copy_position_and_size(av, self)
-    -- end
   else
     local x1, y1 = self.a:get_locked_size()
     local x2, y2 = self.b:get_locked_size()
@@ -301,42 +276,8 @@ function Node:update()
 end
 
 
-function Node:draw_tabs()
-  local x, y, _, h = self:get_tab_rect(1)
-  local ds = style.divider_size
-  core.push_clip_rect(x, y, self.size.x, h)
-  renderer.draw_rect(x, y, self.size.x, h, style.background2)
-  renderer.draw_rect(x, y + h - ds, self.size.x, ds, style.divider)
-
-  for i, view in ipairs(self.views) do
-    local x, y, w, h = self:get_tab_rect(i)
-    local text = view:get_name()
-    local color = style.dim
-    if view == self.active_view then
-      color = style.text
-      renderer.draw_rect(x, y, w, h, style.background)
-      renderer.draw_rect(x + w, y, ds, h, style.divider)
-      renderer.draw_rect(x - ds, y, ds, h, style.divider)
-    end
-    if i == self.hovered_tab then
-      color = style.text
-    end
-    core.push_clip_rect(x, y, w, h)
-    x, w = x + style.padding.x, w - style.padding.x * 2
-    local align = style.font:get_width(text) > w and "left" or "center"
-    common.draw_text(style.font, color, text, align, x, y, w, h)
-    core.pop_clip_rect()
-  end
-
-  core.pop_clip_rect()
-end
-
-
 function Node:draw()
   if self.type == "leaf" then
-    -- if #self.views > 1 then
-    --   self:draw_tabs()
-    -- end
     local pos, size = self.active_view.position, self.active_view.size
     core.push_clip_rect(pos.x, pos.y, size.x + pos.x % 1, size.y + pos.y % 1)
     self.active_view:draw()

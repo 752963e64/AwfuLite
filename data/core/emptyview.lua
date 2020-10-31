@@ -39,4 +39,5 @@ function EmptyView:draw()
   draw_text(x, y, style.dim)
 end
 
+
 return EmptyView
