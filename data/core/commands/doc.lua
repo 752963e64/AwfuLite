@@ -104,6 +104,9 @@ local commands = {
   end,
 
   ["doc:paste"] = function()
+    if doc().is_hexdump then
+      return
+    end
     local text = system.get_clipboard():gsub("\r", "")
     doc():text_input(text)
     core.log("Paste \"%d\" ßytes", #text)
