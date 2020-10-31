@@ -107,19 +107,17 @@ function StatusView:get_items()
       style.text, style.font, #node.views .."/"..idx, style.text,
       style.dim, style.font, self.separator2, style.text,
       dv.doc.filename and style.text or style.dim, dv.doc:get_name(),
-      style.text,
-      self.separator,
+      style.dim, style.font, self.separator2, style.text,
       "line: ", line,
-      self.separator,
+      style.dim, style.font, " / ", style.text,
       col > config.core.line_limit and style.accent or style.text, "col: ", col,
-      style.text,
-      self.separator,
+      style.dim, style.font, " / ", style.text,
       string.format("%d%%", line / #dv.doc.lines * 100),
     }, {
       style.icon_font, style.icons["chart-line"],
       style.font, style.dim, self.separator2, style.text,
       #dv.doc.lines, " lines",
-      self.separator,
+      style.dim, style.font, self.separator2, style.text,
       dv.doc.crlf and "CRLF" or "LF"
     }
   end
