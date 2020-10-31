@@ -80,7 +80,9 @@ end
 
 
 function View:on_mouse_released(button, x, y)
-  self.dragging_scrollbar = false
+  if self.dragging_scrollbar then
+    self.dragging_scrollbar = false
+  end
 end
 
 
