@@ -98,3 +98,8 @@ I retain copyright & terms from my additions following the BERN convention while
 
 You can read the terms of the MIT license for all code covered by rxi. See [LICENSE](LICENSE) for details.
 
+###### Enjoy,                                               HackIT.
+
+###### BTC: bc1q5jw0dsgc4x96l0um6vqexp5kq7wthlfvz944uc
+
+
