@@ -63,6 +63,7 @@
      dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending 
 
 ## TODO
+- multi selection/cursor
 - saving unamed document leads to full doc buffer as file name...
 - highlight gutter instead line
 - keep track/handling with mouse/key press events and feedback into statusview
@@ -91,6 +92,9 @@
 	print("hello world o/")
 
 ## License
-This project is free software; you can redistribute it and/or modify it under
-the terms of the MIT license. See [LICENSE](LICENSE) for details.
+The code base is MIT licensed. I still didn't decide what license to use for my additions...
+
+I retain copyright & terms from my additions following the BERN convention while deciding what I do.
+
+You can read the terms of the MIT license for all code covered by rxi. See [LICENSE](LICENSE) for details.
 
