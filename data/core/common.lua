@@ -115,6 +115,14 @@ function common.path_suggest(text)
 end
 
 
+function common.matches_ext(filename, patterns)
+  for _, ptn in ipairs(patterns) do
+    if filename:find(ptn) then return true end
+  end
+  return nil
+end
+
+
 function common.match_pattern(text, pattern, ...)
   if type(pattern) == "string" then
     return text:find(pattern, ...)

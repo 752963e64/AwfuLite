@@ -18,7 +18,7 @@ local mimetypes = {
   audio = { "%.mp3$", "%.wma$", "%.ogg$" },
   pdf = { "%.pdf$" },
   image = { "%.ico$", "%.png$", "%.jpe?g$", "%.gif$" },
-  archive = { "%.tar$", "%.gz$", "%.xz$", "%.bz2?$", "%.zip$" },
+  archive = { "%.tar$", "%.[gx]z$", "%.bz2?$", "%.zip$" },
 }
 
 
@@ -57,14 +57,6 @@ function TreeView:get_font()
 end
 
 
-local function matches_ext(filename, patterns)
-  for _, ptn in ipairs(patterns) do
-    if filename:find(ptn) then return true end
-  end
-  return nil
-end
-
-
 function TreeView:get_cached(item)
   local t = self.cache[item.filename]
 
@@ -76,17 +68,17 @@ function TreeView:get_cached(item)
     t.depth = get_depth(t.filename)
     t.type = item.type
     if t.type == "file" then
-      if matches_ext(t.name, mimetypes.code) then
+      if common.matches_ext(t.name, mimetypes.code) then
         t.icon = style.icons["file-code"]
-      elseif matches_ext(t.name, mimetypes.video) then
+      elseif common.matches_ext(t.name, mimetypes.video) then
         t.icon = style.icons["file-video"]
-      elseif matches_ext(t.name, mimetypes.audio) then
+      elseif common.matches_ext(t.name, mimetypes.audio) then
         t.icon = style.icons["file-audio"]
-      elseif matches_ext(t.name, mimetypes.pdf) then
+      elseif common.matches_ext(t.name, mimetypes.pdf) then
         t.icon = style.icons["file-pdf"]
-      elseif matches_ext(t.name, mimetypes.image) then
+      elseif common.matches_ext(t.name, mimetypes.image) then
         t.icon = style.icons["file-image"]
-      elseif matches_ext(t.name, mimetypes.archive) then
+      elseif common.matches_ext(t.name, mimetypes.archive) then
         t.icon = style.icons["file-archive"]
       else
         t.icon = style.icons["doc-text"]
