@@ -58,11 +58,14 @@
 - added correct focus to let current doc keep focus as well.
 - removed tabs to use that space for the documents which is better, to me.
 - numerical file handler into statusview, mouse handling to be added still...
+- add back ubuntu® fonts and struct access for futur usage...
 
      # statusview scheme
      dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending 
 
 ## TODO
+- remove sdl2_image, going stub with in-surface loader...
+- a markdown viewer from lite engine
 - multi selection/cursor
 - saving unamed document leads to full doc buffer as file name...
 - highlight gutter instead line
@@ -83,13 +86,15 @@
 - project session for rapid devel...
 
 
-	local core = require "core"
+```lua
+local core = require "core"
 
-	core.root_view:open_doc(core.open_doc("/home/<user>/lite/LICENSE"))
-	core.root_view:open_doc(core.open_doc("/home/<user>/lite/README.md"))
-	core.root_view:open_doc(core.open_doc("/home/<user>/lite/data/<file>"))
+core.root_view:open_doc(core.open_doc("/home/<user>/lite/LICENSE"))
+core.root_view:open_doc(core.open_doc("/home/<user>/lite/README.md"))
+core.root_view:open_doc(core.open_doc("/home/<user>/lite/data/<file>"))
 
-	print("hello world o/")
+print("hello world o/")
+```
 
 ## License
 The code base is MIT licensed. I still didn't decide what license to use for my additions...
