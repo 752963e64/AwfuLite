@@ -14,14 +14,46 @@ style.scrollbar_size = common.round(4 * SCALE)
 style.caret_width = common.round(2 * SCALE)
 style.tab_width = common.round(170 * SCALE)
 
-local xft = "/data/fonts/ubuntu-r.ttf"
+-- local xft = "/data/fonts/umono-r.ttf"
+-- local xftb = "/data/fonts/umono-b.ttf"
+-- 
+-- style.font = renderer.font.load(EXEDIR .. xft, 14 * SCALE)
+-- style.small_font = style.font
+-- style.mid_font = renderer.font.load(EXEDIR .. xft, 22 * SCALE)
+-- style.big_font = renderer.font.load(EXEDIR .. xft, 34 * SCALE)
+-- style.icon_font = renderer.font.load(EXEDIR .. "/data/fonts/icons.ttf", 14 * SCALE)
+-- style.code_font = renderer.font.load(EXEDIR .. xftb, 16 * SCALE)
 
-style.font = renderer.font.load(EXEDIR .. xft, 14 * SCALE)
+local xft_bundle = {}
+
+xft_bundle.condensed = "/data/fonts/ubuntu-condensed.ttf"
+
+xft_bundle.regular = "/data/fonts/ubuntu-regular.ttf"
+xft_bundle.bold = "/data/fonts/ubuntu-bold.ttf"
+xft_bundle.light = "/data/fonts/ubuntu-light.ttf"
+
+xft_bundle.regular_italic = "/data/fonts/ubuntu-regular-italic.ttf"
+xft_bundle.bold_italic = "/data/fonts/ubuntu-bold-italic.ttf"
+xft_bundle.light_italic = "/data/fonts/ubuntu-light-italic.ttf"
+
+xft_bundle.mono_regular = "/data/fonts/ubuntu-mono-regular.ttf"
+xft_bundle.mono_bold = "/data/fonts/ubuntu-mono-bold.ttf"
+xft_bundle.mono_regular_italic = "/data/fonts/ubuntu-mono-regular-italic.ttf"
+xft_bundle.mono_bold_italic = "/data/fonts/ubuntu-mono-bold-italic.ttf"
+
+style.font_family = {}
+
+for family, path in pairs(xft_bundle) do
+  style.font_family[family] = renderer.font.load(EXEDIR .. path, 14 * SCALE)
+end
+
+style.font = renderer.font.load(EXEDIR .. xft_bundle.mono_regular, 14 * SCALE)
 style.small_font = style.font
-style.mid_font = renderer.font.load(EXEDIR .. xft, 22 * SCALE)
-style.big_font = renderer.font.load(EXEDIR .. xft, 34 * SCALE)
+style.mid_font = renderer.font.load(EXEDIR .. xft_bundle.regular, 22 * SCALE)
+style.big_font = renderer.font.load(EXEDIR .. xft_bundle.mono_regular, 34 * SCALE)
 style.icon_font = renderer.font.load(EXEDIR .. "/data/fonts/icons.ttf", 14 * SCALE)
-style.code_font = renderer.font.load(EXEDIR .. xft, 16 * SCALE)
+style.code_font = renderer.font.load(EXEDIR .. xft_bundle.mono_bold, 16 * SCALE)
+
 
 style.background = { common.color "#2e2e32" }
 style.background2 = { common.color "#252529" }
