@@ -172,7 +172,7 @@ end
 
 
 function ConsoleView:get_line_height()
-  return style.code_font:get_height() * config.core.line_height
+  return style.xft.mono_bold:get_height() * config.core.line_height
 end
 
 
@@ -285,7 +285,7 @@ end
 
 function ConsoleView:draw()
   self:draw_background(style.background)
-  local icon_w = style.icon_font:get_width(style.icons["attention"])
+  local icon_w = style.xft.icon:get_width(style.icons["attention"])
 
   for i, item, x, y, w, h in self:each_visible_line() do
     local tx = x + style.padding.x
@@ -296,16 +296,16 @@ function ConsoleView:draw()
       renderer.draw_rect(x, y, w, h, style.line_highlight)
     end
     if item.text == "!DIVIDER" then
-      local w = style.font:get_width(time)
+      local w = style.xft.mono_bold:get_width(time)
       renderer.draw_rect(tx, y + h / 2, w, math.ceil(SCALE * 1), style.dim)
     else
-      tx = common.draw_text(style.font, style.dim, time, "left", tx, y, w, h)
+      tx = common.draw_text(style.xft.mono_bold, style.dim, time, "left", tx, y, w, h)
       tx = tx + style.padding.x
       if item.icon then
-        common.draw_text(style.icon_font, color, item.icon, "left", tx, y, w, h)
+        common.draw_text(style.xft.icon, color, item.icon, "left", tx, y, w, h)
       end
       tx = tx + icon_w + style.padding.x
-      common.draw_text(style.code_font, color, item.text, "left", tx, y, w, h)
+      common.draw_text(style.xft.mono_bold, color, item.text, "left", tx, y, w, h)
     end
   end
 

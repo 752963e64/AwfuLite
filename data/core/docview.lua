@@ -57,7 +57,6 @@ function DocView:new(doc)
   self.cursor = "ibeam"
   self.scrollable = true
   self.doc = assert(doc)
-  self.font = "code_font"
   self.last_x_offset = {}
   self.blink_timer = 0
 end
@@ -98,7 +97,7 @@ end
 
 
 function DocView:get_font()
-  return style[self.font]
+  return style.xft.regular
 end
 
 

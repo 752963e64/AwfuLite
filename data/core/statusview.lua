@@ -35,15 +35,15 @@ end
 
 function StatusView:show_message(icon, icon_color, text)
   self.message = {
-    icon_color, style.icon_font, icon,
-    style.dim, style.font, StatusView.separator2, style.text, text
+    icon_color, style.xft.icon, icon,
+    style.dim, style.xft.mono_bold, StatusView.separator2, style.text, text
   }
   self.message_timeout = system.get_time() + config.statusview.message_timeout
 end
 
 
 function StatusView:update()
-  self.size.y = style.font:get_height() + style.padding.y * 2
+  self.size.y = style.xft.mono_bold:get_height() + style.padding.y * 2
 
   if system.get_time() < self.message_timeout then
     self.scroll.to.y = self.size.y
@@ -56,7 +56,7 @@ end
 
 
 local function draw_items(self, items, x, y, draw_fn)
-  local font = style.font
+  local font = style.xft.mono_bold
   local color = style.text
 
   for _, item in ipairs(items) do
@@ -102,29 +102,29 @@ function StatusView:get_items()
 
     return {
       dirty and style.accent2 or
-        style.text, style.icon_font, style.icons["code"],
-      style.dim, style.font, self.separator2, style.text,
-      style.text, style.font, #node.views .."/"..idx, style.text,
-      style.dim, style.font, self.separator2, style.text,
+        style.text, style.xft.icon, style.icons["code"],
+      style.dim, style.xft.mono_bold, self.separator2, style.text,
+      style.text, style.xft.mono_bold, #node.views .."/"..idx, style.text,
+      style.dim, style.xft.mono_bold, self.separator2, style.text,
       dv.doc.filename and style.text or style.dim, dv.doc:get_name(),
-      style.dim, style.font, self.separator2, style.text,
+      style.dim, style.xft.mono_bold, self.separator2, style.text,
       "line: ", line,
-      style.dim, style.font, " / ", style.text,
+      style.dim, style.xft.mono_bold, " / ", style.text,
       col > config.core.line_limit and style.accent or style.text, "col: ", col,
-      style.dim, style.font, " / ", style.text,
+      style.dim, style.xft.mono_bold, " / ", style.text,
       string.format("%d%%", line / #dv.doc.lines * 100),
     }, {
-      style.icon_font, style.icons["chart-line"],
-      style.font, style.dim, self.separator2, style.text,
+      style.xft.icon, style.icons["chart-line"],
+      style.xft.mono_bold, style.dim, self.separator2, style.text,
       #dv.doc.lines, " lines",
-      style.dim, style.font, self.separator2, style.text,
+      style.dim, style.xft.mono_bold, self.separator2, style.text,
       dv.doc.crlf and "CRLF" or "LF"
     }
   end
 
   return {}, {
-    style.icon_font, style.icons["chart-line"],
-    style.font, style.dim, self.separator2,
+    style.xft.icon, style.icons["chart-line"],
+    style.xft.mono_bold, style.dim, self.separator2,
     #core.docs, style.text, " / ",
     #core.project_files, " files"
   }

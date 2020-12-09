@@ -64,13 +64,14 @@
      dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending 
 
 ## TODO
+- user styles loads after logging...
 - remove sdl2_image, going stub with in-surface loader...
 - a markdown viewer from lite engine
 - multi selection/cursor
 - saving unamed document leads to full doc buffer as file name...
 - highlight gutter instead line
 - keep track/handling with mouse/key press events and feedback into statusview
-- phased rendering, orchestration and composition
+- phased rendering, orchestration and composition (you wouldn't believe how short it's gonna be compared to the fancy words...)
 - windowed plugins using lite
 - audio engine
 - binary report tools

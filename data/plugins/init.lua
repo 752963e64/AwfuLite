@@ -15,7 +15,6 @@ local command = require "core.command"
 config.treeview = {}
 config.treeview.size = config.common.default_split_size
 config.treeview.visible = false
-config.treeview.font = "font"
 
 
 -- plugins/console.lua
@@ -63,7 +62,7 @@ keymap.add {
 }
 
 -- light theme:
-require "colors.summer"
+-- require "colors.summer"
 
 
 -- key binding:

@@ -19,7 +19,6 @@ function LogView:new()
   self.focusable = false
   self.visible = config.log.visible
   self.height = config.log.size
-  self.font = "font"
 end
 
 
@@ -29,7 +28,7 @@ end
 
 
 function LogView:get_font()
-  return style[self.font]
+  return style.xft.mono_regular
 end
 
 
@@ -76,21 +75,21 @@ function LogView:draw()
   self:draw_background(style.background)
 
   local ox, oy = self:get_content_offset()
-  local th = style.font:get_height()
+  local th = self:get_font:get_height()
   local y = oy + style.padding.y + 0
 
   for i = #core.log_items, 1, -1 do
     local x = ox + style.padding.x
     local item = core.log_items[i]
     local time = os.date(nil, item.time)
-    x = renderer.draw_text(style.font, time, x, y, style.dim)
+    x = renderer.draw_text(self.get_font, time, x, y, style.dim)
     x = x + style.padding.x
     local subx = x
-    x, y = draw_text_multiline(style.font, item.text, x, y, style.text)
-    renderer.draw_text(style.font, " at " .. item.at, x, y, style.dim)
+    x, y = draw_text_multiline(self.get_font, item.text, x, y, style.text)
+    renderer.draw_text(self.get_font, " at " .. item.at, x, y, style.dim)
     y = y + th
     if item.info then
-      subx, y = draw_text_multiline(style.font, item.info, subx, y, style.dim)
+      subx, y = draw_text_multiline(self.get_font, item.info, subx, y, style.dim)
       y = y + th
     end
     y = y + style.padding.y

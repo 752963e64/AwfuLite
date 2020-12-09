@@ -40,7 +40,6 @@ function TreeView:new()
   self.init_size = true
   self.visible = config.treeview.visible
   self.width = config.treeview.size
-  self.font = config.treeview.font
   self.cache = {}
   self._update = nil
   self.visible_item = 0
@@ -53,7 +52,7 @@ end
 
 
 function TreeView:get_font()
-  return style[self.font]
+  return style.xft.mono_bold
 end
 
 
@@ -197,8 +196,8 @@ end
 
 function TreeView:draw()
   self:draw_background(style.background2)
-  local icon_width = style.icon_font:get_width(style.icons["folder-open"])
-  local spacing = style.font:get_width(" ") * 2
+  local icon_width = style.xft.icon:get_width(style.icons["folder-open"])
+  local spacing = style.xft.mono_bold:get_width(" ") * 2
 
   local doc = core.active_view.doc
   local active_filename = doc and system.absolute_path(doc.filename or "")
@@ -222,19 +221,19 @@ function TreeView:draw()
     if item.type == "dir" then
       local icon1 = item.expanded and style.icons["fold-open"] or style.icons["fold-close"]
       local icon2 = item.expanded and style.icons["folder-open"] or style.icons["folder-close"]
-      common.draw_text(style.icon_font, color, icon1, nil, x, y, 0, h)
+      common.draw_text(style.xft.icon, color, icon1, nil, x, y, 0, h)
       x = x + style.padding.x
-      common.draw_text(style.icon_font, color, icon2, nil, x, y, 0, h)
+      common.draw_text(style.xft.icon, color, icon2, nil, x, y, 0, h)
       x = x + icon_width
     else
       x = x + style.padding.x
-      common.draw_text(style.icon_font, color, item.icon, nil, x, y, 0, h)
+      common.draw_text(style.xft.icon, color, item.icon, nil, x, y, 0, h)
       x = x + icon_width
     end
 
     -- text
     x = x + spacing
-    x = common.draw_text(style.font, color, item.name, nil, x, y, 0, h)
+    x = common.draw_text(style.xft.mono_bold, color, item.name, nil, x, y, 0, h)
   end
 end
 

@@ -40,7 +40,6 @@ function CommandView:new()
   self.gutter_text_brightness = 0
   self.selection_offset = 0
   self.state = default_state
-  self.font = "font"
   self.size.y = 0
   self.label = ""
 end
@@ -198,7 +197,7 @@ function CommandView:update()
   -- update size based on whether this is the active_view
   local dest = 0
   if self == core.active_view then
-    dest = style.font:get_height() + style.padding.y * 2
+    dest = style.xft.regular:get_height() + style.padding.y * 2
   end
   self:move_towards(self.size, "y", dest)
 end

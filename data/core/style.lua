@@ -24,36 +24,32 @@ style.tab_width = common.round(170 * SCALE)
 -- style.icon_font = renderer.font.load(EXEDIR .. "/data/fonts/icons.ttf", 14 * SCALE)
 -- style.code_font = renderer.font.load(EXEDIR .. xftb, 16 * SCALE)
 
-local xft_bundle = {}
+local xft = {}
 
-xft_bundle.condensed = "/data/fonts/ubuntu-condensed.ttf"
+xft.icon = "/data/fonts/icons.ttf"
 
-xft_bundle.regular = "/data/fonts/ubuntu-regular.ttf"
-xft_bundle.bold = "/data/fonts/ubuntu-bold.ttf"
-xft_bundle.light = "/data/fonts/ubuntu-light.ttf"
+xft.condensed = "/data/fonts/ubuntu-condensed.ttf"
 
-xft_bundle.regular_italic = "/data/fonts/ubuntu-regular-italic.ttf"
-xft_bundle.bold_italic = "/data/fonts/ubuntu-bold-italic.ttf"
-xft_bundle.light_italic = "/data/fonts/ubuntu-light-italic.ttf"
+xft.regular = "/data/fonts/ubuntu-regular.ttf"
+xft.bold = "/data/fonts/ubuntu-bold.ttf"
+xft.light = "/data/fonts/ubuntu-light.ttf"
 
-xft_bundle.mono_regular = "/data/fonts/ubuntu-mono-regular.ttf"
-xft_bundle.mono_bold = "/data/fonts/ubuntu-mono-bold.ttf"
-xft_bundle.mono_regular_italic = "/data/fonts/ubuntu-mono-regular-italic.ttf"
-xft_bundle.mono_bold_italic = "/data/fonts/ubuntu-mono-bold-italic.ttf"
+xft.regular_italic = "/data/fonts/ubuntu-regular-italic.ttf"
+xft.bold_italic = "/data/fonts/ubuntu-bold-italic.ttf"
+xft.light_italic = "/data/fonts/ubuntu-light-italic.ttf"
 
-style.font_family = {}
+xft.mono_regular = "/data/fonts/ubuntu-mono-regular.ttf"
+xft.mono_bold = "/data/fonts/ubuntu-mono-bold.ttf"
+xft.mono_regular_italic = "/data/fonts/ubuntu-mono-regular-italic.ttf"
+xft.mono_bold_italic = "/data/fonts/ubuntu-mono-bold-italic.ttf"
 
-for family, path in pairs(xft_bundle) do
-  style.font_family[family] = renderer.font.load(EXEDIR .. path, 14 * SCALE)
+style.xft = {}
+
+for family, path in pairs(xft) do
+  style.xft[family] = renderer.font.load(EXEDIR .. path, 14 * SCALE)
 end
 
-style.font = renderer.font.load(EXEDIR .. xft_bundle.mono_regular, 14 * SCALE)
-style.small_font = style.font
-style.mid_font = renderer.font.load(EXEDIR .. xft_bundle.regular, 22 * SCALE)
-style.big_font = renderer.font.load(EXEDIR .. xft_bundle.mono_regular, 34 * SCALE)
-style.icon_font = renderer.font.load(EXEDIR .. "/data/fonts/icons.ttf", 14 * SCALE)
-style.code_font = renderer.font.load(EXEDIR .. xft_bundle.mono_bold, 16 * SCALE)
-
+style.xft.logo = renderer.font.load(EXEDIR .. xft.mono_bold, 32 * SCALE)
 
 style.background = { common.color "#2e2e32" }
 style.background2 = { common.color "#252529" }
@@ -72,6 +68,7 @@ style.line_highlight = { common.color "#343438" }
 style.scrollbar = { common.color "#414146" }
 style.scrollbar2 = { common.color "#4b4b52" }
 
+style.warn = { common.color "#FF0000" }
 
 style.syntax = {}
 style.syntax["normal"] = { common.color "#e1e1e6" }

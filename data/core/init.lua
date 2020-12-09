@@ -285,7 +285,7 @@ end
 
 
 function core.error(...)
-  return log(style.icons["attention"], style.accent, ...)
+  return log(style.icons["attention"], style.warn, ...)
 end
 
 
