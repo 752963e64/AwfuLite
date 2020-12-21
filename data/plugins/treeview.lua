@@ -52,7 +52,7 @@ end
 
 
 function TreeView:get_font()
-  return style.xft.mono_bold
+  return style.xft.mono_regular
 end
 
 
@@ -197,7 +197,7 @@ end
 function TreeView:draw()
   self:draw_background(style.background2)
   local icon_width = style.xft.icon:get_width(style.icons["folder-open"])
-  local spacing = style.xft.mono_bold:get_width(" ") * 2
+  local spacing = self.get_font():get_width(" ") * 2
 
   local doc = core.active_view.doc
   local active_filename = doc and system.absolute_path(doc.filename or "")
@@ -233,7 +233,7 @@ function TreeView:draw()
 
     -- text
     x = x + spacing
-    x = common.draw_text(style.xft.mono_bold, color, item.name, nil, x, y, 0, h)
+    x = common.draw_text(self.get_font(), color, item.name, nil, x, y, 0, h)
   end
 end
 

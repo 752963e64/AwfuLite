@@ -97,7 +97,7 @@ end
 
 
 function DocView:get_font()
-  return style.xft.regular
+  return style.xft.mono_bold
 end
 
 

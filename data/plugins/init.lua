@@ -30,11 +30,11 @@ config.log.size = config.common.default_split_size
 config.log.visible = false
 
 
-config.plugins = { 
+config.plugins = {
+  "plugins.color",
+  "plugins.log",
   "plugins.treeview",
   "plugins.console",
-  "plugins.log",
-  "plugins.color",
   "plugins.testing"
 }
 
