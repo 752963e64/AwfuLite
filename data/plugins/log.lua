@@ -52,7 +52,7 @@ end
 
 function LogView:get_scrollable_size()
   if self.visible then
-    return self.get_item_height() * (#core.log_items + 1)
+    return self:get_item_height() * (#core.log_items + 1)
   end
   return 0
 end

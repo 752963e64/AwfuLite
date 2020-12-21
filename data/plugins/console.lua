@@ -171,8 +171,13 @@ function ConsoleView:get_name()
 end
 
 
+function ConsoleView:get_font()
+  return style.xft.mono_regular
+end
+
+
 function ConsoleView:get_line_height()
-  return style.xft.mono_bold:get_height() * config.core.line_height
+  return self.get_font():get_height() * config.core.line_height
 end
 
 
@@ -291,21 +296,22 @@ function ConsoleView:draw()
     local tx = x + style.padding.x
     local time = os.date("%H:%M:%S", item.time)
     local color = style.text
+    local xft = self.get_font()
     if self.hovered_idx == i then
       color = style.accent
       renderer.draw_rect(x, y, w, h, style.line_highlight)
     end
     if item.text == "!DIVIDER" then
-      local w = style.xft.mono_bold:get_width(time)
+      local w = xft:get_width(time)
       renderer.draw_rect(tx, y + h / 2, w, math.ceil(SCALE * 1), style.dim)
     else
-      tx = common.draw_text(style.xft.mono_bold, style.dim, time, "left", tx, y, w, h)
+      tx = common.draw_text(xft, style.dim, time, "left", tx, y, w, h)
       tx = tx + style.padding.x
       if item.icon then
         common.draw_text(style.xft.icon, color, item.icon, "left", tx, y, w, h)
       end
       tx = tx + icon_w + style.padding.x
-      common.draw_text(style.xft.mono_bold, color, item.text, "left", tx, y, w, h)
+      common.draw_text(xft, color, item.text, "left", tx, y, w, h)
     end
   end
 
