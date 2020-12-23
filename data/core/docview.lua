@@ -267,7 +267,12 @@ function DocView:on_mouse_released(button, x, y)
     if text then
       local line, col = self:resolve_screen_position(x, y)
       if line and col then
-        self.doc:insert(line, col, text)
+        -- joy of loop...
+        local node = core.root_view:get_active_node()
+        local av = node.active_view
+        if av.doc == self.doc then
+          av.doc:insert(line, col, text)
+        end
         core.log("Paste \"%d\" ßytes", #text)
       end
     end
