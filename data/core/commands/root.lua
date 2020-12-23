@@ -72,9 +72,9 @@ for _, dir in ipairs { "left", "right", "up", "down" } do
     local node = core.root_view:get_active_node()
     local av = node.active_view
     node:split(dir)
-    if av:is(DocView) then
-      core.root_view:open_doc(av.doc)
-    end
+    -- if av:is(DocView) then
+    --   core.root_view:open_doc(av.doc)
+    -- end
   end
 
   t["root:switch-to-" .. dir] = function()
