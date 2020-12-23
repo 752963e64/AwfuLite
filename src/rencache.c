@@ -11,7 +11,7 @@
 #define CELL_SIZE 96
 #define COMMAND_BUF_SIZE (1024 * 512)
 
-enum { FREE_FONT, SET_CLIP, DRAW_TEXT, DRAW_RECT, DRAW_IMG };
+enum { FREE_FONT, SET_CLIP, DRAW_TEXT, DRAW_RECT };
 
 typedef struct {
   int type, size;
@@ -149,20 +149,6 @@ int rencache_draw_text(RenFont *font, const char *text, int x, int y, RenColor c
   return x + rect.width;
 }
 
-void rencache_draw_image(const char *fullpath) {
-  /*
-  pickup width, height from image
-  craft a rectangle with width and height from image...
-  check that rectangle doesn't overlap...
-  push command...
-  */
-  int sz = strlen(fullpath) + 1;
-  Command *cmd = push_command(DRAW_IMG, sizeof(Command) + sz);
-  if (cmd) {
-    memcpy(cmd->text, fullpath, sz);
-  }
-}
-
 void rencache_invalidate(void) {
   memset(cells_prev, 0xff, sizeof(cells_buf1));
 }
@@ -255,7 +241,7 @@ void rencache_end_frame(void) {
     ren_set_clip_rect(r);
 
     cmd = NULL;
-    while (next_command(&cmd)) {
+    while ( next_command(&cmd) ) {
       switch (cmd->type) {
         case FREE_FONT:
           has_free_commands = true;
@@ -268,9 +254,6 @@ void rencache_end_frame(void) {
           break;
         case DRAW_TEXT:
           ren_draw_text(cmd->font, cmd->text, cmd->rect.x, cmd->rect.y, cmd->color);
-          break;
-        case DRAW_IMG:
-          ren_draw_image(cmd->text);
           break;
       }
     }

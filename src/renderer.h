@@ -2,7 +2,6 @@
 #define RENDERER_H
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include <stdint.h>
 
 typedef struct RenImage RenImage;
@@ -29,6 +28,5 @@ int ren_get_font_height(RenFont *font);
 void ren_draw_rect(RenRect rect, RenColor color);
 void ren_draw(RenImage *image, RenRect *sub, int x, int y, RenColor color);
 int ren_draw_text(RenFont *font, const char *text, int x, int y, RenColor color);
-void ren_draw_image(const char *fullpath);
 
 #endif
