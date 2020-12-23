@@ -6,12 +6,12 @@
 
 * You'll need a patched SDL2 — **[mySDL2](https://github.com/HackIT/mySDL2)**
 - this SDL supports default X11 clipboards commonly used with GNU/Linux®
-* And also SDL2_image — **[SDL_image](https://github.com/SDL-mirror/SDL_image)**
-- official SDL_image
 
 ### picz from the lab
 
 ![screenshot](https://raw.githubusercontent.com/HackIT/lite/master/screenshot.png)
+
+![screenshot](https://raw.githubusercontent.com/HackIT/lite/master/workspace.png)
 
 #### the console behavior is non-interactive, throw a cmd and get feedback... nah enouf? use your terminal...
 - **ctrl+:** => open a console view...
@@ -42,6 +42,15 @@
 - **ctrl+l** => select entire line
 - **ctrl+d** => select word
 - **ctrl+v** => paste selection to the current cursor position
+
+#### split document workspace into multiple workspaces
+
+see workspace screenshot for an overview...
+
+- **alt+shift+l** => split to the right 
+- **alt+shift+k** => split to down
+- **alt+shift+j** => split to left
+- **alt+shift+i** => split to up
 
 #### syntax based binding
 - **ctrl+*** => comment up a line using syntax's pattern.
