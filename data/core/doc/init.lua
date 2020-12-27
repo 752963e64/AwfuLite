@@ -70,10 +70,10 @@ local f_ext = {
 }
 
 function Doc:load(filename)
-  if common.matches_ext(filename, f_ext.image) then
-    io.popen( "feh " .. filename )
-    return
-  end
+  -- if common.matches_ext(filename, f_ext.image) then
+  --  io.popen( "feh " .. filename )
+  --  return
+  -- end
   local fp = assert( io.open(filename, "rb") )
   local sane = true
   for c in fp:lines(1) do
