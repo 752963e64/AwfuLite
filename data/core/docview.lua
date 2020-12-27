@@ -272,8 +272,8 @@ function DocView:on_mouse_released(button, x, y)
         local av = node.active_view
         if av.doc == self.doc then
           av.doc:insert(line, col, text)
+          core.log("Paste \"%d\" ßytes", #text)
         end
-        core.log("Paste \"%d\" ßytes", #text)
       end
     end
   end
