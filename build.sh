@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cflags="-pipe -Wall -std=gnu11 -Isrc"
-lflags="-lSDL2 -lSDL2_image -lm"
+lflags="-lSDL2 -lm"
 
 platform="unix"
 outfile="lite"
