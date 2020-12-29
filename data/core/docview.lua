@@ -331,7 +331,7 @@ function DocView:draw_line_body(idx, x, y)
 
   -- draw selection if it overlaps this line
   local line1, col1, line2, col2 = self.doc:get_selection(true)
-  if idx >= line1 and idx <= line2 then
+  if idx >= line1 and idx <= line2 and core.active_view == self then
     local text = self.doc.lines[idx]
     if line1 ~= idx then col1 = 1 end
     if line2 ~= idx then col2 = #text + 1 end
