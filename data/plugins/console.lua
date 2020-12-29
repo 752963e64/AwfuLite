@@ -167,7 +167,7 @@ end
 
 
 function ConsoleView:get_name()
-  return "Console"
+  return "---"
 end
 
 

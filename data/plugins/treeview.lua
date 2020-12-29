@@ -47,7 +47,7 @@ end
 
 
 function TreeView:get_name()
-  return "Treeview"
+  return "---"
 end
 
 

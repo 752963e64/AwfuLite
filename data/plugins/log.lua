@@ -23,7 +23,7 @@ end
 
 
 function LogView:get_name()
-  return "Log"
+  return "---"
 end
 
 
