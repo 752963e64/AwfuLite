@@ -228,22 +228,10 @@ end
 
 
 function core.open_doc(filename)
-  if filename then
-    -- try to find existing doc for filename
-    -- local abs_filename = system.absolute_path(filename)
-    -- for _, doc in ipairs(core.docs) do
-    --   if doc.filename
-    --   and abs_filename == system.absolute_path(doc.filename) then
-    --     return doc
-    --   end
-    -- end
-
-  -- no existing doc for filename; create new
-    local doc = Doc(filename)
-    table.insert(core.docs, doc)
-    core.log_quiet(filename and "Opened doc \"%s\"" or "Opened new doc", filename)
-    return doc
-  end
+  local doc = Doc(filename)
+  table.insert(core.docs, doc)
+  core.log_quiet(filename and "Opened doc \"%s\"" or "Opened new doc", filename)
+  return doc
 end
 
 
