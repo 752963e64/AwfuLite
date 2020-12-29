@@ -72,11 +72,11 @@ local commands = {
   end,
 
   ["doc:cut"] = function()
-    local text = nil
+    local text = nil -- cut selection
     if doc():has_selection() then
       text = doc():get_text(doc():get_selection())
       doc():delete_to(0)
-    else -- then cut entire line
+    else -- cut entire line
       local line1, col1, line2 = doc():get_selection(true)
       text = doc():get_text(line1, 1, line2 + 1, 1)
       append_line_if_last_line(line2)
@@ -85,22 +85,22 @@ local commands = {
     end
     if text then -- set clipboard
       system.set_clipboard(text)
+      core.log("Cut \"%d\" ßytes", #text)
     end
-    core.log("Cut \"%d\" ßytes", #text)
   end,
 
   ["doc:copy"] = function()
-    local text = nil
+    local text = nil -- copy selection
     if doc():has_selection() then
       text = doc():get_text(doc():get_selection())
-    else -- then copy entire line
+    else -- copy entire line
       local line1, col1, line2 = doc():get_selection(true)
       text = doc():get_text(line1, 1, line2 + 1, 1)
     end
     if text then
       system.set_clipboard(text)
+      core.log("Copy \"%d\" ßytes", #text)
     end
-    core.log("Copy \"%d\" ßytes", #text)
   end,
 
   ["doc:paste"] = function()
