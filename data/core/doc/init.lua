@@ -82,7 +82,7 @@ function Doc:load(filename)
       break
     end
   end
-  if sane == true then
+  if sane then
     fp:seek("set")
   else
     fp:close()
