@@ -108,8 +108,10 @@ local commands = {
       return
     end
     local text = system.get_clipboard():gsub("\r", "")
-    doc():text_input(text)
-    core.log("Paste \"%d\" ßytes", #text)
+    if #text > 0 then
+      doc():text_input(text)
+      core.log("Paste \"%d\" ßytes", #text)
+    end
   end,
 
   ["doc:newline"] = function()
