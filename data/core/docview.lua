@@ -264,7 +264,7 @@ function DocView:on_mouse_released(button, x, y)
 
   if button == "middle" then
     local text = system.get_selection_clipboard()
-    if text then
+    if #text > 0 then
       local line, col = self:resolve_screen_position(x, y)
       if line and col then
         -- joy of loop...
