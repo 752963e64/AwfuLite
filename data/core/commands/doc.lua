@@ -83,7 +83,7 @@ local commands = {
       doc():remove(line1, 1, line2 + 1, 1)
       doc():set_selection(line1, col1)
     end
-    if text then -- set clipboard
+    if #text > 0 then -- set clipboard
       system.set_clipboard(text)
       core.log("Cut \"%d\" ßytes", #text)
     end
@@ -97,7 +97,7 @@ local commands = {
       local line1, col1, line2 = doc():get_selection(true)
       text = doc():get_text(line1, 1, line2 + 1, 1)
     end
-    if text then
+    if #text > 0 then
       system.set_clipboard(text)
       core.log("Copy \"%d\" ßytes", #text)
     end
