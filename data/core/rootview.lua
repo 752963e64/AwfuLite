@@ -80,9 +80,8 @@ function RootView:on_mouse_released(button, x, y, clicks)
     end -- do not forward when grabing divider
   end
   if node then
-    self.root_node:on_mouse_released(button, x, y, clicks)
+    node:on_mouse_released(button, x, y, clicks)
   end
-  -- self.root_node:on_mouse_released(button, x, y, clicks)
 end
 
 
@@ -99,10 +98,11 @@ function RootView:on_mouse_moved(x, y, dx, dy)
   end
 
   self.mouse.x, self.mouse.y = x, y
-  self.root_node:on_mouse_moved(x, y, dx, dy)
 
   local node = self.root_node:get_child_overlapping_point(x, y)
   local div = self.root_node:get_divider_overlapping_point(x, y)
+
+  if node then node:on_mouse_moved(x, y, dx, dy) end
   if div then
     system.set_cursor(div.type == "hsplit" and "sizeh" or "sizev")
   -- elseif node:get_tab_overlapping_point(x, y) then
@@ -116,7 +116,7 @@ end
 function RootView:on_mouse_wheel(...)
   local x, y = self.mouse.x, self.mouse.y
   local node = self.root_node:get_child_overlapping_point(x, y)
-  node.active_view:on_mouse_wheel(...)
+  if node then node.active_view:on_mouse_wheel(...) end
 end
 
 
