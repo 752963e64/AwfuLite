@@ -416,7 +416,7 @@ function DocView:draw_line_body(idx, x, y)
     local x1 = x + self:get_col_x_offset(line, col)
     renderer.draw_rect(x1, y, style.caret_width, lh, style.caret)
     if #more >= 1 then
-      for i, c in ipairs(more) do
+      for _, c in ipairs(more) do
         local sline, scol = table.unpack(c)
         local x1 = x + self:get_col_x_offset(sline, scol)
         renderer.draw_rect(x1, y, style.caret_width, lh, style.caret)

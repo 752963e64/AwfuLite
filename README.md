@@ -74,16 +74,21 @@ from workspace you wish to work on... like opening new/existing document...
 - add back ubuntu® fonts and struct access for futur usage...
 - fixed workspaces partially, still need a driver to grab focus using kbd.
 - more fix around workspaces, can't open copy from opened files (through nodes :)) and grab focus from original instead.
+- ( ctrl+a, ctrl+c, alt+shift+j, ctrl+n, ctrl+v ) is the way to open a copy from the current document...
+- multi selection from mouse (beta)
+- autoscroll (down|beta)
 
      # statusview scheme
      dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending 
 
 ## TODO
+- add an acceleration method for autoscroll
+- add pattern text matching methods to multi selection
+- fix undo/redo with multi selection
 - <s>independent documents</s> now needs to track on disk file changes?...
 - need a way to switch between workspace(s) using the keyboard
 - user styles loads after logging...
 - a markdown viewer from lite engine... will need img renderer...
-- multi selection/cursor
 - highlight gutter instead line
 - keep track/handling with mouse/key press events and feedback into statusview
 - phased rendering, orchestration and composition (you wouldn't believe how short it's gonna be compared to the fancy words...)
