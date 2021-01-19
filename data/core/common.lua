@@ -13,6 +13,13 @@ function common.copy_position_and_size(dst, src)
   dst.size.x, dst.size.y = src.size.x, src.size.y
 end
 
+function common.sort_positions(line1, col1, line2, col2)
+  if line1 > line2
+  or line1 == line2 and col1 > col2 then
+    return line2, col2, line1, col1, true
+  end
+  return line1, col1, line2, col2, false
+end
 
 function common.is_utf8_cont(char)
   local byte = char:byte()
