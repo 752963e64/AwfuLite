@@ -62,6 +62,18 @@ local function save(filename)
 end
 
 
+local function is_single(apply)
+  if doc():get_selection_method() ~= "multiple" then
+    return true
+  else
+    if apply then
+      doc():set_selection_method("single")
+      return true
+    end
+  end
+  return
+end
+
 local commands = {
   ["doc:undo"] = function()
     doc():undo()
@@ -115,12 +127,16 @@ local commands = {
   end,
 
   ["doc:newline"] = function()
-    local line, col = doc():get_selection()
-    local indent = doc().lines[line]:match("^[\t ]*")
-    if col <= #indent then
-      indent = indent:sub(#indent + 2 - col)
+    if is_single() then
+      local line, col = doc():get_selection()
+      local indent = doc().lines[line]:match("^[\t ]*")
+      if col <= #indent then
+        indent = indent:sub(#indent + 2 - col)
+      end
+      doc():text_input("\n" .. indent)
+      return
     end
-    doc():text_input("\n" .. indent)
+    doc():text_input("\n")
   end,
 
   ["doc:newline-below"] = function()
@@ -138,32 +154,58 @@ local commands = {
   end,
 
   ["doc:delete"] = function()
-    local line, col = doc():get_selection()
-    if not doc():has_selection() and doc().lines[line]:find("^%s*$", col) then
-      doc():remove(line, col, line, math.huge)
+    local function delete(line, col)
+      if not doc():has_selection() and doc().lines[line]:find("^%s*$", col) then
+        doc():remove(line, col, line, math.huge)
+      end
+    end
+    if is_single() then
+      local line, col = doc():get_selection()
+      delete(line, col)
+    else
+      local lines = doc():get_selection()
+      for i, d in ipairs(lines) do
+        local line, col = table.unpack(d)
+        delete(line, col)
+      end
     end
     doc():delete_to(translate.next_char)
   end,
 
   ["doc:backspace"] = function()
-    local line, col = doc():get_selection()
-    if not doc():has_selection() then
-      local text = doc():get_text(line, 1, line, col)
-      if #text >= config.core.indent_size and text:find("^ *$") then
-        doc():delete_to(0, -config.core.indent_size)
-        return
+    local function backspace(line, col)
+      if not doc():has_selection() then
+        local text = doc():get_text(line, 1, line, col)
+        if #text >= config.core.indent_size and text:find("^ *$") then
+          doc():delete_to(0, -config.core.indent_size)
+          return
+        end
+      end
+    end
+    if is_single() then
+      local line, col = doc():get_selection()
+      backspace(line, col)
+    else
+      local lines = doc():get_selection()
+      for i, d in ipairs(lines) do
+        local line, col = table.unpack(d)
+        backspace(line, col)
       end
     end
     doc():delete_to(translate.previous_char)
   end,
 
   ["doc:select-all"] = function()
-    doc():set_selection(1, 1, math.huge, math.huge)
+    if is_single(true) then
+      doc():set_selection(1, 1, math.huge, math.huge)
+    end
   end,
 
   ["doc:select-none"] = function()
-    local line, col = doc():get_selection()
-    doc():set_selection(line, col)
+    if is_single(true) then
+      local line, col = doc():get_selection()
+      doc():set_selection(line, col)
+    end
   end,
 
   ["doc:select-lines"] = function()
@@ -384,12 +426,21 @@ for name, fn in pairs(translations) do
 end
 
 commands["doc:move-to-previous-char"] = function()
-  if doc():has_selection() then
-    local line, col = doc():get_selection(true)
-    doc():set_selection(line, col)
+  if is_single() then
+    if doc():has_selection() then
+      local line, col = doc():get_selection(true)
+      doc():set_selection(line, col)
+    end
   else
-    doc():move_to(translate.previous_char)
+    if doc():has_selection() then
+      local lines = doc():get_selection(true)
+      for i, l in ipairs(lines) do
+        local line, col = table.unpack(l)
+        doc():set_selection(line, col)
+      end
+    end
   end
+  doc():move_to(translate.previous_char)
 end
 
 commands["doc:move-to-next-char"] = function()
