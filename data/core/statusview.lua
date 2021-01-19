@@ -104,7 +104,7 @@ function StatusView:get_items()
     local node = core.root_view:get_active_node()
     local idx = node:get_view_idx(core.active_view)
     local xft = self.get_font()
-
+    local is_multiple = dv.doc:get_selection_method() ~= "single"
     return {
       dirty and style.accent2 or
         style.text, style.xft.icon, style.icons["code"],
@@ -113,11 +113,13 @@ function StatusView:get_items()
       style.dim, xft, self.separator2, style.text,
       dv.doc.filename and style.text or style.dim, dv.doc:get_name(),
       style.dim, xft, self.separator2, style.text,
-      "line: ", line,
+      "line: ", is_multiple and "..." or line,
       style.dim, xft, " / ", style.text,
-      col > config.core.line_limit and style.accent or style.text, "col: ", col,
+      -- col > config.core.line_limit and style.accent or
+      style.text,
+      "col: ", is_multiple and "..." or col,
       style.dim, xft, " / ", style.text,
-      string.format("%d%%", line / #dv.doc.lines * 100),
+      is_multiple and "..." or string.format("%d%%", line / #dv.doc.lines * 100),
     }, {
       style.xft.icon, style.icons["chart-line"],
       xft, style.dim, self.separator2, style.text,
