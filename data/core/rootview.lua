@@ -65,7 +65,9 @@ function RootView:on_mouse_pressed(button, x, y, clicks)
     end
   end  -- do not forward when grabing divider
   if node then
-    core.set_active_view(node.active_view)
+    if node.active_view ~= core.active_view then
+      core.set_active_view(node.active_view)
+    end
     node.active_view:on_mouse_pressed(button, x, y, clicks)
   end
 end
@@ -80,12 +82,19 @@ function RootView:on_mouse_released(button, x, y, clicks)
     end -- do not forward when grabing divider
   end
   if node then
-    node:on_mouse_released(button, x, y, clicks)
+    if y > (self.size.y-core.status_view.size.y) then
+      core.active_view:on_mouse_released(button, x, y, clicks)
+    else
+      node:on_mouse_released(button, x, y, clicks)
+    end
   end
+  -- self.root_node:on_mouse_released(button, x, y, clicks)
 end
 
 
 function RootView:on_mouse_moved(x, y, dx, dy)
+  self.mouse.x, self.mouse.y = x, y
+
   if self.dragged_divider then
     local node = self.dragged_divider
     if node.type == "hsplit" then
@@ -96,12 +105,9 @@ function RootView:on_mouse_moved(x, y, dx, dy)
     node.divider = common.clamp(node.divider, 0.01, 0.99)
     return
   end
-
-  self.mouse.x, self.mouse.y = x, y
-
+  
   local node = self.root_node:get_child_overlapping_point(x, y)
   local div = self.root_node:get_divider_overlapping_point(x, y)
-
   if node then node:on_mouse_moved(x, y, dx, dy) end
   if div then
     system.set_cursor(div.type == "hsplit" and "sizeh" or "sizev")
