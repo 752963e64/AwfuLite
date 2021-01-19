@@ -116,7 +116,6 @@ function Node:add_view(view)
   -- remove EmptyView
   if self.views[1] and self.views[1]:is(EmptyView) then
     table.remove(self.views)
-    -- print("removed self.views")
   end
   table.insert(self.views, view)
   self:set_active_view(view)
