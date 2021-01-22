@@ -38,10 +38,22 @@ function StatusView:get_font()
 end
 
 function StatusView:show_message(icon, icon_color, text)
+  local font = self.get_font()
+  local xsize = font:get_width(text)
+  if xsize > (self.size.x/2) then
+    while xsize > (self.size.x/2) do
+      text = text:sub(1,-2)
+      xsize = font:get_width(text)
+    end
+    text = text:sub(1,-5)
+    text = text .. " ..."
+  end
+
   self.message = {
     icon_color, style.xft.icon, icon,
     style.dim, self.get_font(), StatusView.separator2, style.text, text
   }
+  
   self.message_timeout = system.get_time() + config.statusview.message_timeout
 end
 
