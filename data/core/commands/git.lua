@@ -37,7 +37,7 @@ command.add(nil, {
       if #git > 0 then
         core.log(git)
       end
-    end, common.path_suggest)
+    end)
   end,
 
   ["git:commit"] = function()
