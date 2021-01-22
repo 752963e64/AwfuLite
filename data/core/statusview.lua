@@ -98,8 +98,7 @@ function StatusView:draw_items(items, right_align, yoffset)
   local x, y = self:get_content_offset()
   y = y + (yoffset or 0)
   if right_align then
-    local w = draw_items(self, items, 0, 0, text_width)
-    x = x + self.size.x - w - style.padding.x
+    x = x + self.size.x - self.right_width - style.padding.x
     draw_items(self, items, x, y, common.draw_text)
   else
     x = x + style.padding.x
@@ -158,6 +157,13 @@ function StatusView:draw()
   end
 
   local left, right = self:get_items()
+  self.left_width = draw_items(self, left, 0, 0, text_width)
+  self.right_width = draw_items(self, right, 0, 0, text_width)
+  if self.left_width+self.right_width > self.size.x then
+    self:draw_items({ style.text, "..." })
+    return
+  end
+
   self:draw_items(left)
   self:draw_items(right, true)
 end
