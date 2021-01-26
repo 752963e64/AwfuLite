@@ -196,8 +196,9 @@ local commands = {
   end,
 
   ["doc:select-all"] = function()
+    local line, col = #doc().lines, #doc().lines[#doc().lines]
     if is_single(true) then
-      doc():set_selection(1, 1, math.huge, math.huge)
+      doc():set_selection(line, col, 1, 1)
     end
   end,
 
