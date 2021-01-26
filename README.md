@@ -1,17 +1,26 @@
-## This is another of my fork(s)
-
-* **[Get the original lite here](https://github.com/rxi/lite)** — Download
-  for unix and unix like.
-
-
-* You'll need a patched SDL2 — **[mySDL2](https://github.com/HackIT/mySDL2)**
-- this SDL supports default X11 clipboards commonly used with GNU/Linux®
-
-### picz from the lab
+## AwfuLite - My next text editor ...
 
 ![screenshot](https://raw.githubusercontent.com/HackIT/lite/master/screenshot.png)
 
 ![screenshot](https://raw.githubusercontent.com/HackIT/lite/master/workspace.png)
+
+### How to install
+
+```bash
+# this SDL2 adds support to default X11 clipboards used with GNU/Linux®
+git clone https://github.com/HackIT/mySDL2
+cd mySDL2
+./configure --prefix=/usr
+make
+make install
+cd ../
+git clone https://github.com/HackIT/lite
+cd lite
+./build.sh
+./lite
+```
+
+### How to handle the beast
 
 #### the console behavior is non-interactive, throw a cmd and get feedback... nah enouf? use your terminal...
 - **ctrl+:** => open a console view...
@@ -61,8 +70,11 @@ from workspace you wish to work on... like opening new/existing document...
 
 - **ctrl+q** => quit the software...
 
+
+```
 ## DONE
 - linux clipboards
+- added more font icons
 - moved syntaxes and colors to their own dir...
 - removed plugins and now loading them using a list.
 - reloading modules works out of the box without overlaping...
@@ -77,11 +89,13 @@ from workspace you wish to work on... like opening new/existing document...
 - ( ctrl+a, ctrl+c, alt+shift+j, ctrl+n, ctrl+v ) is the way to open a copy from the current document...
 - multi selection from mouse (beta)
 - autoscroll (down|beta)
+- mouse scroll feedback into statusview
 
      # statusview scheme
      dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending 
 
 ## TODO
+- cannot close an emptyview when splitted
 - git driver driven by commands/shortcuts
 - add an acceleration method for autoscroll
 - add pattern text matching methods to multi selection
@@ -91,7 +105,6 @@ from workspace you wish to work on... like opening new/existing document...
 - user styles loads after logging...
 - a markdown viewer from lite engine... will need img renderer...
 - highlight gutter instead line
-- keep track/handling with mouse/key press events and feedback into statusview
 - phased rendering, orchestration and composition (you wouldn't believe how short it's gonna be compared to the fancy words...)
 - windowed plugins using lite
 - audio engine
@@ -102,11 +115,11 @@ from workspace you wish to work on... like opening new/existing document...
 - more plugins
 - auto increase mouse selection for document while close to the frame edges
 - scroll feedback using sort* icons into the statusview
+```
 
 ## HACK lite/.lite_project.lua
 
 - project session for rapid devel...
-
 
 ```lua
 local core = require "core"
@@ -119,13 +132,13 @@ print("hello world o/")
 ```
 
 ## License
-The code base is MIT licensed. I still didn't decide what license to use for my additions...
+**[lite](https://github.com/rxi/lite)** is MIT licensed. I still didn't decide what license to use for my additions...
 
 I retain copyright & terms from my additions following the BERN convention while deciding what I do.
 
-You can read the terms of the MIT license for all code covered by rxi. See [LICENSE](LICENSE) for details.
+You can read the terms of the MIT license for all code covered by rxi & contributors. See [LICENSE](LICENSE) for details.
 
-###### Enjoy,                                               HackIT.
+###### Enjoy,                                              by HackIT.
 
 ###### BTC: bc1q5jw0dsgc4x96l0um6vqexp5kq7wthlfvz944uc
 
