@@ -11,7 +11,7 @@ config.dprint("statuview.lua -> loaded")
 
 
 local StatusView = View:extend()
-
+local last_yoffset = 0
 
 StatusView.separator  = "      "
 StatusView.separator2 = "   |   "
@@ -116,6 +116,15 @@ function StatusView:get_items()
     local idx = node:get_view_idx(core.active_view)
     local xft = self.get_font()
     local is_multiple = dv.doc:get_selection_method() ~= "single"
+    local scrollfeed = ""
+    if dv.scroll.to.y > last_yoffset
+    or dv.scroll.to.y < last_yoffset then
+      scrollfeed = dv.scroll.to.y > last_yoffset
+        and style.icons["sort-down"]
+        or style.icons["sort-up"]
+    end
+    last_yoffset = dv.scroll.to.y
+
     return {
       dirty and style.accent2 or
         style.text, style.xft.icon, style.icons["code"],
@@ -132,6 +141,8 @@ function StatusView:get_items()
       style.dim, xft, " / ", style.text,
       is_multiple and "..." or string.format("%d%%", line / #dv.doc.lines * 100),
     }, {
+      style.dim, style.xft.icon, scrollfeed,
+      xft, style.dim, self.separator2,
       style.xft.icon, style.icons["chart-line"],
       xft, style.dim, self.separator2, style.text,
       #dv.doc.lines, " lines",
@@ -159,6 +170,7 @@ function StatusView:draw()
   local left, right = self:get_items()
   self.left_width = draw_items(self, left, 0, 0, text_width)
   self.right_width = draw_items(self, right, 0, 0, text_width)
+
   if self.left_width+self.right_width > self.size.x then
     self:draw_items({ style.text, "..." })
     return
