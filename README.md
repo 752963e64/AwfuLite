@@ -71,8 +71,10 @@ from workspace you wish to work on... like opening new/existing document...
 - **ctrl+q** => quit the software...
 
 
+
+### Stuff DONE
+
 ```
-## DONE
 - linux clipboards
 - added more font icons
 - moved syntaxes and colors to their own dir...
@@ -93,8 +95,11 @@ from workspace you wish to work on... like opening new/existing document...
 
      # statusview scheme
      dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending 
+```
 
-## TODO
+### Some TODO
+
+```
 - cannot close an emptyview when splitted
 - git driver driven by commands/shortcuts
 - add an acceleration method for autoscroll
@@ -117,7 +122,7 @@ from workspace you wish to work on... like opening new/existing document...
 - scroll feedback using sort* icons into the statusview
 ```
 
-## HACK lite/.lite_project.lua
+### HACK lite/.lite_project.lua
 
 - project session for rapid devel...
 
