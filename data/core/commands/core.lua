@@ -57,6 +57,13 @@ command.add(nil, {
     end, common.path_suggest)
   end,
 
+  ["core:close"] = function()
+    local node = core.root_view:get_active_node()
+    if #node.views == 1 then
+      node:close_active_view(core.root_view.root_node)
+    end
+  end,
+
   --  ["core:open-log"] = function()
   --    local node = core.root_view:get_active_node()
   --    node:add_view(LogView())
