@@ -100,7 +100,6 @@ from workspace you wish to work on... like opening new/existing document...
 ### Some TODO
 
 ```
-- cannot close an emptyview when splitted
 - git driver driven by commands/shortcuts
 - add an acceleration method for autoscroll
 - add pattern text matching methods to multi selection
