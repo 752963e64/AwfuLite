@@ -196,6 +196,7 @@ end
 
 function TreeView:draw()
   self:draw_background(style.background2)
+  local font = self.get_font()
   local icon_width = style.xft.icon:get_width(style.icons["folder-open"])
   local spacing = self.get_font():get_width(" ") * 2
 
@@ -233,7 +234,17 @@ function TreeView:draw()
 
     -- text
     x = x + spacing
-    x = common.draw_text(self.get_font(), color, item.name, nil, x, y, 0, h)
+    local item_width = font:get_width(item.name)
+    local item_name = item.name
+    if self.visible and item_width+x > self.size.x then
+      while item_width+x > self.size.x do
+        item_name = item_name:sub(1,-2)
+        item_width = font:get_width(item_name)
+      end
+      item_name = item_name:sub(1,-6)
+      item_name = item_name .. " ..."
+    end
+    x = common.draw_text(font, color, item_name, nil, x, y, 0, h)
   end
 end
 
