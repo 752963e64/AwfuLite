@@ -234,15 +234,11 @@ function TreeView:draw()
 
     -- text
     x = x + spacing
-    local item_width = font:get_width(item.name)
-    local item_name = item.name
-    if self.visible and item_width+x > self.size.x then
-      while item_width+x > self.size.x do
-        item_name = item_name:sub(1,-2)
-        item_width = font:get_width(item_name)
-      end
-      item_name = item_name:sub(1,-6)
-      item_name = item_name .. " ..."
+    local item_name = nil
+    if self.visible then
+      item_name = common.truncate_text(font, item.name, x, self.size.x)
+    else
+      item_name = item.name
     end
     x = common.draw_text(font, color, item_name, nil, x, y, 0, h)
   end

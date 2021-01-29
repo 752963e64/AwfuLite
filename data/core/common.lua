@@ -7,6 +7,19 @@ config.dprint("common.lua -> loaded")
 local common = {}
 
 
+function common.truncate_text(font, text, sx, dx)
+  local text_w = font:get_width(text)
+  if text_w+sx > dx then
+    while text_w+sx > dx do
+      text = text:sub(1,-2)
+      text_w = font:get_width(text)
+    end
+    text = text:sub(1,-6)
+    text = text .. " ..."
+  end
+  return text
+end
+
 -- rootview, node
 function common.copy_position_and_size(dst, src)
   dst.position.x, dst.position.y = src.position.x, src.position.y
