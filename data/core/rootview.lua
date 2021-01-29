@@ -82,7 +82,7 @@ function RootView:on_mouse_released(button, x, y, clicks)
     end -- do not forward when grabing divider
   end
   if node then
-    if y > (self.size.y-core.status_view.size.y) then
+    if y > (self.size.y-core.status_view.size.y) or x < 1 then
       core.active_view:on_mouse_released(button, x, y, clicks)
     else
       node:on_mouse_released(button, x, y, clicks)
