@@ -252,10 +252,11 @@ function DocView:on_mouse_moved(x, y, dx, dy)
     local line1, col1 = self:resolve_screen_position(x, y)
     self.doc:set_selection(line1, col1, line2, col2)
     local min,max = self:get_visible_line_range()
-    if max < #self.doc.lines and line1 >= max-2 and line1 <= max+2 then
-      self.mouse_autoscroll = true
-    else
-      self.mouse_autoscroll = false
+    if max < #self.doc.lines
+    and line1 >= max-2 then
+      self.mouse_autoscroll = "down"
+    elseif line1 >= min-2 then
+      self.mouse_autoscroll = "up"
     end
   end
   -- add cursors
@@ -337,14 +338,24 @@ function DocView:update()
     if (self.blink_timer > n) ~= (prev > n) then
       core.redraw = true
     end
+    
     -- update autoscroll
     if self.mouse_autoscroll then
       local line1, col1, line2, col2 = self.doc:get_selection()
-      line1 = line1+1
-      if line1 >= self.last_line and line1 <= #self.doc.lines then
-        self:scroll_to_make_visible(line1, col1)
-        self.doc:set_selection(line1, col1, line2, col2)
+      if self.mouse_autoscroll == "down" then
+        if line1 >= self.last_line then
+          line1 = line1+1
+        end
+      elseif self.mouse_autoscroll == "up" then
+        if line1 <= self.last_line then
+          line1 = line1-1
+        end
       end
+      if line1 == 1 or line1 == #self.doc.lines then
+        self.mouse_autoscroll = false
+      end
+      self:scroll_to_make_visible(line1, col1)
+      self.doc:set_selection(line1, col1, line2, col2)
     end
   end
   DocView.super.update(self)
