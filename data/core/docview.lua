@@ -253,9 +253,9 @@ function DocView:on_mouse_moved(x, y, dx, dy)
     self.doc:set_selection(line1, col1, line2, col2)
     local min,max = self:get_visible_line_range()
     if max < #self.doc.lines
-    and line1 >= max-2 then
+    and line1 >= max-2 and line1 <= max-2 then
       self.mouse_autoscroll = "down"
-    elseif line1 >= min-2 then
+    elseif line1 >= min+2 and line1 <= min+2 then
       self.mouse_autoscroll = "up"
     end
   end
