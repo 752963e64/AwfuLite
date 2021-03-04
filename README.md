@@ -61,7 +61,10 @@ see workspace screenshot for an overview...
 - **alt+shift+j** => split to left
 - **alt+shift+i** => split to up
 
-Remember that you need to grab focus(click inside workspace)
+- **alt+j** => switch to left workspace
+- **alt+l** => switch right workspace
+- **alt+i** => switch up workspace
+- **alt+k** => switch down workspace
 
 from workspace you wish to work on... like opening new/existing document...
 
@@ -105,7 +108,6 @@ from workspace you wish to work on... like opening new/existing document...
 - add pattern text matching methods to multi selection
 - fix undo/redo with multi selection
 - <s>independent documents</s> now needs to track on disk file changes?...
-- need a way to switch between workspace(s) using the keyboard
 - user styles loads after logging...
 - a markdown viewer from lite engine... will need img renderer...
 - highlight gutter instead line
