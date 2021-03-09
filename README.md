@@ -142,9 +142,11 @@ print("hello world o/")
 
 I retain copyright & terms from my additions following the BERN convention while deciding what I do.
 
+To be clear I do not accept someone making money from my fork while I starve... however you can use it and modify it personally or even get inspired of it ... just don't fucking copy for a bad context :)
+
 You can read the terms of the MIT license for all code covered by rxi & contributors. See [LICENSE](LICENSE) for details.
 
-###### Enjoy,                                              by HackIT.
+###### All been told, Enjoy.                                              by HackIT.
 
 ###### BTC: bc1q5jw0dsgc4x96l0um6vqexp5kq7wthlfvz944uc
 
