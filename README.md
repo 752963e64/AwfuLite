@@ -66,7 +66,6 @@ see workspace screenshot for an overview...
 - **alt+i** => switch up workspace
 - **alt+k** => switch down workspace
 
-from workspace you wish to work on... like opening new/existing document...
 
 #### syntax based binding
 - **ctrl+*** => comment up a line using syntax's pattern.
@@ -103,6 +102,7 @@ from workspace you wish to work on... like opening new/existing document...
 ### Some TODO
 
 ```
+- mouse feedback in statusview doesn't handle multiple workspace
 - git driver driven by commands/shortcuts
 - add an acceleration method for autoscroll
 - add pattern text matching methods to multi selection
