@@ -38,6 +38,7 @@ config.core.line_height = 1.2
 config.core.indent_size = 2
 config.core.tab_type = "soft"
 config.core.line_limit = 80
+config.core.show_spaces = true
 --
 
 config.statusview = {}
