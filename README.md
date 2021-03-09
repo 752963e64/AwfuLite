@@ -94,7 +94,7 @@ see workspace screenshot for an overview...
 - multi selection from mouse (beta)
 - autoscroll (down|beta)
 - mouse scroll feedback into statusview
-
+- added show_spaces to docview. originally done by luveti and mod by me.
      # statusview scheme
      dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending 
 ```
