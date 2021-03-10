@@ -94,6 +94,7 @@ see workspace screenshot for an overview...
 - autoscroll (down|beta)
 - mouse scroll feedback into statusview
 - added show_spaces to docview. originally done by luveti and mod by me.
+- added show_block_rulers to docview.
      # statusview scheme
      dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending 
 ```

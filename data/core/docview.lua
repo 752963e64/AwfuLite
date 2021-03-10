@@ -369,6 +369,54 @@ function DocView:draw_line_highlight(x, y)
   renderer.draw_rect(x, y, self.size.x, lh, style.line_highlight)
 end
 
+-- vertical ruler
+function DocView:draw_block_rulers(idx, x, y)
+  if not config.core.show_block_rulers then return end
+
+  local function get_line_indent_guide_spaces(doc, idx)
+    local function get_line_spaces(doc, idx, dir)
+      local text = doc.lines[idx]
+      if not text then
+        return 0
+      end
+      local s, e = text:find("^%s*")
+      if e == #text then
+        return 0
+        -- return get_line_spaces(doc, idx + dir, dir)
+      end
+      local n = 0
+      for i = s, e do
+        n = n + (text:byte(i) == 9 and config.core.indent_size or 1)
+      end
+      return n
+    end
+  
+    if doc.lines[idx]:find("^%s*\n") then
+      local ptext = doc.lines[idx-1]
+      local ntext = doc.lines[idx+1]
+      if not ntext or not ptext then return 0 end
+      local s, e = ptext:find("^%s*")
+      if e >= config.core.indent_size then
+        s, e = ntext:find("^%s*")
+        if e >= config.core.indent_size then
+          return e
+        end
+      end
+      return 0
+    end
+    return get_line_spaces(doc, idx)
+  end
+  
+  local spaces = get_line_indent_guide_spaces(self.doc, idx)
+  local sw = self:get_font():get_width(" ")
+  local w = math.ceil(1 * SCALE)
+  local h = self:get_line_height()
+  for i = 0, spaces - 1, config.core.indent_size do
+    local color = style.guide or style.selection
+    renderer.draw_rect(x + sw * i, y, w, h, color)
+  end
+end
+
 -- originally written by luveti, mod by HackIT
 local spaces_map = { [" "] = "·", ["\t"] = "»" }
 
@@ -398,6 +446,7 @@ function DocView:draw_line_text(idx, x, y)
   end
 
   self:draw_spaces(idx, x, y)
+  self:draw_block_rulers(idx, x, y)
 end
 
 
