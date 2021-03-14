@@ -98,7 +98,7 @@ function tokenizer.tokenize(syntax, text, state)
       if s and config.core.show_spaces then
         local v = "·"
         e = e +1
-        push_token(res, "tab", string.rep(v, e-s))
+        push_token(res, "tab", v:rep(e-s))
         i = e
       else
         push_token(res, "normal", text:sub(i, i))
