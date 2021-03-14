@@ -120,8 +120,6 @@ see workspace screenshot for an overview...
 - rounded rectangle
 - code folding
 - more plugins
-- auto increase mouse selection for document while close to the frame edges
-- scroll feedback using sort* icons into the statusview
 ```
 
 ### HACK lite/.lite_project.lua
