@@ -417,25 +417,6 @@ function DocView:draw_block_rulers(idx, x, y)
   end
 end
 
--- originally written by luveti, mod by HackIT
-local spaces_map = { [" "] = "·", ["\t"] = "»" }
-
-function DocView:draw_spaces(idx, x, y)
-  if not config.core.show_spaces then return end
-
-  local tx, ty = x, y + self:get_line_text_y_offset()
-  local font = self:get_font()
-
-  local color = style.whitespace or style.syntax.comment
-  for chr in common.utf8_chars(self.doc.lines[idx]) do
-    if spaces_map[chr] then
-      tx = renderer.draw_text(font, spaces_map[chr], tx, ty, color)
-    else
-      tx = tx + font:get_width(chr)
-    end
-  end
-end
-
 function DocView:draw_line_text(idx, x, y)
   local tx, ty = x, y + self:get_line_text_y_offset()
   local font = self:get_font()
@@ -445,7 +426,6 @@ function DocView:draw_line_text(idx, x, y)
     tx = renderer.draw_text(font, text, tx, ty, color)
   end
 
-  self:draw_spaces(idx, x, y)
   self:draw_block_rulers(idx, x, y)
 end
 

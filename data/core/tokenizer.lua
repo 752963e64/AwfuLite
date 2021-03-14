@@ -10,7 +10,8 @@ local tokenizer = {}
 local function push_token(t, type, text)
   local prev_type = t[#t-1]
   local prev_text = t[#t]
-  if prev_type and (prev_type == type or prev_text:find("^%s*$")) then
+  -- if prev_type and (prev_type == type or prev_text:find("^%s*$")) then
+  if prev_type and prev_type == type then
     t[#t-1] = type
     t[#t] = prev_text .. text
   else
@@ -93,8 +94,16 @@ function tokenizer.tokenize(syntax, text, state)
 
     -- consume character if we didn't match
     if not matched then
-      push_token(res, "normal", text:sub(i, i))
-      i = i + 1
+      local s, e = text:find("^[ \t]+", i)
+      if s and config.core.show_spaces then
+        local v = "·"
+        e = e +1
+        push_token(res, "tab", string.rep(v, e-s))
+        i = e
+      else
+        push_token(res, "normal", text:sub(i, i))
+        i = i + 1
+      end
     end
   end
 
