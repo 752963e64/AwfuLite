@@ -1,6 +1,5 @@
 local config = require "core.config"
 
-
 config.dprint("tokenizer.lua -> loaded")
 
 
@@ -46,8 +45,7 @@ end
 
 
 function tokenizer.tokenize(syntax, text, state)
-  local res = {}
-  local i = 1
+  local res, i, si, v = {}, 1, 1, "·"
 
   if #syntax.patterns == 0 then
     return { "normal", text }
@@ -78,7 +76,26 @@ function tokenizer.tokenize(syntax, text, state)
       if s then
         -- matched pattern; make and add token
         local t = text:sub(s, e)
-        push_token(res, syntax.symbols[t] or p.type, t)
+        if config.core.show_spaces then
+          while si <= #t do
+            local ss, se = t:find("^[ \t]+", si)
+            if ss then
+              se = se + 1
+              push_token(res, "tab", v:rep(se-ss))
+              si = se
+            else
+              local ss, se = t:find("^%g+", si)
+              if ss then
+                push_token(res, syntax.symbols[t] or p.type, t:sub(ss,se))
+                si = se + 1
+              else
+                si = si + 1
+              end
+            end
+          end
+        end
+
+        -- push_token(res, syntax.symbols[t] or p.type, t)
 
         -- update state if this was a start|end pattern pair
         if type(p.pattern) == "table" then
@@ -96,7 +113,7 @@ function tokenizer.tokenize(syntax, text, state)
     if not matched then
       local s, e = text:find("^[ \t]+", i)
       if s and config.core.show_spaces then
-        local v = "·"
+        
         e = e +1
         push_token(res, "tab", v:rep(e-s))
         i = e
