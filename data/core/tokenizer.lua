@@ -44,8 +44,32 @@ local function find_non_escaped(text, pattern, offset, esc)
 end
 
 
+local function tokenize(res, text, type)
+  if config.core.show_spaces then
+    local si, v = 1, "·"
+    while si <= #text do
+      local ss, se = text:find("^[ \t]+", si)
+      if ss then
+        se = se + 1
+        push_token(res, "tab", v:rep(se-ss))
+        si = se
+      else
+        local ss, se = text:find("^[\x21-\x7f\xc2-\xf4][\x80-\xbf]*", si)
+        if ss then
+          push_token(res, type, text:sub(ss,se))
+          si = se + 1
+        else
+          si = si + 1
+        end
+      end
+    end
+  else
+    push_token(res, type, text)
+  end
+end
+
 function tokenizer.tokenize(syntax, text, state)
-  local res, i, si, v = {}, 1, 1, "·"
+  local res, i = {}, 1
 
   if #syntax.patterns == 0 then
     return { "normal", text }
@@ -58,17 +82,18 @@ function tokenizer.tokenize(syntax, text, state)
       local s, e = find_non_escaped(text, p.pattern[2], i, p.pattern[3])
 
       if s then
-        push_token(res, p.type, text:sub(i, e))
+        tokenize(res, text:sub(i, e), p.type)
         state = nil
         i = e + 1
       else
-        push_token(res, p.type, text:sub(i))
+        tokenize(res, text:sub(i), p.type)
         break
       end
     end
 
     -- find matching pattern
     local matched = false
+
     for n, p in ipairs(syntax.patterns) do
       local pattern = (type(p.pattern) == "table") and p.pattern[1] or p.pattern
       local s, e = text:find("^" .. pattern, i)
@@ -76,26 +101,7 @@ function tokenizer.tokenize(syntax, text, state)
       if s then
         -- matched pattern; make and add token
         local t = text:sub(s, e)
-        if config.core.show_spaces then
-          while si <= #t do
-            local ss, se = t:find("^[ \t]+", si)
-            if ss then
-              se = se + 1
-              push_token(res, "tab", v:rep(se-ss))
-              si = se
-            else
-              local ss, se = t:find("^%g+", si)
-              if ss then
-                push_token(res, syntax.symbols[t] or p.type, t:sub(ss,se))
-                si = se + 1
-              else
-                si = si + 1
-              end
-            end
-          end
-        end
-
-        -- push_token(res, syntax.symbols[t] or p.type, t)
+        tokenize(res, t, syntax.symbols[t] or p.type)
 
         -- update state if this was a start|end pattern pair
         if type(p.pattern) == "table" then
@@ -111,16 +117,8 @@ function tokenizer.tokenize(syntax, text, state)
 
     -- consume character if we didn't match
     if not matched then
-      local s, e = text:find("^[ \t]+", i)
-      if s and config.core.show_spaces then
-        
-        e = e +1
-        push_token(res, "tab", v:rep(e-s))
-        i = e
-      else
-        push_token(res, "normal", text:sub(i, i))
-        i = i + 1
-      end
+      tokenize(res, text:sub(i, i), "normal")
+      i = i + 1
     end
   end
 
