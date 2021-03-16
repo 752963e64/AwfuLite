@@ -45,25 +45,21 @@ end
 
 
 local function tokenize(res, text, type)
-  if config.core.show_spaces then
-    local si, v = 1, "·"
-    while si <= #text do
-      local ss, se = text:find("^[ \t]+", si)
+  local si = 1
+  while si <= #text do
+    local ss, se = text:find("^[ \t]+", si)
+    if ss then
+      push_token(res, "tab", text:sub(ss,se))
+      si = se +1
+    else
+      local ss, se = text:find("^[\x21-\x7f\xc2-\xf4][\x80-\xbf]*", si)
       if ss then
-        push_token(res, "tab", text:sub(ss,se))
-        si = se +1
+        push_token(res, type, text:sub(ss,se))
+        si = se + 1
       else
-        local ss, se = text:find("^[\x21-\x7f\xc2-\xf4][\x80-\xbf]*", si)
-        if ss then
-          push_token(res, type, text:sub(ss,se))
-          si = se + 1
-        else
-          si = si + 1
-        end
+        si = si + 1
       end
     end
-  else
-    push_token(res, type, text)
   end
 end
 

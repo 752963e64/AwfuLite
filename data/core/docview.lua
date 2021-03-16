@@ -423,6 +423,10 @@ function DocView:draw_line_text(idx, x, y)
 
   for _, type, text in self.doc.highlighter:each_token(idx) do
     local color = style.syntax[type]
+    if type == "tab" and config.core.show_spaces then
+      local v = "·"
+      text = v:rep(#text)
+    end
     tx = renderer.draw_text(font, text, tx, ty, color)
   end
 
