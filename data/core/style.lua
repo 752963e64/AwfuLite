@@ -71,6 +71,7 @@ style.scrollbar2 = { common.color "#4b4b52" }
 style.warn = { common.color "#FF0000" }
 
 style.syntax = {}
+style.syntax["tab"] = { common.color "#676b6f" }
 style.syntax["space"] = { common.color "#676b6f" }
 style.syntax["normal"] = { common.color "#e1e1e6" }
 style.syntax["symbol"] = { common.color "#e1e1e6" }
