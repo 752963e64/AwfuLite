@@ -50,9 +50,8 @@ local function tokenize(res, text, type)
     while si <= #text do
       local ss, se = text:find("^[ \t]+", si)
       if ss then
-        se = se + 1
-        push_token(res, "tab", v:rep(se-ss))
-        si = se
+        push_token(res, "tab", text:sub(ss,se))
+        si = se +1
       else
         local ss, se = text:find("^[\x21-\x7f\xc2-\xf4][\x80-\xbf]*", si)
         if ss then
