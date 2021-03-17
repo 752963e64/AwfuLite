@@ -93,8 +93,10 @@ see workspace screenshot for an overview...
 - multi selection from mouse (beta)
 - autoscroll (down|beta)
 - mouse scroll feedback into statusview
-- added show_spaces to docview. originally done by luveti and mod by me.
 - added show_block_rulers to docview.
+- added space and tab rendering.
+- improved tokenizer to catch more token
+
      # statusview scheme
      dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending 
 ```
@@ -102,7 +104,6 @@ see workspace screenshot for an overview...
 ### Some TODO
 
 ```
-- show_spaces doesn't render TAB correctly... :)
 - mouse feedback in statusview doesn't handle multiple workspace
 - git driver driven by commands/shortcuts
 - add an acceleration method for autoscroll
@@ -112,7 +113,7 @@ see workspace screenshot for an overview...
 - user styles loads after logging...
 - a markdown viewer from lite engine... will need img renderer...
 - highlight gutter instead line
-- phased rendering, orchestration and composition (you wouldn't believe how short it's gonna be compared to the fancy words...)
+- phased rendering, orchestration and composition
 - windowed plugins using lite
 - audio engine
 - binary report tools

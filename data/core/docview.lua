@@ -421,7 +421,7 @@ function DocView:draw_line_text(idx, x, y)
   local tx, ty = x, y + self:get_line_text_y_offset()
   local font = self:get_font()
   local lh = self:get_line_height()
-  local tw = self:get_font():get_width("\t")
+  local tw = font:get_width("\t")
 
   for _, type, text in self.doc.highlighter:each_token(idx) do
     local color = style.syntax[type]
@@ -431,10 +431,13 @@ function DocView:draw_line_text(idx, x, y)
     end
 
     if type == "tab" and config.core.show_spaces then
-      renderer.draw_rect(tx+(tw/3), ty+(lh/2), tw/2, math.ceil(1 * SCALE), color)
+      for i = #text, 1, -1 do
+        renderer.draw_rect(tx+(tw/3), ty+(lh/2), tw/2, math.ceil(1 * SCALE), color)
+        tx = renderer.draw_text(font, "\t", tx, ty, color)
+      end
+    else
+      tx = renderer.draw_text(font, text, tx, ty, color)
     end
-
-    tx = renderer.draw_text(font, text, tx, ty, color)
   end
 
   self:draw_block_rulers(idx, x, y)
