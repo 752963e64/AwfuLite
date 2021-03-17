@@ -428,9 +428,15 @@ function DocView:draw_line_text(idx, x, y)
     if type == "space" and config.core.show_spaces then
       local v = "·"
       text = v:rep(#text)
+      if #text % config.core.indent_size == 0 and config.core.tab_type == "hard" then
+        if not self.doc.tab_mixed then self.doc.tab_mixed = true end
+      end
     end
 
     if type == "tab" and config.core.show_spaces then
+      if not self.doc.tab_mixed and config.core.tab_type ~= "hard" then
+        self.doc.tab_mixed = true
+      end
       for i = #text, 1, -1 do
         renderer.draw_rect(tx+(tw/3), ty+(lh/2), tw/2, math.ceil(1 * SCALE), color)
         tx = renderer.draw_text(font, "\t", tx, ty, color)
@@ -534,6 +540,9 @@ function DocView:draw()
 
   local font = self:get_font()
   font:set_tab_width(font:get_width(" ") * config.core.indent_size)
+  if self.doc.tab_mixed then
+    self.doc.tab_mixed = false
+  end
 
   local minline, maxline = self:get_visible_line_range()
   local lh = self:get_line_height()

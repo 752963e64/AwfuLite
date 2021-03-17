@@ -115,6 +115,10 @@ function StatusView:get_items()
     local node = core.root_view:get_active_node()
     local idx = node:get_view_idx(core.active_view)
     local xft = self.get_font()
+    local tabtype = config.core.tab_type ~= "hard"
+    local tabmixed = dv.doc.tab_mixed
+    local tabindent = config.core.indent_size
+
     local is_multiple = dv.doc:get_selection_method() ~= "single"
     local scrollfeed = ""
     if dv.scroll.to.y > last_yoffset
@@ -147,7 +151,9 @@ function StatusView:get_items()
       xft, style.dim, self.separator2, style.text,
       #dv.doc.lines, " lines",
       style.dim, xft, self.separator2, style.text,
-      dv.doc.crlf and "CRLF" or "LF"
+      dv.doc.crlf and "CRLF" or "LF",
+      style.dim, xft, self.separator2, style.text,
+      (tabmixed and "mixed:" or "clear:")..(tabtype and "space: " or "tab: ")..tabindent
     }
   end
 

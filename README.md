@@ -98,7 +98,7 @@ see workspace screenshot for an overview...
 - improved tokenizer to catch more token
 
      # statusview scheme
-     dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending 
+     dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending | (mixed tab/space document ~= config) tabtype tabsize
 ```
 
 ### Some TODO

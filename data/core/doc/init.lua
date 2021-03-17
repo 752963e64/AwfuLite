@@ -47,6 +47,7 @@ end
 
 function Doc:reset()
   self.editable = true
+  self.tab_mixed = false
   self.lines = { "\n" }
   self.selection = { a = { line=1, col=1 }, b = { line=1, col=1 }, c = {} }
   self.selection_method = "single"
