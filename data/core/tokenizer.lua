@@ -59,7 +59,7 @@ local function tokenize(res, text, type)
         si = se +1
         break
       else
-        if n == #builtin then
+        if n == #builtin_syntax then
           si = si +1
         end
       end
