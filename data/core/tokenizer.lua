@@ -43,28 +43,26 @@ local function find_non_escaped(text, pattern, offset, esc)
   end
 end
 
+local builtin_syntax = {
+  { pattern = "[ ]+",  type = "space"  },
+  { pattern = "[\t]+",  type = "tab"  },
+  { pattern = "[\x21-\x7f\xc2-\xf4][\x80-\xbf]*",  type = nil  }
+}
 
 local function tokenize(res, text, type)
   local si = 1
   while si <= #text do
-    local ss, se = text:find("^[ ]+", si)
-    if ss then
-      push_token(res, "space", text:sub(ss,se))
-      si = se +1
-    end
-
-    local st, te = text:find("^[\t]+", si)
-    if st then
-      push_token(res, "tab", text:sub(st,te))
-      si = te +1
-    end
-
-    local ss, se = text:find("^[\x21-\x7f\xc2-\xf4][\x80-\xbf]*", si)
-    if ss then
-      push_token(res, type, text:sub(ss,se))
-      si = se + 1
-    else
-      si = si + 1
+    for n, p in ipairs(builtin_syntax) do
+      local ss, se = text:find("^" .. p.pattern, si)
+      if ss then
+        push_token(res, p.type or type, text:sub(ss,se))
+        si = se +1
+        break
+      else
+        if n == #builtin then
+          si = si +1
+        end
+      end
     end
   end
 end
