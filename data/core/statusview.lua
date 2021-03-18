@@ -152,8 +152,9 @@ function StatusView:get_items()
       #dv.doc.lines, " lines",
       style.dim, xft, self.separator2, style.text,
       dv.doc.crlf and "CRLF" or "LF",
-      style.dim, xft, self.separator2, style.text,
-      (tabmixed and "mixed:" or "clear:")..(tabtype and "space: " or "tab: ")..tabindent
+      style.dim, xft, self.separator2, tabmixed and style.accent2 or style.text,
+      (tabtype and "space" or "tab"),
+      style.text, ": "..tabindent
     }
   end
 
