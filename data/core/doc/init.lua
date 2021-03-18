@@ -483,68 +483,64 @@ end
 
 
 function Doc:delete_to(...)
-  if self.selection_method ~= "multiple" then
-    local line, col = self:get_selection(true)
-    if self:has_selection() then
-      self:remove(self:get_selection())
-    else
-      local line2, col2 = self:position_offset(line, col, ...)
-      self:remove(line, col, line2, col2)
-      line, col = common.sort_positions(line, col, line2, col2)
-    end
-    self:set_selection(line, col)
+-- if self.selection_method ~= "multiple" then
+  local line, col = self:get_selection(true)
+  if self:has_selection() then
+    self:remove(self:get_selection())
   else
-    local last_col, newline = 0, 0
-    local cols = {}
-    -- grab col2 position in a fashion order
-    for i, d in ipairs(self.selection.c) do
-      local line, col = table.unpack(d)
-      local line2, col2 = self:position_offset(line, col, ...)
-      if i == 1 then
-        table.insert(cols, {line2, col2})
-      else
-        table.insert(cols, {line2, col2})
-      end
-      if line > line2 then
-        newline = newline+1
-      end
-    end
-    -- apply and update selections
-    for i = #self:get_selection(true), 1, -1 do
-      last_col = 0
-      for s = 1, i, 1 do
-        local ld, lc = table.unpack(cols[s])
-        last_col = last_col+lc
-        if s > 1 then
-          last_col = last_col-1
-        end
-      end
-      
-      local line, col = table.unpack(self.selection.c[i])
-      local line2, col2 = table.unpack(cols[i])
-      self:remove(line, col, line2, col2)
-      -- delete newline
-      if line > line2 and col == 1 then
-        if i > 1 then
-          line2 = line-i
-          self.selection.c[i] = { line2, last_col, line2, last_col }
-        else
-          self.selection.c[i] = { line2, col2, line2, col2 }
-        end
-      else
-        if line == line2 and col-1 == col2 then
-          if newline > 0 then
-            line2 = line-i+newline
-            newline = newline-1
-          end
-          if i > 1 then
-            col2 = col2-i+1
-          end
-        end
-        self.selection.c[i] = { line2, col2, line2, col2 }
-      end
-    end
+    local line2, col2 = self:position_offset(line, col, ...)
+    self:remove(line, col, line2, col2)
+    line, col = common.sort_positions(line, col, line2, col2)
   end
+  self:set_selection(line, col)
+  -- else
+  --   local last_col, newline = 0, 0
+  --   local cols = {}
+  --   -- grab col2 position in a fashion order
+  --   for i, d in ipairs(self.selection.c) do
+  --     local line, col = table.unpack(d)
+  --     local line2, col2 = self:position_offset(line, col, ...)
+  --     table.insert(cols, {line2, col2})
+  --     if line > line2 then
+  --       newline = newline+1
+  --     end
+  --   end
+  --   -- apply and update selections
+  --   for i = #self:get_selection(true), 1, -1 do
+  --     last_col = 0
+  --     for s = 1, i, 1 do
+  --       local ld, lc = table.unpack(cols[s])
+  --       last_col = last_col+lc
+  --       if s > 1 then
+  --         last_col = last_col-1
+  --       end
+  --     end
+  --     
+  --     local line, col = table.unpack(self.selection.c[i])
+  --     local line2, col2 = table.unpack(cols[i])
+  --     self:remove(line, col, line2, col2)
+  --     -- delete newline
+  --     if line > line2 and col == 1 then
+  --       if i > 1 then
+  --         line2 = line-i
+  --         self.selection.c[i] = { line2, last_col, line2, last_col }
+  --       else
+  --         self.selection.c[i] = { line2, col2, line2, col2 }
+  --       end
+  --     else
+  --       if line == line2 and col-1 == col2 then
+  --         if newline > 0 then
+  --           line2 = line-i+newline
+  --           newline = newline-1
+  --         end
+  --         if i > 1 then
+  --           col2 = col2-i+1
+  --         end
+  --       end
+  --       self.selection.c[i] = { line2, col2, line2, col2 }
+  --     end
+  --   end
+  -- end
 end
 
 

@@ -173,31 +173,31 @@ local commands = {
   end,
 
   ["doc:backspace"] = function()
-    local function backspace(line, col)
+    -- local function backspace(line, col)
+    local line, col, line1, col1 = doc():get_selection()
+    if not doc():has_selection() then
       local text = doc():get_text(line, 1, line, col)
       if #text >= config.core.indent_size and text:find("^ *$") then
         doc():delete_to(0, -config.core.indent_size)
-      else
-        doc():delete_to(translate.previous_char)
+        return
       end
     end
-    if is_single() then
-      local line, col, line1, col1 = doc():get_selection()
-      if not doc():has_selection() then
-        backspace(line, col)
-      else
-        doc():delete_to(line1, col1)
-      end
-      return
-    else
-      local lines = doc():get_selection()
-      for i, d in ipairs(lines) do
-        -- if not doc():has_selection() then
-        local line, col = table.unpack(d)
-        backspace(line, col)
-      end
-    end
-    -- doc():delete_to(translate.previous_char)
+    -- if is_single() then
+    --   local line, col, line1, col1 = doc():get_selection()
+    --   if not doc():has_selection() then
+    --     backspace(line, col)
+    --   else
+    --     doc():delete_to(line1, col1)
+    --   end
+    -- else
+    --   local lines = doc():get_selection()
+    --   for i, d in ipairs(lines) do
+    --     -- if not doc():has_selection() then
+    --     local line, col = table.unpack(d)
+    --     backspace(line, col)
+    --   end
+    -- end
+    doc():delete_to(translate.previous_char)
   end,
 
   ["doc:select-all"] = function()
