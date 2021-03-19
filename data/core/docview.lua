@@ -386,13 +386,16 @@ function DocView:draw_line_text(idx, x, y)
       if config.core.warn_mixed_tab and tab_type ~= type then
         if not self.doc.tab_mixed then self.doc.tab_mixed = true end
       end
+
       if config.core.show_block_rulers and n == 1 then
         local indent_size = config.core.indent_size
         local text_size = type == "tab" and #text or #text-1
+        local color = style.guide or style.selection
         for i = 0, text_size, indent_size do
-          renderer.draw_rect(x + sw * i, y, w, lh, style.guide or style.selection)
+          renderer.draw_rect(x + sw * i, y, w, lh, color)
         end
       end
+
       if config.core.show_spaces then
         if type == "space" then
           local v = "·"
