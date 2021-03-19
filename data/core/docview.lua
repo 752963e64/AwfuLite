@@ -249,13 +249,13 @@ function DocView:on_mouse_moved(x, y, dx, dy)
 
   if self.mouse_selecting then
     local _, _, line2, col2 = self.doc:get_selection()
-    local line1, col1 = self:resolve_screen_position(x, y)
+    local line1, col1 = self:resolve_screen_position(x+dx, y+dy)
     self.doc:set_selection(line1, col1, line2, col2)
     local min,max = self:get_visible_line_range()
     if max < #self.doc.lines
     and line1 >= max-2 then
       self.mouse_autoscroll = "down"
-    elseif line1 <= min+2 then
+    elseif min > 1 and line1 <= min+2 then
       self.mouse_autoscroll = "up"
     else
       self.mouse_autoscroll = false
@@ -264,7 +264,7 @@ function DocView:on_mouse_moved(x, y, dx, dy)
   -- add cursors
   if self.add_cursor then
     if keymap.modkeys["shift"] then
-      local line1, col1 = self:resolve_screen_position(x, y)
+      local line1, col1 = self:resolve_screen_position(x+dx, y+dy)
       while self.add_cursor <= line1 do
         self.add_cursor = self.add_cursor+1
         self.doc:set_selection(self.add_cursor, col1)
@@ -355,7 +355,6 @@ function DocView:update()
       end
       if line1 == 1 or line1 == #self.doc.lines then
         self.mouse_autoscroll = false
-        return
       end
       self:scroll_to_make_visible(line1, col1)
       self.doc:set_selection(line1, col1, line2, col2)
