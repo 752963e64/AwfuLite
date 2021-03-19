@@ -355,6 +355,7 @@ function DocView:update()
       end
       if line1 == 1 or line1 == #self.doc.lines then
         self.mouse_autoscroll = false
+        return
       end
       self:scroll_to_make_visible(line1, col1)
       self.doc:set_selection(line1, col1, line2, col2)
