@@ -422,33 +422,31 @@ function DocView:draw_line_text(idx, x, y)
   local font = self:get_font()
   local lh = self:get_line_height()
   local tw = font:get_width("\t")
+  local tab_type = config.core.tab_type ~= "hard" and "space" or "tab"
 
   for _, type, text in self.doc.highlighter:each_token(idx) do
     local color = style.syntax[type]
-    if type == "space" and config.core.show_spaces then
-      local v = "·"
-      text = v:rep(#text)
-      if #text % config.core.indent_size == 0 and config.core.tab_type == "hard" then
+    if type == "space" or type == "tab" then
+      if #text % config.core.indent_size == 0 and tab_type ~= type then
         if not self.doc.tab_mixed then self.doc.tab_mixed = true end
       end
-    end
-
-    if type == "tab" and config.core.show_spaces then
-      if not self.doc.tab_mixed and config.core.tab_type ~= "hard" then
-        self.doc.tab_mixed = true
+      if config.core.show_spaces then
+        if type == "space" then
+          local v = "·"
+          text = v:rep(#text)
+        else
+          local rx = tx
+          for i = #text, 1, -1 do
+            renderer.draw_rect(rx+(tw/3), ty+(lh/2), tw/2, math.ceil(1 * SCALE), color)
+            rx = rx+tw
+          end
+        end
       end
-      for i = #text, 1, -1 do
-        renderer.draw_rect(tx+(tw/3), ty+(lh/2), tw/2, math.ceil(1 * SCALE), color)
-        tx = renderer.draw_text(font, "\t", tx, ty, color)
-      end
-    else
-      tx = renderer.draw_text(font, text, tx, ty, color)
     end
+    tx = renderer.draw_text(font, text, tx, ty, color)
   end
-
   self:draw_block_rulers(idx, x, y)
 end
-
 
 function DocView:draw_line_body(idx, x, y)
   local selection_mehod = self.doc:get_selection_method()
