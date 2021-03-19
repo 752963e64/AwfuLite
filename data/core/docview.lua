@@ -427,7 +427,7 @@ function DocView:draw_line_text(idx, x, y)
   for _, type, text in self.doc.highlighter:each_token(idx) do
     local color = style.syntax[type]
     if type == "space" or type == "tab" then
-      if #text % config.core.indent_size == 0 and tab_type ~= type then
+      if tab_type ~= type then
         if not self.doc.tab_mixed then self.doc.tab_mixed = true end
       end
       if config.core.show_spaces then
