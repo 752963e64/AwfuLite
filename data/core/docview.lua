@@ -373,15 +373,16 @@ end
 function DocView:draw_line_text(idx, x, y)
   local tx, ty = x, y + self:get_line_text_y_offset()
   local font = self:get_font()
-  local lh = self:get_line_height()
-  local tw = font:get_width("\t")
-  local sw = font:get_width(" ")
-  local w = math.ceil(1 * SCALE)
-  local tab_type = config.core.tab_type ~= "hard" and "space" or "tab"
 
   for n, type, text in self.doc.highlighter:each_token(idx) do
     local color = style.syntax[type]
     if type == "space" or type == "tab" then
+      local lh = self:get_line_height()
+      local tw = font:get_width("\t")
+      local sw = font:get_width(" ")
+      local w = math.ceil(1 * SCALE)
+      local tab_type = config.core.tab_type ~= "hard" and "space" or "tab"
+      
       if config.core.warn_mixed_tab and tab_type ~= type then
         if not self.doc.tab_mixed then self.doc.tab_mixed = true end
       end
@@ -389,8 +390,7 @@ function DocView:draw_line_text(idx, x, y)
         local indent_size = config.core.indent_size
         local text_size = type == "tab" and #text or #text-1
         for i = 0, text_size, indent_size do
-          local color = style.guide or style.selection
-          renderer.draw_rect(x + sw * i, y, w, lh, color)
+          renderer.draw_rect(x + sw * i, y, w, lh, style.guide or style.selection)
         end
       end
       if config.core.show_spaces then
