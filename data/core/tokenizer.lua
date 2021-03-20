@@ -44,12 +44,13 @@ local function find_non_escaped(text, pattern, offset, esc)
 end
 
 local builtin_syntax = {
-  { pattern = "[ ]+",  type = "space"  },
-  { pattern = "[\t]+",  type = "tab"  },
-  { pattern = "[\x21-\x7f\xc2-\xf4][\x80-\xbf]*",  type = nil  }
+  { pattern = "[ ]+",                               type = "space"  },
+  { pattern = "[\t]+",                              type = "tab"  },
+  { pattern = "[\x21-\x7f\xc2-\xf4][\x80-\xbf]*",   type = nil  }
 }
 
-local function tokenize(res, text, type)
+local function tokenize_spaces(res, text, type)
+  -- find matching builtin pattern
   local si = 1
   while si <= #text do
     for n, p in ipairs(builtin_syntax) do
@@ -71,6 +72,10 @@ function tokenizer.tokenize(syntax, text, state)
   local res, i = {}, 1
 
   if #syntax.patterns == 0 then
+    if config.core.show_spaces then
+      tokenize_spaces(res, text, "normal")
+      return res, state
+    end
     return { "normal", text }
   end
 
@@ -81,11 +86,11 @@ function tokenizer.tokenize(syntax, text, state)
       local s, e = find_non_escaped(text, p.pattern[2], i, p.pattern[3])
 
       if s then
-        tokenize(res, text:sub(i, e), p.type)
+        tokenize_spaces(res, text:sub(i, e), p.type)
         state = nil
         i = e + 1
       else
-        tokenize(res, text:sub(i), p.type)
+        tokenize_spaces(res, text:sub(i), p.type)
         break
       end
     end
@@ -100,7 +105,7 @@ function tokenizer.tokenize(syntax, text, state)
       if s then
         -- matched pattern; make and add token
         local t = text:sub(s, e)
-        tokenize(res, t, syntax.symbols[t] or p.type)
+        tokenize_spaces(res, t, syntax.symbols[t] or p.type)
 
         -- update state if this was a start|end pattern pair
         if type(p.pattern) == "table" then
@@ -116,7 +121,7 @@ function tokenizer.tokenize(syntax, text, state)
 
     -- consume character if we didn't match
     if not matched then
-      tokenize(res, text:sub(i, i), "normal")
+      tokenize_spaces(res, text:sub(i, i), "normal")
       i = i + 1
     end
   end

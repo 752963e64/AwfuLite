@@ -273,6 +273,7 @@ function DocView:on_mouse_moved(x, y, dx, dy)
   end
 end
 
+
 local function copy_selection(self)
   if self.mouse_selecting then
     local text = self.doc:get_text(self.doc:get_selection())
@@ -284,6 +285,7 @@ local function copy_selection(self)
   self.mouse_selecting = false
   self.mouse_autoscroll = false
 end
+
 
 function DocView:on_mouse_released(button, x, y)
   DocView.super.on_mouse_released(self, button, x, y)
@@ -412,6 +414,7 @@ function DocView:draw_line_text(idx, x, y)
     tx = renderer.draw_text(font, text, tx, ty, color)
   end
 end
+
 
 function DocView:draw_line_body(idx, x, y)
   local selection_mehod = self.doc:get_selection_method()
