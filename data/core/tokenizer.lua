@@ -70,9 +70,10 @@ end
 
 function tokenizer.tokenize(syntax, text, state)
   local res, i = {}, 1
-
+  local tokenize = config.core.show_spaces or config.core.show_block_rulers
+  
   if #syntax.patterns == 0 then
-    if config.core.show_spaces then
+    if tokenize then
       tokenize_spaces(res, text, "normal")
       return res, state
     end
