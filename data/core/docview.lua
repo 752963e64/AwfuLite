@@ -476,14 +476,20 @@ end
 
 
 function DocView:draw_line_gutter(idx, x, y)
-  local selection_mehod = self.doc:get_selection_method()
+  local markers = self.doc.markers
+  if #markers >= 1 and markers[idx] then
+    local h = self:get_line_height()
+    renderer.draw_rect(x, y, style.padding.x * 0.4, h, style.selection)
+  end
+  
+  local selection_method = self.doc:get_selection_method()
   local yoffset = self:get_line_text_y_offset()
   local color = style.line_number
   x = x + style.padding.x
   if core.active_view ~= self then
     return renderer.draw_text(self:get_font(), idx, x, y + yoffset, color)
   end
-  if selection_mehod ~= "multiple" then
+  if selection_method ~= "multiple" then
     local line1, _, line2, _ = self.doc:get_selection(true)
     if idx >= line1 and idx <= line2 then
       color = style.line_number2

@@ -8,6 +8,17 @@ local common = require "core.common"
 
 local Doc = Object:extend()
 
+-- markers
+local function shift_lines(doc, at, diff)
+  if diff == 0 then return end
+  local t = {}
+  for line in pairs(doc.markers) do
+    line = line >= at and line + diff or line
+    t[line] = true
+  end
+  doc.markers = t
+end
+
 
 local function split_lines(text)
   local res = {}
@@ -54,6 +65,7 @@ function Doc:reset()
   self.undo_stack = { idx = 1 }
   self.redo_stack = { idx = 1 }
   self.clean_change_id = 1
+  self.markers = {}
   self.highlighter = Highlighter(self)
   self:reset_syntax()
 end
@@ -382,6 +394,13 @@ function Doc:raw_insert(line, col, text, undo_stack, time)
   -- update highlighter and assure selection is in bounds
   self.highlighter:invalidate(line)
   -- if #self.selection.c == 0 then self:sanitize_selection() end
+
+  -- markers
+  local line_count = 0
+  for _ in text:gmatch("\n") do
+    line_count = line_count + 1
+  end
+  shift_lines(self, line, line_count)
 end
 
 
@@ -402,6 +421,9 @@ function Doc:raw_remove(line1, col1, line2, col2, undo_stack, time)
   -- update highlighter and assure selection is in bounds
   self.highlighter:invalidate(line1)
   -- if #self.selection.c == 0 then self:sanitize_selection() end
+
+  -- markers
+  shift_lines(self, line2, line1 - line2)
 end
 
 

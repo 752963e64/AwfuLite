@@ -403,6 +403,42 @@ local commands = {
       core.log("Removed \"%s\"", old_filename)
     end, common.path_suggest)
   end,
+
+  -- MARKERS
+  ["doc:mark"] = function()
+    if not config.core.markers then return end
+    
+    local line = doc():get_selection()
+
+    if doc().markers[line] then
+      doc().markers[line] = nil
+    else
+      doc().markers[line] = true
+    end
+  end,
+
+  ["doc:switch-to-next-mark"] = function()
+    if not config.core.markers then return end
+
+    local line = doc():get_selection()
+    local markers = doc().markers
+
+    local first_marker = math.huge
+    local next_marker = math.huge
+    for l, _ in pairs(markers) do
+      if l > line and l < next_marker then
+        next_marker = l
+      end
+      first_marker = math.min(first_marker, l)
+    end
+    if next_marker == math.huge then
+      next_marker = first_marker
+    end
+    if next_marker ~= math.huge then
+      doc:set_selection(next_marker, 1)
+      core.active_view:scroll_to_line(next_marker, true)
+    end
+  end,
 }
 
 
