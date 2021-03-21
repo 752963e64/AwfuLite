@@ -115,44 +115,42 @@ function common.fuzzy_match(haystack, needle)
 end
 
 
-local function list_dir(text)
+local function list_dir(text, only)
   local path, _ = text:match("^(.-)([^/\\]*)$")
-  return path, system.list_dir(path == "" and "." or path) or {}
-end
-
-function common.path_suggest_only_dirs(text)
-  local path, files = list_dir(text)
+  local files = system.list_dir(path == "" and "." or path) or {}
   local res = {}
   for _, file in ipairs(files) do
     file = path .. file
     local info = system.get_file_info(file)
-    if info and info.type == "dir" then
-      file = file .. PATHSEP
-      if file:lower():find(text:lower(), nil, true) == 1 then
-        table.insert(res, file)
-      end
-    end
-  end
-  return res
-end
-
-
-function common.path_suggest(text)
-  local path, files = list_dir(text)
-  local res = {}
-  for _, file in ipairs(files) do
-    file = path .. file
-    local info = system.get_file_info(file)
+    local is_valid = file:lower():find(text:lower(), nil, true) == 1
     if info then
       if info.type == "dir" then
         file = file .. PATHSEP
       end
-      if file:lower():find(text:lower(), nil, true) == 1 then
+      if only == info.type and is_valid then
         table.insert(res, file)
+      else
+        if only == nil and is_valid then
+          table.insert(res, file)
+        end
       end
     end
   end
   return res
+end
+
+function common.path_suggest_only_dirs(text)
+  return list_dir(text, "dir")
+end
+
+
+function common.path_suggest_only_files(text)
+  return list_dir(text, "file")
+end
+
+
+function common.path_suggest(text)
+  return list_dir(text)
 end
 
 
