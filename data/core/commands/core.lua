@@ -47,6 +47,12 @@ command.add(nil, {
     end)
   end,
 
+  ["core:change-cwd"] = function()
+    core.command_view:enter("Change Cwd", function(text)
+      core.cwd = text
+    end, common.path_suggest)
+  end,
+
   ["core:new-file"] = function()
     core.root_view:open_doc(core.open_doc())
   end,

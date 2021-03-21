@@ -66,7 +66,7 @@ local function project_scan_thread()
   while true do
     -- get project files and replace previous table if the new table is
     -- different
-    local t = get_files(".")
+    local t = get_files(core.cwd)
     if diff_files(core.project_files, t) then
       core.project_files = t
       core.redraw = true
@@ -92,6 +92,7 @@ function core.init()
   core.docs = {}
   core.threads = setmetatable({}, { __mode = "k" })
   core.project_files = {}
+  core.cwd = "."
   core.redraw = true
 
   core.root_view = RootView()

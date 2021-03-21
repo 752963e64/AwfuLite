@@ -130,9 +130,10 @@ function StatusView:get_items()
     last_yoffset = dv.scroll.to.y
 
     return {
-      dirty and style.accent2 or
-        style.text, style.xft.icon, style.icons["code"],
-      style.dim, xft, self.separator2, style.text,
+      dirty and style.accent2 or style.text,
+      style.xft.icon, style.icons["code"],
+      style.dim, xft, self.separator2,
+      style.text, system.absolute_path(core.cwd).." - ",
       style.text, xft, #node.views .."/"..idx, style.text,
       style.dim, xft, self.separator2, style.text,
       dv.doc.filename and style.text or style.dim, dv.doc:get_name(),
