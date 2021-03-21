@@ -98,6 +98,7 @@ see workspace screenshot for an overview...
 - added space and tab rendering.
 - improved tokenizer to catch more token
 - added markers to docview. original implementation by Petri Häkkinen
+- added dynamic current working directory, changeable from commands
 
      # statusview scheme
      (document changes appears orange) dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending | (mixed tab/space document ~= config appears orange) tabtype tabsize
