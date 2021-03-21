@@ -49,8 +49,12 @@ command.add(nil, {
 
   ["core:change-cwd"] = function()
     core.command_view:enter("Change Cwd", function(text)
+      if text == nil then
+        core.log("Cannot change the current working directory to a nil value.")
+        return
+      end
       core.cwd = text
-    end, common.path_suggest)
+    end, common.path_suggest_only_dirs)
   end,
 
   ["core:new-file"] = function()

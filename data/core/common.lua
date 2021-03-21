@@ -115,9 +115,30 @@ function common.fuzzy_match(haystack, needle)
 end
 
 
+local function list_dir(text)
+  local path, _ = text:match("^(.-)([^/\\]*)$")
+  return path, system.list_dir(path == "" and "." or path) or {}
+end
+
+function common.path_suggest_only_dirs(text)
+  local path, files = list_dir(text)
+  local res = {}
+  for _, file in ipairs(files) do
+    file = path .. file
+    local info = system.get_file_info(file)
+    if info and info.type == "dir" then
+      file = file .. PATHSEP
+      if file:lower():find(text:lower(), nil, true) == 1 then
+        table.insert(res, file)
+      end
+    end
+  end
+  return res
+end
+
+
 function common.path_suggest(text)
-  local path, name = text:match("^(.-)([^/\\]*)$")
-  local files = system.list_dir(path == "" and "." or path) or {}
+  local path, files = list_dir(text)
   local res = {}
   for _, file in ipairs(files) do
     file = path .. file
