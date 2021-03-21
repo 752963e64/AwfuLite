@@ -50,7 +50,8 @@ cd lite
 - **ctrl+c** => copy selection
 - **ctrl+l** => select entire line
 - **ctrl+d** => select word
-- **ctrl+v** => paste selection to the current cursor position
+- **ctrl+v** => paste selection to the current text cursor position
+- **ctrl+up|down** => hold entire line from current text cursor position and swap to the given direction
 
 #### split document workspace into multiple workspaces
 
@@ -96,6 +97,7 @@ see workspace screenshot for an overview...
 - added show_block_rulers to docview.
 - added space and tab rendering.
 - improved tokenizer to catch more token
+- added markers to docview. original implementation by Petri Häkkinen
 
      # statusview scheme
      (document changes appears orange) dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending | (mixed tab/space document ~= config appears orange) tabtype tabsize
