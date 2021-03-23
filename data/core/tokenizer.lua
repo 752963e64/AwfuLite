@@ -122,8 +122,10 @@ function tokenizer.tokenize(syntax, text, state)
 
     -- consume character if we didn't match
     if not matched then
-      tokenize_spaces(res, text:sub(i, i), "normal")
-      i = i + 1
+      local s, e = text:find("^[\x21-\x7f\xc2-\xf4][\x80-\xbf]", i)
+      local t = s ~= nil and text:sub(s, e) or text:sub(i, i)
+      i = s ~= nil and e +1 or i +1
+      tokenize_spaces(res, t, "normal")
     end
   end
 
