@@ -15,7 +15,7 @@ function common.truncate_text(font, text, sx, dx)
       text_w = font:get_width(text)
     end
     text = text:sub(1,-6)
-    text = text .. " ..."
+    text = text .. " …"
   end
   return text
 end
