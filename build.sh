@@ -6,7 +6,7 @@ lflags="-lSDL2 -lm"
 platform="unix"
 outfile="lite"
 compiler="gcc"
-cflags="$cflags -DLUA_USE_POSIX"
+cflags="$cflags -DLUA_USE_POSIX -D_MYSDL2_"
 lflags="$lflags -o $outfile"
 
 
@@ -26,6 +26,8 @@ if [[ ! $got_error ]]; then
   echo "linking..."
   $compiler *.o $lflags
 fi
+
+sed -i "s:x11_clipboard = true:x11_clipboard = false:" ./data/core/config.lua
 
 echo "cleaning up..."
 rm *.o
