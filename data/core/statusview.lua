@@ -111,6 +111,11 @@ function StatusView:get_items()
   if getmetatable(core.active_view) == DocView then
     local dv = core.active_view
     local line, col = dv.doc:get_selection()
+    for i = col,1,-1 do -- rectify column over unicode
+      if common.is_utf8_cont(dv.doc:get_char(line, i)) then
+        col = col -1
+      end
+    end
     local dirty = dv.doc:is_dirty()
     local node = core.root_view:get_active_node()
     local idx = node:get_view_idx(core.active_view)
@@ -119,7 +124,7 @@ function StatusView:get_items()
     local tabmixed = dv.doc.tab_mixed
     local tabindent = config.core.indent_size
 
-    local is_multiple = dv.doc:get_selection_method() ~= "single"
+    local is_multiple = #dv.doc.selection.c >= 1
     local scrollfeed = ""
     if dv.scroll.to.y > last_yoffset
     or dv.scroll.to.y < last_yoffset then
