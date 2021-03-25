@@ -46,7 +46,7 @@ function StatusView:show_message(icon, icon_color, text)
       xsize = font:get_width(text)
     end
     text = text:sub(1,-5)
-    text = text .. " ..."
+    text = text .. " …"
   end
 
   self.message = {
@@ -110,12 +110,7 @@ end
 function StatusView:get_items()
   if getmetatable(core.active_view) == DocView then
     local dv = core.active_view
-    local line, col = dv.doc:get_selection()
-    for i = col,1,-1 do -- rectify column over unicode
-      if common.is_utf8_cont(dv.doc:get_char(line, i)) then
-        col = col -1
-      end
-    end
+    local line, col = dv:rectify_column_position()
     local dirty = dv.doc:is_dirty()
     local node = core.root_view:get_active_node()
     local idx = node:get_view_idx(core.active_view)
@@ -143,13 +138,13 @@ function StatusView:get_items()
       style.dim, xft, self.separator2, style.text,
       dv.doc.filename and style.text or style.dim, dv.doc:get_name(),
       style.dim, xft, self.separator2, style.text,
-      "line: ", is_multiple and "..." or line,
+      "line: ", is_multiple and "…" or line,
       style.dim, xft, " / ", style.text,
       -- col > config.core.line_limit and style.accent or
       style.text,
-      "col: ", is_multiple and "..." or col,
+      "col: ", is_multiple and "…" or col,
       style.dim, xft, " / ", style.text,
-      is_multiple and "..." or string.format("%d%%", line / #dv.doc.lines * 100),
+      is_multiple and "…" or string.format("%d%%", line / #dv.doc.lines * 100),
     }, {
       style.dim, style.xft.icon, scrollfeed,
       xft, style.dim, self.separator2,
@@ -185,7 +180,7 @@ function StatusView:draw()
   self.right_width = draw_items(self, right, 0, 0, text_width)
 
   if self.left_width+self.right_width >= self.size.x then
-    self:draw_items({ style.text, "..." })
+    self:draw_items({ style.text, "…" })
     return
   end
 
