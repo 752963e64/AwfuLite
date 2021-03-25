@@ -313,6 +313,8 @@ Get/Set X11 PRIMARY BUFFER(selection clipboard)
 
  */
 
+#ifdef _MYSDL2_
+
 static int f_get_selection_clipboard(lua_State *L) {
   char *text = SDL_GetSelectionClipboardText();
   lua_pushstring(L, text);
@@ -325,6 +327,8 @@ static int f_set_selection_clipboard(lua_State *L) {
   if (text) { SDL_SetSelectionClipboardText(text); }
   return 0;
 }
+
+#endif
 
 static int f_get_time(lua_State *L) {
   double n = SDL_GetPerformanceCounter() / (double) SDL_GetPerformanceFrequency();
@@ -402,8 +406,10 @@ static const luaL_Reg lib[] = {
   { "list_dir",                         f_list_dir            },
   { "absolute_path",                    f_absolute_path       },
   { "get_file_info",                    f_get_file_info       },
+#ifdef _MYSDL2_
   { "get_selection_clipboard",          f_get_selection_clipboard       },
   { "set_selection_clipboard",          f_set_selection_clipboard       },
+#endif
   { "get_clipboard",                    f_get_clipboard       },
   { "set_clipboard",                    f_set_clipboard       },
   { "get_time",                         f_get_time            },
