@@ -217,6 +217,11 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
     return
   end
 
+  if #self.doc.selection.c >= 1 and
+      not keymap.modkeys["ctrl"] then
+    self.doc.selection.c = {}
+  end
+
   local line, col = self:resolve_screen_position(x, y)
   if not line then return end
 
@@ -231,10 +236,6 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
       end
       self.doc:set_selection(line + 1, 1, line, 1)
     else
-      if #self.doc.selection.c >= 1 and
-        not keymap.modkeys["ctrl"] then
-        self.doc.selection.c = {}
-      end
       local line2, col2
       if keymap.modkeys["ctrl"] then
         if #self.doc.selection.c < 1 then
