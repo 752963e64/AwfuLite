@@ -295,10 +295,12 @@ function DocView:on_mouse_moved(x, y, dx, dy)
           self.doc:remove_last_selections()
         end
       end
+      local mp = x+dx-self:get_gutter_width()
+      mp = config.treeview.visible and mp -config.treeview.size or mp
       -- update selection's column based on mouse position
       for n,d in ipairs(self.doc.selection.c) do
         local l1, c1, l2, c2 = table.unpack(d)
-        local nc = self:get_x_offset_col(l1, x+dx-self:get_gutter_width())
+        local nc = self:get_x_offset_col(l1, mp)
         if nc ~= c1 then
           self.doc.selection.c[n] = { l1, nc, l2, c2 }
         end
