@@ -416,8 +416,12 @@ end
 
 
 function DocView:draw_line_highlight(x, y)
-  local lh = self:get_line_height()
-  renderer.draw_rect(x, y, self.size.x, lh, style.line_highlight)
+  if config.core.highlight_current_line
+  and not self.doc:has_selection()
+  and core.active_view == self then
+    local lh = self:get_line_height()
+    renderer.draw_rect(x, y, self.size.x, lh, style.line_highlight)
+  end
 end
 
 
@@ -500,6 +504,9 @@ function DocView:draw_line_body(idx, x, y)
     for i, l in ipairs(self.doc:get_selections(true)) do
       local l1, c1, l2, c2 = table.unpack(l)
       self:draw_selection(idx, x, y, l1, c1, l2, c2)
+      if l1 == idx then
+        self:draw_line_highlight(x + self.scroll.x, y)
+      end
     end
   else
     self:draw_selection(idx, x, y, line1, col1, line2, col2)
@@ -507,8 +514,7 @@ function DocView:draw_line_body(idx, x, y)
 
   -- draw line highlight if caret is on this line
   -- and there is none selection
-  if config.core.highlight_current_line and not self.doc:has_selection()
-  and line == idx and core.active_view == self then
+  if line == idx and not selections then
     self:draw_line_highlight(x + self.scroll.x, y)
   end
 
@@ -530,8 +536,7 @@ end
 
 
 function DocView:draw_line_gutter(idx, x, y)
-  local markers = self.doc.markers
-  if #markers >= 1 and markers[idx] then
+  if #self.doc.markers>= 1 and self.doc.markers[idx] then
     local h = self:get_line_height()
     renderer.draw_rect(x, y, style.padding.x * 0.4, h, style.selection)
   end
@@ -548,8 +553,7 @@ function DocView:draw_line_gutter(idx, x, y)
       color = style.line_number2
     end
   else
-    local selections = self.doc:get_selections(true)
-    for i, d in ipairs(selections) do
+    for i, d in ipairs(self.doc:get_selections(true)) do
       local line1, _, line2, _ = table.unpack(d)
       if idx >= line1 and idx <= line2 then
         color = style.line_number2
