@@ -254,18 +254,21 @@ node:split("left", view, true)
 command.add(nil, {
   ["treeview:toggle"] = function()
     view.visible = not view.visible
+    config.treeview.visible = view.visible
   end,
   ["treeview:larger"] = function()
     if not view.init_size then
       view.init_size = true
     end
     view.width = view.width + 10
+    config.treeview.size = view.width
   end,
   ["treeview:smaller"] = function()
     if not view.init_size then
       view.init_size = true
     end
     view.width = view.width - 10
+    config.treeview.size = view.width
   end
 })
 
