@@ -43,11 +43,12 @@ local function find_non_escaped(text, pattern, offset, esc)
   end
 end
 
+
 local builtin_syntax = {
   { pattern = "[ ]+",                               type = "space"  },
-  { pattern = "[\t]+",                              type = "tab"  },
-  { pattern = "[\x21-\x7f\xc2-\xf4][\x80-\xbf]*",   type = nil  }
+  { pattern = "[\t]+",                              type = "tab"  }
 }
+
 
 local function tokenize_spaces(res, text, type)
   -- find matching builtin pattern
@@ -61,6 +62,7 @@ local function tokenize_spaces(res, text, type)
         break
       else
         if n == #builtin_syntax then
+          push_token(res, type, text:sub(si,si))
           si = si +1
         end
       end
@@ -68,18 +70,14 @@ local function tokenize_spaces(res, text, type)
   end
 end
 
+
 function tokenizer.tokenize(syntax, text, state)
   local res, i = {}, 1
-  local tokenize = config.core.show_spaces or config.core.show_block_rulers
   
   if #syntax.patterns == 0 then
-    if tokenize then
-      tokenize_spaces(res, text, "normal")
-      return res, state
-    end
     return { "normal", text }
   end
-
+  
   while i <= #text do
     -- continue trying to match the end pattern of a pair if we have a state set
     if state then
@@ -122,10 +120,8 @@ function tokenizer.tokenize(syntax, text, state)
 
     -- consume character if we didn't match
     if not matched then
-      local s, e = text:find("^[\x21-\x7f\xc2-\xf4][\x80-\xbf]", i)
-      local t = s ~= nil and text:sub(s, e) or text:sub(i, i)
-      i = s ~= nil and e +1 or i +1
-      tokenize_spaces(res, t, "normal")
+      tokenize_spaces(res, text:sub(i, i), "normal")
+      i = i +1
     end
   end
 

@@ -111,7 +111,7 @@ function StatusView:get_items()
   if getmetatable(core.active_view) == DocView then
     local dv = core.active_view
     local is_multiple = #dv.doc.selection.c >= 1
-    local line, col = is_multiple and nil or dv:rectify_column_position()
+    local line, col = dv:rectify_column_position()
     local dirty = dv.doc:is_dirty()
     local node = core.root_view:get_active_node()
     local idx = node:get_view_idx(core.active_view)
@@ -133,16 +133,19 @@ function StatusView:get_items()
       dirty and style.accent2 or style.text,
       style.xft.icon, style.icons["code"],
       style.dim, xft, self.separator2,
-      style.text, system.absolute_path(core.cwd).." - ",
+      style.xft.icon, style.icons["folder-open"], xft,
+      style.text, " "..system.absolute_path(core.cwd).." - ",
       style.text, xft, #node.views .."/"..idx, style.text,
       style.dim, xft, self.separator2, style.text,
-      dv.doc.filename and style.text or style.dim, dv.doc:get_name(),
+      dv.doc.filename and style.text or style.dim, 
+      style.xft.icon, style.icons["file-code"], xft,
+      " "..dv.doc:get_name(),
       style.dim, xft, self.separator2, style.text,
-      "line: ", is_multiple and "…" or line,
+      "line: ", line,
       style.dim, xft, " / ", style.text,
       -- col > config.core.line_limit and style.accent or
       style.text,
-      "col: ", is_multiple and "…" or col,
+      "col: ", col,
       style.dim, xft, " / ", style.text,
       is_multiple and "…" or string.format("%d%%", line / #dv.doc.lines * 100),
     }, {

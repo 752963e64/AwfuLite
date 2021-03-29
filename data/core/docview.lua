@@ -161,6 +161,20 @@ function DocView:get_x_offset_col(line, x)
 end
 
 
+function DocView:rectify_column_position()
+  local line, col = "…", "…"
+  if #self.doc.selection.c < 1 then
+    line, col = self.doc:get_selection()
+    for i = col,1,-1 do -- rectify column over unicode
+      if common.is_utf8_cont(self.doc:get_char(line, i)) then
+        col = col -1
+      end
+    end
+  end
+  return line, col
+end
+
+
 function DocView:resolve_screen_position(x, y)
   local ox, oy = self:get_line_screen_position(1)
   local line = math.floor((y - oy) / self:get_line_height()) + 1
@@ -207,9 +221,6 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
   if not line then return end
 
   if button == "left" then
-    if self.doc:get_selection_method() ~= "single" then
-      self.doc:set_selection_method("single")
-    end
     if clicks == 2 then -- select word after 2 clicks
       local line1, col1 = translate.start_of_word(self.doc, line, col)
       local line2, col2 = translate.end_of_word(self.doc, line, col)
@@ -220,11 +231,24 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
       end
       self.doc:set_selection(line + 1, 1, line, 1)
     else
+      if #self.doc.selection.c >= 1 and
+        not keymap.modkeys["ctrl"] then
+        self.doc.selection.c = {}
+      end
       local line2, col2
-      if keymap.modkeys["shift"] then
+      if keymap.modkeys["ctrl"] then
+        if #self.doc.selection.c < 1 then
+          local prev_line, prev_col = self.doc:get_selection()
+          self.doc:set_selections(prev_line, prev_col)
+        end
+        self.doc:set_selections(line, col)
+        self.add_cursor = line
+      elseif keymap.modkeys["shift"] then
         line2, col2 = select(3, self.doc:get_selection())
       end
-      self.doc:set_selection(line, col, line2, col2)
+      if #self.doc.selection.c < 1 then
+        self.doc:set_selection(line, col, line2, col2)
+      end
       self.mouse_selecting = true
     end
   end
@@ -232,10 +256,7 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
   if button == "right" then
     -- popup menu?
     if keymap.modkeys["shift"] then
-      if self.doc:get_selection_method() ~= "multiple" then
-        self.doc:set_selection_method("multiple")
-      end
-      self.doc:set_selection(line, col)
+      self.doc:set_selections(line, col)
       self.add_cursor = line
     end
   end
@@ -247,9 +268,10 @@ end
 function DocView:on_mouse_moved(x, y, dx, dy)
   DocView.super.on_mouse_moved(self, x, y, dx, dy)
 
+  local line1, col1 = self:resolve_screen_position(x+dx, y+dy)
+
   if self.mouse_selecting then
     local _, _, line2, col2 = self.doc:get_selection()
-    local line1, col1 = self:resolve_screen_position(x+dx, y+dy)
     self.doc:set_selection(line1, col1, line2, col2)
     local min,max = self:get_visible_line_range()
     if max < #self.doc.lines
@@ -261,13 +283,33 @@ function DocView:on_mouse_moved(x, y, dx, dy)
       self.mouse_autoscroll = false
     end
   end
+
   -- add cursors
   if self.add_cursor then
     if keymap.modkeys["shift"] then
-      local line1, col1 = self:resolve_screen_position(x+dx, y+dy)
-      while self.add_cursor <= line1 do
-        self.add_cursor = self.add_cursor+1
-        self.doc:set_selection(self.add_cursor, col1)
+      local last_line, last_col, _, last_col1 = self.doc:get_last_selections()
+      local first_line, first_col = self.doc:get_first_selections()
+      if last_line < self.add_cursor or last_line > self.add_cursor then
+        if #self.doc.selection.c > 1 then
+          self.doc:remove_last_selections()
+        end
+      end
+      -- update selection's column based on mouse position
+      for n,d in ipairs(self.doc.selection.c) do
+        local l1, c1, l2, c2 = table.unpack(d)
+        local nc = self:get_x_offset_col(l1, x+dx-self:get_gutter_width())
+        if nc ~= c1 then
+          self.doc.selection.c[n] = { l1, nc, l2, c2 }
+        end
+      end
+      -- add cursors while keeping first selections as pivot
+      while self.add_cursor ~= line1 do
+        if self.add_cursor == first_line then
+          self.doc.selection.c = {}
+          table.insert(self.doc.selection.c, { first_line, last_col1, first_line, last_col1 })
+        end
+        self.add_cursor = line1 > self.add_cursor and self.add_cursor+1 or self.add_cursor-1
+        self.doc:set_nodup_selections(self.add_cursor, col1, self.add_cursor, last_col1)
       end
     else self.add_cursor = false end
   end
@@ -275,7 +317,7 @@ end
 
 
 local function copy_selection(self)
-  if self.mouse_selecting then
+  if config.core.mouse_x11_clipboard then
     local text = self.doc:get_text(self.doc:get_selection())
     if #text > 0 then
       system.set_selection_clipboard(text)
@@ -290,11 +332,15 @@ end
 function DocView:on_mouse_released(button, x, y)
   DocView.super.on_mouse_released(self, button, x, y)
 
-  if button == "left" then
+  if button == "left" and self.mouse_selecting then
+    -- add selection to the current cursor
+    if keymap.modkeys["ctrl"] and #self.doc.selection.c >= 1 then
+      self.doc:set_selections(self.doc:get_selection())
+    end
     copy_selection(self)
   end
 
-  if button == "middle" then
+  if button == "middle" and config.core.mouse_x11_clipboard then
     local text = system.get_selection_clipboard()
     if #text > 0 then
       local line, col = self:resolve_screen_position(x, y)
@@ -310,7 +356,7 @@ function DocView:on_mouse_released(button, x, y)
     end
   end
 
-  if button == "right" then
+  if button == "right" or button == "left" then
     if self.add_cursor then
       self.add_cursor = false
     end
@@ -325,7 +371,7 @@ end
 
 function DocView:update()
   -- scroll to make caret visible and reset blink timer if it moved
-  if self.doc:get_selection_method() ~= "multiple" then
+  if #self.doc.selection.c < 1 then
     local line, col = self.doc:get_selection()
     if (line ~= self.last_line or col ~= self.last_col) and self.size.x > 0 then
       self:scroll_to_make_visible(line, col)
@@ -411,33 +457,13 @@ function DocView:draw_line_text(idx, x, y)
         end
       end
     end
+
     tx = renderer.draw_text(font, text, tx, ty, color)
   end
 end
 
 
-function DocView:draw_line_body(idx, x, y)
-  local selection_mehod = self.doc:get_selection_method()
-  local line1, col1, line2, col2, line, col, more
-  more = {}
-  if selection_mehod ~= "multiple" then
-    line, col = self.doc:get_selection()
-    line1, col1, line2, col2 = self.doc:get_selection(true)
-  else
-    for i, l in ipairs(self.doc:get_selection()) do
-      local l1, c1, l2, c2 = table.unpack(l)
-      if l1 == idx and not line1 then
-        line, col = l1, c1
-        line1, col1, line2, col2 = common.sort_positions(l1, c1, l2, c2)
-      else
-        if l1 == idx and line1 then
-          table.insert(more, {line, col, line2, col2})
-        end
-      end
-    end
-  end
-
-    -- draw selection if it overlaps this line
+function DocView:draw_selection(idx, x, y, line1, col1, line2, col2 )
   if line1 and idx >= line1 and idx <= line2 and core.active_view == self then
     local text = self.doc.lines[idx]
     if line1 ~= idx then col1 = 1 end
@@ -447,30 +473,55 @@ function DocView:draw_line_body(idx, x, y)
     local lh = self:get_line_height()
     renderer.draw_rect(x1, y, x2 - x1, lh, style.selection)
   end
+end
+
+
+function DocView:draw_caret(idx, x, y, col)
+  if core.active_view == self
+  and self.blink_timer < blink_period / 2
+  and system.window_has_focus() then
+    local lh = self:get_line_height()
+    local x1 = x + self:get_col_x_offset(idx, col)
+    renderer.draw_rect(x1, y, style.caret_width, lh, style.caret)
+  end
+end
+
+
+function DocView:draw_line_body(idx, x, y)
+  local selections = #self.doc.selection.c >= 1
+  local line, col = self.doc:get_selection()
+  local line1, col1, line2, col2 = self.doc:get_selection(true)
+
+  -- draw selection(s) if it overlaps this line
+  if selections then
+    for i, l in ipairs(self.doc:get_selections(true)) do
+      local l1, c1, l2, c2 = table.unpack(l)
+      self:draw_selection(idx, x, y, l1, c1, l2, c2)
+    end
+  else
+    self:draw_selection(idx, x, y, line1, col1, line2, col2)
+  end
 
   -- draw line highlight if caret is on this line
+  -- and there is none selection
   if config.core.highlight_current_line and not self.doc:has_selection()
   and line == idx and core.active_view == self then
     self:draw_line_highlight(x + self.scroll.x, y)
   end
 
-    -- draw line's text
+  -- draw line's text
   self:draw_line_text(idx, x, y)
 
-  -- draw caret if it overlaps this line
-  if line == idx and core.active_view == self
-  and self.blink_timer < blink_period / 2
-  and system.window_has_focus() then
-    local lh = self:get_line_height()
-    local x1 = x + self:get_col_x_offset(line, col)
-    renderer.draw_rect(x1, y, style.caret_width, lh, style.caret)
-    if #more >= 1 then
-      for _, c in ipairs(more) do
-        local sline, scol = table.unpack(c)
-        local x1 = x + self:get_col_x_offset(sline, scol)
-        renderer.draw_rect(x1, y, style.caret_width, lh, style.caret)
+  -- draw caret(s) if it overlaps this line
+  if selections then
+    for i, l in ipairs(self.doc:get_selections(true)) do
+      local l1, c1, l2, c2 = table.unpack(l)
+      if l1 == idx then
+        self:draw_caret(idx, x, y, c2)
       end
     end
+  elseif line == idx then
+    self:draw_caret(idx, x, y, col)
   end
 end
 
@@ -482,20 +533,19 @@ function DocView:draw_line_gutter(idx, x, y)
     renderer.draw_rect(x, y, style.padding.x * 0.4, h, style.selection)
   end
   
-  local selection_method = self.doc:get_selection_method()
   local yoffset = self:get_line_text_y_offset()
   local color = style.line_number
   x = x + style.padding.x
   if core.active_view ~= self then
     return renderer.draw_text(self:get_font(), idx, x, y + yoffset, color)
   end
-  if selection_method ~= "multiple" then
+  if #self.doc.selection.c < 1 then
     local line1, _, line2, _ = self.doc:get_selection(true)
     if idx >= line1 and idx <= line2 then
       color = style.line_number2
     end
   else
-    local selections = self.doc:get_selection(true)
+    local selections = self.doc:get_selections(true)
     for i, d in ipairs(selections) do
       local line1, _, line2, _ = table.unpack(d)
       if idx >= line1 and idx <= line2 then
