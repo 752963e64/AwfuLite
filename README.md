@@ -91,7 +91,6 @@ see workspace screenshot for an overview...
 - add back ubuntu® fonts and struct access for futur usage...
 - more fix around workspaces, can't open copy from opened files (through nodes :)) and grab focus from original instead.
 - ( ctrl+a, ctrl+c, alt+shift+j, ctrl+n, ctrl+v ) is the way to open a copy from the current document...
-- multi selection from mouse (beta)
 - autoscroll (down|beta)
 - mouse scroll feedback into statusview
 - added show_block_rulers to docview.
@@ -100,6 +99,8 @@ see workspace screenshot for an overview...
 - added markers to docview. original implementation by Petri Häkkinen
 - added dynamic current working directory, changeable from commands
 - added shifted & controled multiselections (beta)
+- ( ctrl + left mouse button => permits to place cursors anywhere you wish )
+- ( shift + right mouse button => permits to select vertically up'n down right'to left using a pivot algorithm )
 - added correct column tracking over unicode
 
      # statusview scheme
