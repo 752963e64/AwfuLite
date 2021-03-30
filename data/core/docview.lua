@@ -417,7 +417,6 @@ end
 
 function DocView:draw_line_highlight(x, y)
   if config.core.highlight_current_line
-  and not self.doc:has_selection()
   and core.active_view == self then
     local lh = self:get_line_height()
     renderer.draw_rect(x, y, self.size.x, lh, style.line_highlight)
@@ -470,7 +469,7 @@ function DocView:draw_line_text(idx, x, y)
 end
 
 
-function DocView:draw_selection(idx, x, y, line1, col1, line2, col2 )
+function DocView:draw_selection(idx, x, y, line1, col1, line2, col2)
   if line1 and idx >= line1 and idx <= line2 and core.active_view == self then
     local text = self.doc.lines[idx]
     if line1 ~= idx then col1 = 1 end
@@ -504,7 +503,7 @@ function DocView:draw_line_body(idx, x, y)
     for i, l in ipairs(self.doc:get_selections(true)) do
       local l1, c1, l2, c2 = table.unpack(l)
       self:draw_selection(idx, x, y, l1, c1, l2, c2)
-      if l1 == idx then
+      if l1 == idx and not self.doc:has_selection(l1, c1, l2, c2) then
         self:draw_line_highlight(x + self.scroll.x, y)
       end
     end
@@ -513,8 +512,8 @@ function DocView:draw_line_body(idx, x, y)
   end
 
   -- draw line highlight if caret is on this line
-  -- and there is none selection
-  if line == idx and not selections then
+  -- and there is none selection(s)
+  if line == idx and not self.doc:has_selection() and not selections then
     self:draw_line_highlight(x + self.scroll.x, y)
   end
 

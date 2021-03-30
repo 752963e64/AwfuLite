@@ -255,7 +255,7 @@ end
 
 
 function Doc:has_selection(line, col, line1, col1)
-  if line then
+  if line then -- used for multiselection
     return not (line == line1 and col == col1)
   end
   local a, b = self.selection.a, self.selection.b
