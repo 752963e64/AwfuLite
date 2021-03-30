@@ -115,7 +115,7 @@ end
 function DocView:get_line_screen_position(idx)
   local x, y = self:get_content_offset()
   local lh = self:get_line_height()
-  local gw = self:get_gutter_width()
+  local gw = config.core.show_gutter and self:get_gutter_width() or style.padding.x
   return x + gw, y + (idx-1) * lh + style.padding.y
 end
 
@@ -295,7 +295,7 @@ function DocView:on_mouse_moved(x, y, dx, dy)
           self.doc:remove_last_selections()
         end
       end
-      local mp = x+dx-self:get_gutter_width()
+      local mp = config.core.show_gutter and x+dx-self:get_gutter_width() or x+dx-style.padding.x
       mp = config.treeview.visible and mp -config.treeview.size or mp
       -- update selection's column based on mouse position
       for n,d in ipairs(self.doc.selection.c) do
@@ -498,7 +498,7 @@ function DocView:draw_line_body(idx, x, y)
   local line, col = self.doc:get_selection()
   local line1, col1, line2, col2 = self.doc:get_selection(true)
 
-  -- draw selection(s) if it overlaps this line
+  -- draw selection(s) and or line highlight if it overlaps this line
   if selections then
     for i, l in ipairs(self.doc:get_selections(true)) do
       local l1, c1, l2, c2 = table.unpack(l)
@@ -509,12 +509,9 @@ function DocView:draw_line_body(idx, x, y)
     end
   else
     self:draw_selection(idx, x, y, line1, col1, line2, col2)
-  end
-
-  -- draw line highlight if caret is on this line
-  -- and there is none selection(s)
-  if line == idx and not self.doc:has_selection() and not selections then
-    self:draw_line_highlight(x + self.scroll.x, y)
+    if line == idx and not self.doc:has_selection() then
+      self:draw_line_highlight(x + self.scroll.x, y)
+    end
   end
 
   -- draw line's text
@@ -535,7 +532,7 @@ end
 
 
 function DocView:draw_line_gutter(idx, x, y)
-  if #self.doc.markers>= 1 and self.doc.markers[idx] then
+  if #self.doc.markers >= 1 and self.doc.markers[idx] then
     local h = self:get_line_height()
     renderer.draw_rect(x, y, style.padding.x * 0.4, h, style.selection)
   end
@@ -575,15 +572,17 @@ function DocView:draw()
   local minline, maxline = self:get_visible_line_range()
   local lh = self:get_line_height()
 
-  local _, y = self:get_line_screen_position(minline)
-  local x = self.position.x
-  for i = minline, maxline do
-    self:draw_line_gutter(i, x, y)
-    y = y + lh
+  if config.core.show_gutter then
+    local _, y = self:get_line_screen_position(minline)
+    local x = self.position.x
+    for i = minline, maxline do
+      self:draw_line_gutter(i, x, y)
+      y = y + lh
+    end
   end
 
   local x, y = self:get_line_screen_position(minline)
-  local gw = self:get_gutter_width()
+  local gw = config.core.show_gutter and self:get_gutter_width() or 0
   local pos = self.position
   core.push_clip_rect(pos.x + gw, pos.y, self.size.x, self.size.y)
   for i = minline, maxline do
