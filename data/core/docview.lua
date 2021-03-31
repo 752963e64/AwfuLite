@@ -217,8 +217,9 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
     return
   end
 
-  if #self.doc.selection.c >= 1 and
-      not keymap.modkeys["ctrl"] then
+  local selections = #self.doc.selection.c >= 1
+
+  if selections and not keymap.modkeys["ctrl"] then
     self.doc.selection.c = {}
   end
 
@@ -238,7 +239,7 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
     else
       local line2, col2
       if keymap.modkeys["ctrl"] then
-        if #self.doc.selection.c < 1 then
+        if not selections then
           local prev_line, prev_col = self.doc:get_selection()
           self.doc:set_selections(prev_line, prev_col)
         end
@@ -247,9 +248,7 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
       elseif keymap.modkeys["shift"] then
         line2, col2 = select(3, self.doc:get_selection())
       end
-      if #self.doc.selection.c < 1 then
-        self.doc:set_selection(line, col, line2, col2)
-      end
+      self.doc:set_selection(line, col, line2, col2)
       self.mouse_selecting = true
     end
   end
@@ -266,22 +265,42 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
 end
 
 
+function DocView:autoscroll(l1)
+  local min,max = self:get_visible_line_range()
+  if max < #self.doc.lines
+  and l1 >= max-2 then
+    self.mouse_autoscroll = "down"
+  elseif min > 1 and l1 <= min+2 then
+    self.mouse_autoscroll = "up"
+  else
+    self.mouse_autoscroll = false
+  end
+end
+
+
+function DocView:update_shift_selections(x)
+  -- update selection's column based on mouse position
+  for n,d in ipairs(self.doc.selection.c) do
+    local l1, c1, l2, c2 = table.unpack(d)
+    local nc = self:get_x_offset_col(l1, x)
+    if nc ~= c1 then
+      self.doc.selection.c[n] = { l1, nc, l2, c2 }
+    end
+  end
+end
+
 function DocView:on_mouse_moved(x, y, dx, dy)
   DocView.super.on_mouse_moved(self, x, y, dx, dy)
 
   local line1, col1 = self:resolve_screen_position(x+dx, y+dy)
+  local selections = #self.doc.selection.c >= 1
 
   if self.mouse_selecting then
     local _, _, line2, col2 = self.doc:get_selection()
     self.doc:set_selection(line1, col1, line2, col2)
-    local min,max = self:get_visible_line_range()
-    if max < #self.doc.lines
-    and line1 >= max-2 then
-      self.mouse_autoscroll = "down"
-    elseif min > 1 and line1 <= min+2 then
-      self.mouse_autoscroll = "up"
-    else
-      self.mouse_autoscroll = false
+    self.doc:set_last_selections(line1, col1, line2, col2)
+    if not keymap.modkeys["ctrl"] then
+      self:autoscroll(line1)
     end
   end
 
@@ -295,16 +314,10 @@ function DocView:on_mouse_moved(x, y, dx, dy)
           self.doc:remove_last_selections()
         end
       end
+      self:autoscroll(line1)
       local mp = config.core.show_gutter and x+dx-self:get_gutter_width() or x+dx-style.padding.x
       mp = config.treeview.visible and mp -config.treeview.size or mp
-      -- update selection's column based on mouse position
-      for n,d in ipairs(self.doc.selection.c) do
-        local l1, c1, l2, c2 = table.unpack(d)
-        local nc = self:get_x_offset_col(l1, mp)
-        if nc ~= c1 then
-          self.doc.selection.c[n] = { l1, nc, l2, c2 }
-        end
-      end
+      self:update_shift_selections(mp)
       -- add cursors while keeping first selections as pivot
       while self.add_cursor ~= line1 do
         if self.add_cursor == first_line then
@@ -327,18 +340,18 @@ local function copy_selection(self)
       core.log("Copy \"%d\" ßytes", #text)
     end
   end
-  self.mouse_selecting = false
-  self.mouse_autoscroll = false
 end
 
 
 function DocView:on_mouse_released(button, x, y)
   DocView.super.on_mouse_released(self, button, x, y)
 
+  local selections = #self.doc.selection.c >= 1
+
   if button == "left" and self.mouse_selecting then
     -- add selection to the current cursor
-    if keymap.modkeys["ctrl"] and #self.doc.selection.c >= 1 then
-      self.doc:set_selections(self.doc:get_selection())
+    if keymap.modkeys["ctrl"] and selections then
+      self.doc:set_last_selections(self.doc:get_selection())
     end
     copy_selection(self)
   end
@@ -360,9 +373,9 @@ function DocView:on_mouse_released(button, x, y)
   end
 
   if button == "right" or button == "left" then
-    if self.add_cursor then
-      self.add_cursor = false
-    end
+    self.add_cursor = false
+    self.mouse_selecting = false
+    self.mouse_autoscroll = false
   end
 end
 
@@ -374,13 +387,17 @@ end
 
 function DocView:update()
   -- scroll to make caret visible and reset blink timer if it moved
-  if #self.doc.selection.c < 1 then
-    local line, col = self.doc:get_selection()
-    if (line ~= self.last_line or col ~= self.last_col) and self.size.x > 0 then
-      self:scroll_to_make_visible(line, col)
-      self.blink_timer = 0
-      self.last_line, self.last_col = line, col
-    end
+  local line1, col1, line2, col2 = self.doc:get_selection()
+  local selections = #self.doc.selection.c >= 1
+
+  if selections then
+    line1, col1, line2, col2 = self.doc:get_last_selections()
+  end
+
+  if (line1 ~= self.last_line or col1 ~= self.last_col) and self.size.x > 0 then
+    if not selections then self:scroll_to_make_visible(line1, col1) end
+    self.blink_timer = 0
+    self.last_line, self.last_col = line1, col1
   end
 
   if self == core.active_view then
@@ -392,9 +409,9 @@ function DocView:update()
       core.redraw = true
     end
     
+    -- core.root_view.mouse.x :)
     -- update autoscroll
     if self.mouse_autoscroll then
-      local line1, col1, line2, col2 = self.doc:get_selection()
       if self.mouse_autoscroll == "down" then
         if line1 >= self.last_line then
           line1 = line1+1
@@ -408,7 +425,15 @@ function DocView:update()
         self.mouse_autoscroll = false
       end
       self:scroll_to_make_visible(line1, col1)
-      self.doc:set_selection(line1, col1, line2, col2)
+      if selections then
+        local x = core.root_view.mouse.x
+        x = config.core.show_gutter and x-self:get_gutter_width() or x-style.padding.x
+        x = config.treeview.visible and x-config.treeview.size or x
+        self.doc:set_nodup_selections(line1, col1, line1, col2)
+        self:update_shift_selections(x)
+      else
+        self.doc:set_selection(line1, col1, line2, col2)
+      end
     end
   end
   DocView.super.update(self)
@@ -427,18 +452,20 @@ end
 function DocView:draw_line_text(idx, x, y)
   local tx, ty = x, y + self:get_line_text_y_offset()
   local font = self:get_font()
+  local lh = self:get_line_height()
+  local tw = font:get_width("\t")
+  local sw = font:get_width(" ")
+  local w = math.ceil(1 * SCALE)
+  local tab_type = config.core.tab_type ~= "hard" and "space" or "tab"
 
   for n, type, text in self.doc.highlighter:each_token(idx) do
     local color = style.syntax[type]
     if type == "space" or type == "tab" then
-      local lh = self:get_line_height()
-      local tw = font:get_width("\t")
-      local sw = font:get_width(" ")
-      local w = math.ceil(1 * SCALE)
-      local tab_type = config.core.tab_type ~= "hard" and "space" or "tab"
-      
+
       if config.core.warn_mixed_tab and tab_type ~= type then
-        if not self.doc.tab_mixed then self.doc.tab_mixed = true end
+        if not self.doc.tab_mixed then
+          self.doc.tab_mixed = true
+        end
       end
 
       if config.core.show_block_rulers and n == 1 then
@@ -565,9 +592,6 @@ function DocView:draw()
 
   local font = self:get_font()
   font:set_tab_width(font:get_width(" ") * config.core.indent_size)
-  if self.doc.tab_mixed then
-    self.doc.tab_mixed = false
-  end
 
   local minline, maxline = self:get_visible_line_range()
   local lh = self:get_line_height()
