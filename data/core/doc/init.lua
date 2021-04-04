@@ -155,11 +155,10 @@ end
 function Doc:set_nodup_selections(line1, col1, line2, col2)
   line1, col1 = self:sanitize_position(line1, col1)
   line2, col2 = self:sanitize_position(line2 or line1, col2 or col1)
-
   for i, d in ipairs(self.selection.c) do
     local l1, c1, l2, c2 = table.unpack(d)
     if l1 == line1 then
-      self.selection.c[i] = { line1, col1, line2, col2 }
+      -- self.selection.c[i] = { line1, col1, line2, col2 }
       line1 = nil
       break
     end
@@ -223,12 +222,17 @@ end
 
 
 function Doc:get_first_selections(sort)
-  local s = 1
-  local line, col, line1, col1 = table.unpack(self.selection.c[s])
   if sort then
     line, col, line1, col1 = common.sort_positions(line, col, line2, col2)
+    return line, col, line1, col1
   end
-  return line, col, line1, col1
+
+  for i, d in ipairs(self.selection.c) do
+    local l1, c1, l2, c2, skip = table.unpack(d)
+    if not skip then
+      return l1, c1, l2, c2, i
+    end
+  end
 end
 
 
@@ -254,9 +258,12 @@ function Doc:get_selection(sort)
 end
 
 
-function Doc:has_selection(line, col, line1, col1)
-  if line then -- used for multiselection
-    return not (line == line1 and col == col1)
+function Doc:has_selection(l1, c1, l2, c2)
+  if l1 then -- used for multiselection
+    if self.has_selections then
+      return self.has_selections
+    end
+    return not (l1 == l2 and c1 == c2)
   end
   local a, b = self.selection.a, self.selection.b
   return not (a.line == b.line and a.col == b.col)

@@ -14,6 +14,7 @@ function View:new()
   self.position = { x = 0, y = 0 }
   self.size = { x = 0, y = 0 }
   self.scroll = { x = 0, y = 0, to = { x = 0, y = 0 } }
+  self.mouse = { x = 0, y = 0 }
   self.cursor = "arrow"
   self.scrollable = false
 end
@@ -89,6 +90,7 @@ end
 
 
 function View:on_mouse_moved(x, y, dx, dy)
+  self.mouse.x, self.mouse.y = x, y
   if self.hovered_scrollbar or self.hold_scrollbar then
     self.cursor = "arrow"
     if self.hold_scrollbar then
