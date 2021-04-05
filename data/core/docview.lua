@@ -466,9 +466,16 @@ function DocView:update()
         end
       end
       self:scroll_to_make_visible(line1, col1)
+
       if selections then
         self:update_shift_selections(line1, col1)
       else
+        if line1 == #self.doc.lines then
+          local x, _ = self:resolve_mouse_position()
+          col1 = self:get_x_offset_col(line1, x)
+        elseif line1 == 1 then
+          col1 = 1
+        end
         self.doc:set_selection(line1, col1, line2, col2)
       end
       self:autoscroll(line)
@@ -548,9 +555,8 @@ end
 
 
 function DocView:draw_caret(idx, x, y, col)
-  if core.active_view == self
-  and self.blink_timer < blink_period / 2
-  and system.window_has_focus() then
+  if self:window_has_focus() and
+    self.blink_timer < blink_period / 2 then
     local lh = self:get_line_height()
     local x1 = x + self:get_col_x_offset(idx, col)
     renderer.draw_rect(x1, y, style.caret_width, lh, style.caret)
