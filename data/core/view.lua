@@ -136,6 +136,11 @@ function View:clamp_scroll_position()
 end
 
 
+function View:window_has_focus()
+  return core.active_view == self and system.window_has_focus()
+end
+
+
 function View:update()
   self:clamp_scroll_position()
   self:move_towards(self.scroll, "x", self.scroll.to.x, 0.3)
