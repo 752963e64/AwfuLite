@@ -470,15 +470,16 @@ function DocView:update()
       if selections then
         self:update_shift_selections(line1, col1)
       else
-        if line1 == #self.doc.lines then
-          local x, _ = self:resolve_mouse_position()
-          col1 = self:get_x_offset_col(line1, x)
-        elseif line1 == 1 then
-          col1 = 1
+        if line1 == #self.doc.lines or line1 == 1 then
+          self.mouse_autoscroll = nil
+          if line1 == #self.doc.lines then
+            local x, _ = self:resolve_mouse_position()
+            col1 = self:get_x_offset_col(line1, x)
+          end
+          if line1 == 1 then col1 = 1 end
         end
         self.doc:set_selection(line1, col1, line2, col2)
       end
-      self:autoscroll(line)
     end
   end -- self == core.active_view
   DocView.super.update(self)
