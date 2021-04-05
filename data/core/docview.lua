@@ -475,8 +475,7 @@ function DocView:update()
           if line1 == #self.doc.lines then
             local x, _ = self:resolve_mouse_position()
             col1 = self:get_x_offset_col(line1, x)
-          end
-          if line1 == 1 then col1 = 1 end
+          else col1 = 1 end
         end
         self.doc:set_selection(line1, col1, line2, col2)
       end
