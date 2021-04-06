@@ -211,6 +211,19 @@ function Doc:remove_last_selections()
 end
 
 
+function Doc:get_range_selections(minline, maxline)
+  local range = {}
+  if #self.selection.c >= 1 then
+    for i, d in ipairs(self:get_selections(true)) do
+      if d[1] >= minline and d[3] <= maxline then
+        table.insert(range, { d[1], d[2], d[3], d[4] })
+      end
+    end
+  end
+  return range
+end
+
+
 function Doc:get_last_selections(sort)
   local s = #self.selection.c
   local line, col, line1, col1 = table.unpack(self.selection.c[s])

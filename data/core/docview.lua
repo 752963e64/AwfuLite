@@ -618,7 +618,7 @@ function DocView:draw_line_gutter(idx, x, y, selections)
   local yoffset = self:get_line_text_y_offset()
   local color = style.line_number
   x = x + style.padding.x
-  if core.active_view ~= self then
+  if not self:is_active_view() then
     return renderer.draw_text(self:get_font(), idx, x, y + yoffset, color)
   end
 
@@ -648,14 +648,7 @@ function DocView:draw()
   local minline, maxline = self:get_visible_line_range()
   local lh = self:get_line_height()
 
-  local range = {}
-  if #self.doc.selection.c > 1 then
-    for i, d in ipairs(self.doc:get_selections(true)) do
-      if d[1] >= minline and d[3] <= maxline then
-        table.insert(range, { d[1], d[2], d[3], d[4] })
-      end
-    end
-  end
+  local range = self.doc:get_range_selections(minline, maxline)
 
   if config.core.show_gutter then
     local _, y = self:get_line_screen_position(minline)
