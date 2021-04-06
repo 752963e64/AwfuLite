@@ -564,14 +564,13 @@ function DocView:draw_caret(idx, x, y, col)
 end
 
 
-function DocView:draw_line_body(idx, x, y)
-  local selections = #self.doc.selection.c >= 1
+function DocView:draw_line_body(idx, x, y, selections)
   local line, col = self.doc:get_selection()
   local line1, col1, line2, col2 = self.doc:get_selection(true)
 
   -- draw selection(s) and or line highlight if it overlaps this line
-  if selections then
-    for i, l in ipairs(self.doc:get_selections(true)) do
+  if #selections > 1 then
+    for i, l in ipairs(selections) do
       local l1, c1, l2, c2 = table.unpack(l)
       if l1 == idx and not self.update_shift then
         local x1 = x + self:get_col_x_offset(idx, c1)
@@ -594,13 +593,13 @@ function DocView:draw_line_body(idx, x, y)
   self:draw_line_text(idx, x, y)
 
   -- draw caret(s) if it overlaps this line
-  if selections then
-    for i, l in ipairs(self.doc:get_selections()) do
+  if #selections > 1 then
+    for i, l in ipairs(selections) do
       local l1, c1, l2, c2 = table.unpack(l)
-      if l1 == idx then
+      if l2 == idx then
         if self.doc.has_selections and c1 ~= c2 or
           ( not self.doc.has_selections and c1 == c2 ) then
-          self:draw_caret(idx, x, y, c1)
+          self:draw_caret(idx, x, y, c2)
         end
       end
     end
@@ -610,7 +609,7 @@ function DocView:draw_line_body(idx, x, y)
 end
 
 
-function DocView:draw_line_gutter(idx, x, y)
+function DocView:draw_line_gutter(idx, x, y, selections)
   if #self.doc.markers >= 1 and self.doc.markers[idx] then
     local h = self:get_line_height()
     renderer.draw_rect(x, y, style.padding.x * 0.4, h, style.selection)
@@ -622,13 +621,14 @@ function DocView:draw_line_gutter(idx, x, y)
   if core.active_view ~= self then
     return renderer.draw_text(self:get_font(), idx, x, y + yoffset, color)
   end
-  if #self.doc.selection.c < 1 then
+
+  if #selections < 1 then
     local line1, _, line2, _ = self.doc:get_selection(true)
     if idx >= line1 and idx <= line2 then
       color = style.line_number2
     end
   else
-    for i, d in ipairs(self.doc:get_selections(true)) do
+    for i, d in ipairs(selections) do
       local line1, _, line2, _ = table.unpack(d)
       if idx >= line1 and idx <= line2 then
         color = style.line_number2
@@ -648,11 +648,20 @@ function DocView:draw()
   local minline, maxline = self:get_visible_line_range()
   local lh = self:get_line_height()
 
+  local range = {}
+  if #self.doc.selection.c > 1 then
+    for i, d in ipairs(self.doc:get_selections(true)) do
+      if d[1] >= minline and d[3] <= maxline then
+        table.insert(range, { d[1], d[2], d[3], d[4] })
+      end
+    end
+  end
+
   if config.core.show_gutter then
     local _, y = self:get_line_screen_position(minline)
     local x = self.position.x
     for i = minline, maxline do
-      self:draw_line_gutter(i, x, y)
+      self:draw_line_gutter(i, x, y, range)
       y = y + lh
     end
   end
@@ -660,11 +669,14 @@ function DocView:draw()
   local x, y = self:get_line_screen_position(minline)
   local gw = config.core.show_gutter and self:get_gutter_width() or 0
   local pos = self.position
+  
   core.push_clip_rect(pos.x + gw, pos.y, self.size.x, self.size.y)
+
   for i = minline, maxline do
-    self:draw_line_body(i, x, y)
+    self:draw_line_body(i, x, y, range)
     y = y + lh
   end
+  
   core.pop_clip_rect()
 
   self:draw_scrollbar()
