@@ -244,7 +244,7 @@ function DocView:update_shift_selections(line1, col1)
   -- ending selection
   local el1, ec1 = self.doc:get_last_selections()
   -- primary selection
-  local pl1, pc1, _, pc2, id = self.doc:get_first_selections()
+  local pl1, pc1, _, pc2 = self.doc:get_first_selections()
   
   if not self.doc.has_selections and
     pc1 == 1 and pc1 == pc2 and
@@ -387,7 +387,7 @@ end
 
 
 local function copy_selection(self)
-  if config.core.mouse_x11_clipboard then
+  if self:has_x11_clipboard() then
     local text = self.doc:get_text(self.doc:get_selection())
     if #text > 0 then
       system.set_selection_clipboard(text)
@@ -396,6 +396,17 @@ local function copy_selection(self)
   end
 end
 
+local function copy_selections(self)
+  if self:has_x11_clipboard() then
+    local text = ""
+    for i, d in ipairs(self.doc:get_selections()) do
+      local e = i == #self.doc.selection.c and "" or "\n"
+      text = text .. self.doc:get_text(table.unpack(d)) .. e
+    end
+    system.set_selection_clipboard(text)
+    core.log("Copy \"%d\" ßytes", #text)
+  end
+end
 
 function DocView:on_mouse_released(button, x, y)
   DocView.super.on_mouse_released(self, button, x, y)
@@ -430,6 +441,7 @@ function DocView:on_mouse_released(button, x, y)
     self.add_cursor = nil
     self.mouse_selecting = nil
     self.mouse_autoscroll = nil
+    copy_selections(self)
   end
 end
 

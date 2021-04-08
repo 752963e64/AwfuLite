@@ -136,6 +136,11 @@ function View:clamp_scroll_position()
 end
 
 
+function View:has_x11_clipboard()
+  return config.core.mouse_x11_clipboard
+end
+
+
 function View:window_has_focus()
   return core.active_view == self and system.window_has_focus()
 end
