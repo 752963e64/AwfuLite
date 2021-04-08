@@ -239,13 +239,24 @@ function DocView:update_shift_selections(line1, col1)
   if self.update_shift then return end
   self.update_shift = true
   local selections = #self.doc.selection.c > 1
+  local x, _ = self:resolve_mouse_position()
 
-  local last_line, last_col, last_line1, last_col1 = self.doc:get_last_selections()
-  local first_line, first_col, _, first_col1, id = self.doc:get_first_selections()
+  -- ending selection
+  local el1, ec1 = self.doc:get_last_selections()
+  -- primary selection
+  local pl1, pc1, _, pc2, id = self.doc:get_first_selections()
   
-  local lline, lcol = last_line, last_col
+  if not self.doc.has_selections and
+    pc1 == 1 and pc1 == pc2 and
+    not self.primary_col then
+    if self:get_x_offset_col(line1, x) > 1 then
+      self.primary_col = self:get_x_offset_col(line1, x)
+    end
+  end
 
-  if line1 ~= last_line then
+  local lline, lcol = el1, ec1
+
+  if line1 ~= el1 then
     while lline < self.add_cursor or lline > self.add_cursor do
       if #self.doc.selection.c > 1 and self.add_cursor ~= 0 then
         self.doc:remove_last_selections()
@@ -256,7 +267,6 @@ function DocView:update_shift_selections(line1, col1)
     end
   end
 
-  local x, _ = self:resolve_mouse_position()
   self.doc.has_selections = false
 
   -- update selection's column based on mouse position
@@ -269,24 +279,27 @@ function DocView:update_shift_selections(line1, col1)
     if not self.doc.has_selections and nc ~= c2 then
       self.doc.has_selections = true
     end
-    if c2 > 1 and c2 < first_col1 then
+    if c2 > 1 and c2 < pc2 then
       self.doc.selection.c[n] = { l1, nc, l2, c2 }
     end
   end
 
   -- add cursors while keeping first selections as pivot
-  if line1 ~= last_line then
+  if line1 ~= el1 then
     while self.add_cursor ~= line1 do
-      if self.add_cursor == first_line then
-        self.doc.selection.c = { { first_line, first_col, first_line, first_col1 } }
+      if self.add_cursor == pl1 then
+        self.doc.selection.c = { { pl1, pc1, pl1, pc2 } }
       end
       self.add_cursor = line1 >= self.add_cursor
         and self.add_cursor+1
         or self.add_cursor-1
-        if self.add_cursor == 0 then
-          return
-        end
-      self.doc:set_nodup_selections(self.add_cursor, first_col, self.add_cursor, first_col1)
+      if self.add_cursor == 0 then
+        return
+      end
+      if self.primary_col then
+        pc2 = self.primary_col
+      end
+      self.doc:set_nodup_selections(self.add_cursor, pc1, self.add_cursor, pc2)
     end
   end
   self.update_shift = false
@@ -479,6 +492,7 @@ function DocView:update()
         end
         self.doc:set_selection(line1, col1, line2, col2)
       end
+      self:autoscroll(line)
     end
   end -- self == core.active_view
   DocView.super.update(self)
@@ -542,7 +556,7 @@ end
 
 
 function DocView:draw_selection(idx, x, y, line1, col1, line2, col2)
-  if line1 and idx >= line1 and idx <= line2 and core.active_view == self then
+  if line1 and idx >= line1 and idx <= line2 and self:is_active_view() then
     local text = self.doc.lines[idx]
     if line1 ~= idx then col1 = 1 end
     if line2 ~= idx then col2 = #text + 1 end
@@ -569,10 +583,10 @@ function DocView:draw_line_body(idx, x, y, selections)
   local line1, col1, line2, col2 = self.doc:get_selection(true)
 
   -- draw selection(s) and or line highlight if it overlaps this line
-  if #selections > 1 then
+  if #selections >= 1 and not self.update_shift then
     for i, l in ipairs(selections) do
-      local l1, c1, l2, c2 = table.unpack(l)
-      if l1 == idx and not self.update_shift then
+      local l1, c1, l2, c2 = common.sort_positions(table.unpack(l))
+      if l1 == idx then
         local x1 = x + self:get_col_x_offset(idx, c1)
         local x2 = x + self:get_col_x_offset(idx, c2)
         local lh = self:get_line_height()
@@ -593,13 +607,13 @@ function DocView:draw_line_body(idx, x, y, selections)
   self:draw_line_text(idx, x, y)
 
   -- draw caret(s) if it overlaps this line
-  if #selections > 1 then
+  if #selections >= 1 and not self.update_shift then
     for i, l in ipairs(selections) do
       local l1, c1, l2, c2 = table.unpack(l)
       if l2 == idx then
         if self.doc.has_selections and c1 ~= c2 or
           ( not self.doc.has_selections and c1 == c2 ) then
-          self:draw_caret(idx, x, y, c2)
+          self:draw_caret(idx, x, y, c1)
         end
       end
     end

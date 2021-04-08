@@ -214,7 +214,7 @@ end
 function Doc:get_range_selections(minline, maxline)
   local range = {}
   if #self.selection.c >= 1 then
-    for i, d in ipairs(self:get_selections(true)) do
+    for i, d in ipairs(self:get_selections()) do
       if d[1] >= minline and d[3] <= maxline then
         table.insert(range, { d[1], d[2], d[3], d[4] })
       end
@@ -235,17 +235,15 @@ end
 
 
 function Doc:get_first_selections(sort)
+  local line, col, line1, col1
   if sort then
     line, col, line1, col1 = common.sort_positions(line, col, line2, col2)
     return line, col, line1, col1
   end
 
-  for i, d in ipairs(self.selection.c) do
-    local l1, c1, l2, c2, skip = table.unpack(d)
-    if not skip then
-      return l1, c1, l2, c2, i
-    end
-  end
+  line, col, line1, col1 = table.unpack(self.selection.c[1])
+  
+  return line, col, line1, col1
 end
 
 
