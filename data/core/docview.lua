@@ -396,6 +396,7 @@ local function copy_selection(self)
   end
 end
 
+
 local function copy_selections(self)
   if self:has_x11_clipboard() then
     local text = ""
@@ -407,6 +408,7 @@ local function copy_selections(self)
     core.log("Copy \"%d\" ßytes", #text)
   end
 end
+
 
 function DocView:on_mouse_released(button, x, y)
   DocView.super.on_mouse_released(self, button, x, y)
@@ -421,7 +423,7 @@ function DocView:on_mouse_released(button, x, y)
     copy_selection(self)
   end
 
-  if button == "middle" and config.core.mouse_x11_clipboard then
+  if button == "middle" and self:has_x11_clipboard() then
     local text = system.get_selection_clipboard()
     if #text > 0 then
       local line, col = self:resolve_screen_position(x, y)
@@ -437,12 +439,13 @@ function DocView:on_mouse_released(button, x, y)
     end
   end
 
-  if button == "right" or button == "left" then
-    self.add_cursor = nil
-    self.mouse_selecting = nil
-    self.mouse_autoscroll = nil
-    copy_selections(self)
+  if button == "right" then
+    if self.has_selections then copy_selections(self) end
   end
+
+  self.add_cursor = nil
+  self.mouse_selecting = nil
+  self.mouse_autoscroll = nil
 end
 
 
