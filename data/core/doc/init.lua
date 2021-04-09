@@ -169,30 +169,13 @@ function Doc:set_nodup_selections(line1, col1, line2, col2)
 end
 
 
-function Doc:set_first_selections(line1, col1, line2, col2, swap)
+function Doc:set_selections(line1, col1, line2, col2, swap, idx)
   assert(not line2 == not col2, "expected 2 or 4 arguments")
   if swap then line1, col1, line2, col2 = line2, col2, line1, col1 end
   line1, col1 = self:sanitize_position(line1, col1)
   line2, col2 = self:sanitize_position(line2 or line1, col2 or col1)
-  self.selection.c[1] = { line1, col1, line2, col2 }
-end
-
-
-function Doc:set_last_selections(line1, col1, line2, col2, swap)
-  assert(not line2 == not col2, "expected 2 or 4 arguments")
-  if swap then line1, col1, line2, col2 = line2, col2, line1, col1 end
-  line1, col1 = self:sanitize_position(line1, col1)
-  line2, col2 = self:sanitize_position(line2 or line1, col2 or col1)
-  self.selection.c[#self.selection.c] = { line1, col1, line2, col2 }
-end
-
-
-function Doc:set_selections(line1, col1, line2, col2, swap)
-  assert(not line2 == not col2, "expected 2 or 4 arguments")
-  if swap then line1, col1, line2, col2 = line2, col2, line1, col1 end
-  line1, col1 = self:sanitize_position(line1, col1)
-  line2, col2 = self:sanitize_position(line2 or line1, col2 or col1)
-  table.insert(self.selection.c, { line1, col1, line2, col2 })
+  if idx then self.selection.c[idx] = { line1, col1, line2, col2 } else
+  table.insert(self.selection.c, { line1, col1, line2, col2 }) end
 end
 
 
@@ -235,14 +218,12 @@ end
 
 
 function Doc:get_first_selections(sort)
-  local line, col, line1, col1
+  local line, col, line1, col1 = table.unpack(self.selection.c[1])
   if sort then
     line, col, line1, col1 = common.sort_positions(line, col, line2, col2)
     return line, col, line1, col1
   end
 
-  line, col, line1, col1 = table.unpack(self.selection.c[1])
-  
   return line, col, line1, col1
 end
 

@@ -49,6 +49,8 @@ for family, path in pairs(xft) do
   style.xft[family] = renderer.font.load(EXEDIR .. path, 14 * SCALE)
 end
 
+style.xft.icon_statusview = renderer.font.load(EXEDIR .. xft.icon, 12 * SCALE)
+
 style.xft.logo = renderer.font.load(EXEDIR .. xft.mono_bold, 32 * SCALE)
 
 style.background = { common.color "#2e2e32" }

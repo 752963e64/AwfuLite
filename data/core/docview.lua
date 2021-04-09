@@ -371,7 +371,7 @@ function DocView:on_mouse_moved(x, y, dx, dy)
   if self.mouse_selecting and not keymap.modkeys["shift"] then
     local _, _, line2, col2 = self.doc:get_selection()
     self.doc:set_selection(line1, col1, line2, col2)
-    if selections then self.doc:set_last_selections(line1, col1, line2, col2) end
+    if selections then self.doc:set_selections(line1, col1, line2, col2, nil, #self.doc.selection.c) end
     if not keymap.modkeys["ctrl"] then
       self:autoscroll(line1)
     end
@@ -418,7 +418,8 @@ function DocView:on_mouse_released(button, x, y)
   if button == "left" and self.mouse_selecting then
     -- add selection to the current cursor
     if keymap.modkeys["ctrl"] and selections then
-      self.doc:set_last_selections(self.doc:get_selection())
+      local l1, c1, l2, c2 = self.doc:get_selection()
+      self.doc:set_selections(l1, c1, l2, c2, nil, #self.doc.selection.c)
     end
     copy_selection(self)
   end

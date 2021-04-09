@@ -131,14 +131,14 @@ function StatusView:get_items()
 
     return {
       dirty and style.accent2 or style.text,
-      style.xft.icon, style.icons["code"],
+      style.xft.icon_statusview, style.icons["code"],
       style.dim, xft, self.separator2,
-      style.xft.icon, style.icons["folder-open"], xft,
+      style.xft.icon_statusview, style.icons["folder-open"], xft,
       style.text, " "..system.absolute_path(core.cwd).." - ",
       style.text, xft, #node.views .."/"..idx, style.text,
       style.dim, xft, self.separator2, style.text,
       dv.doc.filename and style.text or style.dim, 
-      style.xft.icon, style.icons["file-code"], xft,
+      style.xft.icon_statusview, style.icons["file-code"], xft,
       " "..dv.doc:get_name(),
       style.dim, xft, self.separator2, style.text,
       "line: ", line,
