@@ -371,10 +371,8 @@ function DocView:on_mouse_moved(x, y, dx, dy)
   local line1, col1 = self:resolve_screen_position(x+dx, y+dy)
   local selections = #self.doc.selection.c >= 1
 
-  -- shift single selection needs to follow cursor...
-
   -- handle single|ctrl selection(s)
-  if self.mouse_selecting and not keymap.modkeys["shift"] then
+  if self.mouse_selecting then
     local line2, col2 = select(3, self.doc:get_selection())
     -- setup selection(s)
     if selections then
