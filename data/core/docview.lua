@@ -246,7 +246,7 @@ function DocView:update_shift_selections(line1, col1)
   -- primary selection
   local pl1, pc1, _, pc2 = self.doc:get_first_selections()
   
-  if not self.doc.has_selections and
+  if not self.doc.has_shift_selections and
     pc1 == 1 and pc1 == pc2 and
     not self.primary_col then
     if self:get_x_offset_col(line1, x) > 1 then
@@ -267,7 +267,7 @@ function DocView:update_shift_selections(line1, col1)
     end
   end
 
-  self.doc.has_selections = false
+  self.doc.has_shift_selections = false
 
   -- update selection's column based on mouse position
   for n,d in ipairs(self.doc.selection.c) do
@@ -276,8 +276,8 @@ function DocView:update_shift_selections(line1, col1)
     if nc ~= c1 then
       self.doc.selection.c[n] = { l1, nc, l2, c2 }
     end
-    if not self.doc.has_selections and nc ~= c2 then
-      self.doc.has_selections = true
+    if not self.doc.has_shift_selections and nc ~= c2 then
+      self.doc.has_shift_selections = true
     end
     if c2 > 1 and c2 < pc2 then
       self.doc.selection.c[n] = { l1, nc, l2, c2 }
@@ -336,12 +336,15 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
     else
       local line2, col2
       if keymap.modkeys["ctrl"] then
+        -- save previous cursor to selections
+        self.doc.has_ctrl_selections = true
         if not selections then
-          local prev_line, prev_col = self.doc:get_selection()
-          self.doc:set_selections(prev_line, prev_col)
+          local pl1, cl1, pl2, cl2 = self.doc:get_selection()
+          self.doc:set_selections(pl2, cl2, pl1, cl1)
         end
+        -- add current line
         self.doc:set_selections(line, col)
-        self.add_cursor = line
+        -- self.add_cursor = line
       elseif keymap.modkeys["shift"] then
         line2, col2 = select(3, self.doc:get_selection())
       end
@@ -368,18 +371,28 @@ function DocView:on_mouse_moved(x, y, dx, dy)
   local line1, col1 = self:resolve_screen_position(x+dx, y+dy)
   local selections = #self.doc.selection.c >= 1
 
+  -- shift single selection needs to follow cursor...
+
+  -- handle single|ctrl selection(s)
   if self.mouse_selecting and not keymap.modkeys["shift"] then
-    local _, _, line2, col2 = self.doc:get_selection()
-    self.doc:set_selection(line1, col1, line2, col2)
-    if selections then self.doc:set_selections(line1, col1, line2, col2, nil, #self.doc.selection.c) end
+    local line2, col2 = select(3, self.doc:get_selection())
+    -- setup selection(s)
+    if selections then
+      self.doc:set_selections(line2, col2, line1, col1, nil, #self.doc.selection.c)
+    else
+      self.doc:set_selection(line1, col1, line2, col2)
+    end
+
+    -- autoscroll over single cursor selection
     if not keymap.modkeys["ctrl"] then
       self:autoscroll(line1)
     end
   end
 
-  -- add cursors
+  -- handle shift selections
   if self.add_cursor and not self.mouse_autoscroll then
     if keymap.modkeys["shift"] then
+      -- setup shift selections which handles autoscroll
       self:update_shift_selections(line1, col1)
     end
   end
@@ -417,10 +430,11 @@ function DocView:on_mouse_released(button, x, y)
 
   if button == "left" and self.mouse_selecting then
     -- add selection to the current cursor
-    if keymap.modkeys["ctrl"] and selections then
-      local l1, c1, l2, c2 = self.doc:get_selection()
-      self.doc:set_selections(l1, c1, l2, c2, nil, #self.doc.selection.c)
-    end
+    -- if keymap.modkeys["ctrl"] and selections then
+    --   local l2, c2 = select(3, self.doc:get_selection())
+    --   print("released", l1, c1, l2, c2)
+    --   self.doc:set_selections(l2, c2, l1, c1, nil, #self.doc.selection.c)
+    -- end
     copy_selection(self)
   end
 
@@ -441,7 +455,7 @@ function DocView:on_mouse_released(button, x, y)
   end
 
   if button == "right" then
-    if self.has_selections then copy_selections(self) end
+    if self.doc.has_shift_selections then copy_selections(self) end
   end
 
   self.add_cursor = nil
@@ -456,7 +470,7 @@ end
 
 
 function DocView:update()
-  if self == core.active_view then
+  if self:is_active_view() then
     local line1, col1, line2, col2
     local selections = #self.doc.selection.c >= 1
 
@@ -572,7 +586,7 @@ end
 
 
 function DocView:draw_selection(idx, x, y, line1, col1, line2, col2)
-  if line1 and idx >= line1 and idx <= line2 and self:is_active_view() then
+  if line1 and idx >= line1 and idx <= line2 then
     local text = self.doc.lines[idx]
     if line1 ~= idx then col1 = 1 end
     if line2 ~= idx then col2 = #text + 1 end
@@ -585,8 +599,7 @@ end
 
 
 function DocView:draw_caret(idx, x, y, col)
-  if self:window_has_focus() and
-    self.blink_timer < blink_period / 2 then
+  if self.blink_timer < blink_period / 2 then
     local lh = self:get_line_height()
     local x1 = x + self:get_col_x_offset(idx, col)
     renderer.draw_rect(x1, y, style.caret_width, lh, style.caret)
@@ -599,23 +612,26 @@ function DocView:draw_line_body(idx, x, y, selections)
   local line1, col1, line2, col2 = self.doc:get_selection(true)
 
   -- draw selection(s) and or line highlight if it overlaps this line
-  if #selections >= 1 and not self.update_shift then
-    for i, l in ipairs(selections) do
-      local l1, c1, l2, c2 = common.sort_positions(table.unpack(l))
-      if l1 == idx then
-        local x1 = x + self:get_col_x_offset(idx, c1)
-        local x2 = x + self:get_col_x_offset(idx, c2)
-        local lh = self:get_line_height()
-        renderer.draw_rect(x1, y, x2 - x1, lh, style.selection)
+  if self:is_active_view() then
+    if #selections >= 1 and not self.update_shift then
+      for i, l in ipairs(selections) do
+        local l1, c1, l2, c2 = common.sort_positions(table.unpack(l))
+        if l1 == idx then
+          local x1 = x + self:get_col_x_offset(idx, c1)
+          local x2 = x + self:get_col_x_offset(idx, c2)
+          local lh = self:get_line_height()
+          renderer.draw_rect(x1, y, x2 - x1, lh, style.selection)
+        end
+        if l1 == idx and not self.doc.has_shift_selections and
+        not self.doc.has_ctrl_selections then
+          self:draw_line_highlight(x + self.scroll.x, y)
+        end
       end
-      if l1 == idx and not self.doc.has_selections then
+    else -- CTRL selections is multiline :)
+      self:draw_selection(idx, x, y, line1, col1, line2, col2)
+      if line == idx and not self.doc:has_selection() then
         self:draw_line_highlight(x + self.scroll.x, y)
       end
-    end
-  else
-    self:draw_selection(idx, x, y, line1, col1, line2, col2)
-    if line == idx and not self.doc:has_selection() then
-      self:draw_line_highlight(x + self.scroll.x, y)
     end
   end
 
@@ -623,18 +639,24 @@ function DocView:draw_line_body(idx, x, y, selections)
   self:draw_line_text(idx, x, y)
 
   -- draw caret(s) if it overlaps this line
-  if #selections >= 1 and not self.update_shift then
-    for i, l in ipairs(selections) do
-      local l1, c1, l2, c2 = table.unpack(l)
-      if l2 == idx then
-        if self.doc.has_selections and c1 ~= c2 or
-          ( not self.doc.has_selections and c1 == c2 ) then
-          self:draw_caret(idx, x, y, c1)
+  if self:window_has_focus() then
+    if #selections >= 1 and
+      not self.update_shift then
+      for i, l in ipairs(selections) do
+        local l1, c1, l2, c2 = table.unpack(l)
+        if l2 == idx then
+          if self.doc.has_shift_selections and c1 ~= c2 or
+            ( not self.doc.has_shift_selections and c1 == c2 ) then
+            self:draw_caret(idx, x, y, c1)
+          end
+          if self.doc.has_ctrl_selections then
+            self:draw_caret(idx, x, y, c2)
+          end
         end
       end
+    elseif line == idx then
+      self:draw_caret(idx, x, y, col)
     end
-  elseif line == idx then
-    self:draw_caret(idx, x, y, col)
   end
 end
 

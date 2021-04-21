@@ -60,7 +60,7 @@ function Doc:reset()
   self.editable = true
   self.tab_mixed = false
   self.lines = { "\n" }
-  self.selection = { a = { line=1, col=1 }, b = { line=1, col=1 }, c = {} }
+  self.selection = { a = { line=1, col=1 }, b = { line=1, col=1 }, c = {}, mode = nil }
   self.undo_stack = { idx = 1 }
   self.redo_stack = { idx = 1 }
   self.clean_change_id = 1
