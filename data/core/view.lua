@@ -72,6 +72,15 @@ function View:scrollbar_overlaps_point(x, y)
 end
 
 
+function View:resolve_mouse_position()
+  local x, y = self.mouse.x, self.mouse.y
+  x = config.core.show_gutter and x-self:get_gutter_width() or x-style.padding.x
+  x = config.treeview.visible and x-config.treeview.size or x
+
+  return x, y
+end
+
+
 function View:on_mouse_pressed(button, x, y, clicks)
   if button == "left" and self.hovered_scrollbar then
     self.hold_scrollbar = true

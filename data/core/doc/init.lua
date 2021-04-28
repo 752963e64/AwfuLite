@@ -169,6 +169,21 @@ function Doc:set_nodup_selections(line1, col1, line2, col2)
 end
 
 
+function Doc:set_selections_mode(mode)
+  if mode then
+    self.selection.mode = mode
+  end
+end
+
+
+function Doc:get_selections_mode(mode)
+  if mode then
+    return self.selection.mode == mode
+  end
+  return self.selection.mode
+end
+
+
 function Doc:set_selections(line1, col1, line2, col2, swap, idx)
   assert(not line2 == not col2, "expected 2 or 4 arguments")
   if swap then line1, col1, line2, col2 = line2, col2, line1, col1 end
@@ -252,9 +267,6 @@ end
 
 function Doc:has_selection(l1, c1, l2, c2)
   if l1 then -- used for multiselection
-    if self.has_selections then
-      return self.has_selections
-    end
     return not (l1 == l2 and c1 == c2)
   end
   local a, b = self.selection.a, self.selection.b

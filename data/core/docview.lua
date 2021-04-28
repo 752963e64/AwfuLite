@@ -175,15 +175,6 @@ function DocView:rectify_column_position()
 end
 
 
-function DocView:resolve_mouse_position()
-  local x, y = self.mouse.x, self.mouse.y
-  x = config.core.show_gutter and x-self:get_gutter_width() or x-style.padding.x
-  x = config.treeview.visible and x-config.treeview.size or x
-
-  return x, y
-end
-
-
 function DocView:resolve_screen_position(x, y)
   if not x then x, y = self:resolve_mouse_position() end
   
@@ -337,7 +328,7 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
       local line2, col2
       if keymap.modkeys["ctrl"] then
         -- save previous cursor to selections
-        self.doc.has_ctrl_selections = true
+        self.doc:set_selections_mode("ctrl")
         if not selections then
           local pl1, cl1, pl2, cl2 = self.doc:get_selection()
           self.doc:set_selections(pl2, cl2, pl1, cl1)
@@ -611,7 +602,8 @@ function DocView:draw_line_body(idx, x, y, selections)
 
   -- draw selection(s) and or line highlight if it overlaps this line
   if self:is_active_view() then
-    if #selections >= 1 and not self.update_shift then
+    if #selections >= 1 and not self.update_shift and
+        not self.doc:get_selections_mode("ctrl") then
       for i, l in ipairs(selections) do
         local l1, c1, l2, c2 = common.sort_positions(table.unpack(l))
         if l1 == idx then
@@ -620,8 +612,7 @@ function DocView:draw_line_body(idx, x, y, selections)
           local lh = self:get_line_height()
           renderer.draw_rect(x1, y, x2 - x1, lh, style.selection)
         end
-        if l1 == idx and not self.doc.has_shift_selections and
-        not self.doc.has_ctrl_selections then
+        if l1 == idx and not self.doc:get_selections_mode("shift") then
           self:draw_line_highlight(x + self.scroll.x, y)
         end
       end
@@ -643,11 +634,11 @@ function DocView:draw_line_body(idx, x, y, selections)
       for i, l in ipairs(selections) do
         local l1, c1, l2, c2 = table.unpack(l)
         if l2 == idx then
-          if self.doc.has_shift_selections and c1 ~= c2 or
-            ( not self.doc.has_shift_selections and c1 == c2 ) then
+          if self.doc:get_selections_mode("shift") and c1 ~= c2 or
+            ( not self.doc:get_selections_mode("shift") and c1 == c2 ) then
             self:draw_caret(idx, x, y, c1)
           end
-          if self.doc.has_ctrl_selections then
+          if self.doc:get_selections_mode("ctrl") then
             self:draw_caret(idx, x, y, c2)
           end
         end
