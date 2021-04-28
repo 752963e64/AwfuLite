@@ -275,12 +275,12 @@ function Doc:has_selection(l1, c1, l2, c2)
   
   if self.selection.mode == "ctrl" or self.selection.mode == "shift" then
     for i,t in ipairs(self.selection.c) do
-      if not (t[1] == t[1] and t[1] == t[1]) then
+      if not (t[1] == t[3] and t[2] == t[4]) then
         return true
       end
     end
   end
-  
+
   local a, b = self.selection.a, self.selection.b
   return not (a.line == b.line and a.col == b.col)
 end
