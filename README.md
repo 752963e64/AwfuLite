@@ -103,6 +103,7 @@ see workspace screenshot for an overview...
 - ( shift + right mouse button => permits to select vertically up'n down right'to left using a pivot algorithm )
 - added correct column tracking over unicode
 
+
      # statusview scheme
      (document changes appears orange) dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending | (mixed tab/space document ~= config appears orange) tabtype tabsize
 ```
@@ -110,6 +111,8 @@ see workspace screenshot for an overview...
 ### Some TODO
 
 ```
+- multiselections is broke a little, but don't worry it's not a problem for me the author...
+I try to find the best way... cuz still a lot entries to be swap'd to the improved selection(s) engine.
 - overlaping box which act as menu pop... 
 - mouse feedback in statusview doesn't handle multiple workspace
 - git driver driven by commands/shortcuts
