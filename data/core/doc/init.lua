@@ -60,7 +60,10 @@ function Doc:reset()
   self.editable = true
   self.tab_mixed = false
   self.lines = { "\n" }
-  self.selection = { a = { line=1, col=1 }, b = { line=1, col=1 }, c = {}, mode = nil }
+  self.selection = {
+    a = { line=1, col=1 },
+    b = { line=1, col=1 },
+    c = {}, mode = "single" }
   self.undo_stack = { idx = 1 }
   self.redo_stack = { idx = 1 }
   self.clean_change_id = 1
@@ -169,14 +172,14 @@ function Doc:set_nodup_selections(line1, col1, line2, col2)
 end
 
 
-function Doc:set_selections_mode(mode)
+function Doc:set_selection_mode(mode)
   if mode then
     self.selection.mode = mode
   end
 end
 
 
-function Doc:get_selections_mode(mode)
+function Doc:get_selection_mode(mode)
   if mode then
     return self.selection.mode == mode
   end
@@ -269,6 +272,15 @@ function Doc:has_selection(l1, c1, l2, c2)
   if l1 then -- used for multiselection
     return not (l1 == l2 and c1 == c2)
   end
+  
+  if self.selection.mode == "ctrl" or self.selection.mode == "shift" then
+    for i,t in ipairs(self.selection.c) do
+      if not (t[1] == t[1] and t[1] == t[1]) then
+        return true
+      end
+    end
+  end
+  
   local a, b = self.selection.a, self.selection.b
   return not (a.line == b.line and a.col == b.col)
 end

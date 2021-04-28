@@ -602,8 +602,21 @@ function DocView:draw_line_body(idx, x, y, selections)
 
   -- draw selection(s) and or line highlight if it overlaps this line
   if self:is_active_view() then
-    if #selections >= 1 and not self.update_shift and
-        not self.doc:get_selections_mode("ctrl") then
+    if #selections >= 1 and not self.update_shift then
+        if self.doc:get_selection_mode("ctrl") or self.doc:get_selection_mode("shift") then
+          for i, l in ipairs(selections) do
+            local l1, c1, l2, c2 = common.sort_positions(table.unpack(l))
+            if l1 == idx then
+              local x1 = x + self:get_col_x_offset(idx, c1)
+              local x2 = x + self:get_col_x_offset(idx, c2)
+              local lh = self:get_line_height()
+              renderer.draw_rect(x1, y, x2 - x1, lh, style.selection)
+            end
+          end
+        else
+          -- single
+          
+        end
       for i, l in ipairs(selections) do
         local l1, c1, l2, c2 = common.sort_positions(table.unpack(l))
         if l1 == idx then
@@ -612,7 +625,7 @@ function DocView:draw_line_body(idx, x, y, selections)
           local lh = self:get_line_height()
           renderer.draw_rect(x1, y, x2 - x1, lh, style.selection)
         end
-        if l1 == idx and not self.doc:get_selections_mode("shift") then
+        if l1 == idx and not self.doc:get_selection_mode("shift") then
           self:draw_line_highlight(x + self.scroll.x, y)
         end
       end
@@ -634,11 +647,11 @@ function DocView:draw_line_body(idx, x, y, selections)
       for i, l in ipairs(selections) do
         local l1, c1, l2, c2 = table.unpack(l)
         if l2 == idx then
-          if self.doc:get_selections_mode("shift") and c1 ~= c2 or
-            ( not self.doc:get_selections_mode("shift") and c1 == c2 ) then
+          if self.doc:get_selection_mode("shift") and c1 ~= c2 or
+            ( not self.doc:get_selection_mode("shift") and c1 == c2 ) then
             self:draw_caret(idx, x, y, c1)
           end
-          if self.doc:get_selections_mode("ctrl") then
+          if self.doc:get_selection_mode("ctrl") then
             self:draw_caret(idx, x, y, c2)
           end
         end
