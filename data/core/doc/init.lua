@@ -273,7 +273,8 @@ function Doc:has_selection(l1, c1, l2, c2)
     return not (l1 == l2 and c1 == c2)
   end
   
-  if self.selection.mode == "ctrl" or self.selection.mode == "shift" then
+  if self.selection.mode == "ctrl" or
+    self.selection.mode == "shift" then
     for i,t in ipairs(self.selection.c) do
       if not (t[1] == t[3] and t[2] == t[4]) then
         return true

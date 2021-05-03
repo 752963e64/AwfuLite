@@ -328,7 +328,7 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
       local line2, col2
       if keymap.modkeys["ctrl"] then
         -- save previous cursor to selections
-        self.doc:set_selections_mode("ctrl")
+        self.doc:set_selection_mode("ctrl")
         if not selections then
           local pl1, cl1, pl2, cl2 = self.doc:get_selection()
           self.doc:set_selections(pl2, cl2, pl1, cl1)
@@ -576,9 +576,11 @@ end
 
 function DocView:draw_selection(idx, x, y, line1, col1, line2, col2)
   if line1 and idx >= line1 and idx <= line2 then
-    local text = self.doc.lines[idx]
-    if line1 ~= idx then col1 = 1 end
-    if line2 ~= idx then col2 = #text + 1 end
+    if not self.doc:get_selection_mode("shift") then
+      local text = self.doc.lines[idx]
+      if line1 ~= idx then col1 = 1 end
+      if line2 ~= idx then col2 = #text + 1 end
+    end
     local x1 = x + self:get_col_x_offset(idx, col1)
     local x2 = x + self:get_col_x_offset(idx, col2)
     local lh = self:get_line_height()
@@ -603,33 +605,15 @@ function DocView:draw_line_body(idx, x, y, selections)
   -- draw selection(s) and or line highlight if it overlaps this line
   if self:is_active_view() then
     if #selections >= 1 and not self.update_shift then
-        if self.doc:get_selection_mode("ctrl") or self.doc:get_selection_mode("shift") then
-          for i, l in ipairs(selections) do
-            local l1, c1, l2, c2 = common.sort_positions(table.unpack(l))
-            if l1 == idx then
-              local x1 = x + self:get_col_x_offset(idx, c1)
-              local x2 = x + self:get_col_x_offset(idx, c2)
-              local lh = self:get_line_height()
-              renderer.draw_rect(x1, y, x2 - x1, lh, style.selection)
-            end
-          end
-        else
-          -- single
-          
-        end
       for i, l in ipairs(selections) do
         local l1, c1, l2, c2 = common.sort_positions(table.unpack(l))
-        if l1 == idx then
-          local x1 = x + self:get_col_x_offset(idx, c1)
-          local x2 = x + self:get_col_x_offset(idx, c2)
-          local lh = self:get_line_height()
-          renderer.draw_rect(x1, y, x2 - x1, lh, style.selection)
-        end
-        if l1 == idx and not self.doc:get_selection_mode("shift") then
+        self:draw_selection(idx, x, y, l1, c1, l2, c2)
+
+        if l1 == idx and not self.doc:has_selection(l1, c1, l2, c2) then
           self:draw_line_highlight(x + self.scroll.x, y)
         end
       end
-    else -- CTRL selections is multiline :)
+    else
       self:draw_selection(idx, x, y, line1, col1, line2, col2)
       if line == idx and not self.doc:has_selection() then
         self:draw_line_highlight(x + self.scroll.x, y)
@@ -646,14 +630,15 @@ function DocView:draw_line_body(idx, x, y, selections)
       not self.update_shift then
       for i, l in ipairs(selections) do
         local l1, c1, l2, c2 = table.unpack(l)
-        if l2 == idx then
-          if self.doc:get_selection_mode("shift") and c1 ~= c2 or
-            ( not self.doc:get_selection_mode("shift") and c1 == c2 ) then
-            self:draw_caret(idx, x, y, c1)
-          end
-          if self.doc:get_selection_mode("ctrl") then
-            self:draw_caret(idx, x, y, c2)
-          end
+        if l1 == idx then
+          -- if self.doc:get_selection_mode("shift") and c1 ~= c2 or
+          --   ( not self.doc:get_selection_mode("shift") and c1 == c2 ) then
+          --   self:draw_caret(idx, x, y, c1)
+          -- end
+          -- if self.doc:get_selection_mode("ctrl") then
+          --   self:draw_caret(idx, x, y, c2)
+          -- end
+          self:draw_caret(idx, x, y, c1)
         end
       end
     elseif line == idx then
