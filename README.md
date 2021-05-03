@@ -91,16 +91,16 @@ see workspace screenshot for an overview...
 - add back ubuntu® fonts and struct access for futur usage...
 - more fix around workspaces, can't open copy from opened files (through nodes :)) and grab focus from original instead.
 - ( ctrl+a, ctrl+c, alt+shift+j, ctrl+n, ctrl+v ) is the way to open a copy from the current document...
-- autoscroll (up'n down|beta)
+- autoscroll (up'n down)
 - mouse scroll feedback into statusview
 - added show_block_rulers to docview.
 - added space and tab rendering.
 - improved tokenizer to catch more token
 - added markers to docview. original implementation by Petri Häkkinen
 - added dynamic current working directory, changeable from commands
-- added shifted & controled multiselections (beta)
+- improved selection engine to handle multiselection modes
 - ( ctrl + left mouse button => permits to place cursors anywhere you wish )
-- ( shift + right mouse button => permits to select vertically up'n down right'to left using a pivot algorithm )
+- ( shift + right mouse button => permits to select vertically up'n down right'to left )
 - added correct column tracking over unicode
 
 
@@ -111,8 +111,6 @@ see workspace screenshot for an overview...
 ### Some TODO
 
 ```
-- multiselections is broke a little, but don't worry it's not a problem for me the author...
-I try to find the best way... cuz still a lot entries to be swap'd to the improved selection(s) engine.
 - overlaping box which act as menu pop... 
 - mouse feedback in statusview doesn't handle multiple workspace
 - git driver driven by commands/shortcuts
