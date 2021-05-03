@@ -347,6 +347,7 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
   if button == "right" then
     -- popup menu?
     if keymap.modkeys["shift"] then
+      self.doc:set_selection_mode("shift")
       self.doc:set_selections(line, col)
       self.add_cursor = line
     end
@@ -631,14 +632,13 @@ function DocView:draw_line_body(idx, x, y, selections)
       for i, l in ipairs(selections) do
         local l1, c1, l2, c2 = table.unpack(l)
         if l1 == idx then
-          -- if self.doc:get_selection_mode("shift") and c1 ~= c2 or
-          --   ( not self.doc:get_selection_mode("shift") and c1 == c2 ) then
-          --   self:draw_caret(idx, x, y, c1)
-          -- end
-          -- if self.doc:get_selection_mode("ctrl") then
-          --   self:draw_caret(idx, x, y, c2)
-          -- end
-          self:draw_caret(idx, x, y, c1)
+          if self.doc:get_selection_mode("shift") then
+            if c1 ~= c2 or ( not self.doc:has_selection() and c1 == c2 ) then
+              self:draw_caret(idx, x, y, c1)
+            end
+          else
+            self:draw_caret(idx, x, y, c2)
+          end
         end
       end
     elseif line == idx then
