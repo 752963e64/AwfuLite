@@ -173,7 +173,7 @@ end
 
 
 function Doc:set_selection_mode(mode)
-  if mode then
+  if mode and mode ~= self.selection.mode then
     self.selection.mode = mode
   end
 end
@@ -182,8 +182,9 @@ end
 function Doc:get_selection_mode(mode)
   if mode then
     return self.selection.mode == mode
+  else
+    return self.selection.mode
   end
-  return self.selection.mode
 end
 
 
