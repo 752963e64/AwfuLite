@@ -258,8 +258,6 @@ function DocView:update_shift_selections(line1, col1)
     end
   end
 
-  -- self.doc.has_shift_selections = false
-
   -- update selection's column based on mouse position
   for n,d in ipairs(self.doc.selection.c) do
     local l1, c1, l2, c2 = table.unpack(d)
@@ -267,9 +265,6 @@ function DocView:update_shift_selections(line1, col1)
     if nc ~= c1 then
       self.doc.selection.c[n] = { l1, nc, l2, c2 }
     end
-    -- if not self.doc.has_shift_selections and nc ~= c2 then
-    --   self.doc.has_shift_selections = true
-    -- end
     if c2 > 1 and c2 < pc2 then
       self.doc.selection.c[n] = { l1, nc, l2, c2 }
     end
@@ -309,8 +304,7 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
   local selections = #self.doc.selection.c >= 1
   if selections then
     if self.doc:get_selection_mode("shift") or
-      ( not keymap.modkeys["ctrl"] and
-        not self.doc:get_selection_mode("single") ) then
+    not keymap.modkeys["ctrl"] then
       self.doc:set_selection_mode("single")
       self.doc.selection.c = {}
     end
@@ -609,7 +603,7 @@ function DocView:draw_line_body(idx, x, y, selections)
   local line1, col1, line2, col2 = self.doc:get_selection(true)
 
   -- draw selection(s) and or line highlight if it overlaps this line
-  if self:is_active_view() and not self.update_shift then
+  if self:is_active_view() then
     if #selections >= 1 then
       for i, l in ipairs(selections) do
         local l1, c1, l2, c2 = common.sort_positions(table.unpack(l))
@@ -637,11 +631,10 @@ function DocView:draw_line_body(idx, x, y, selections)
 
   -- draw caret(s) if it overlaps this line
   if self:window_has_focus() then
-    if #selections >= 1 and
-      not self.update_shift then
+    if #selections >= 1 then
       for i, l in ipairs(selections) do
         local l1, c1, l2, c2 = table.unpack(l)
-        if l1 == idx then
+        if l2 == idx then
           if self.doc:get_selection_mode("shift") then
             if c1 ~= c2 or ( not self.doc:has_selection() and c1 == c2 ) then
               self:draw_caret(idx, x, y, c1)
@@ -681,6 +674,7 @@ function DocView:draw_line_gutter(idx, x, y, selections)
       local line1, _, line2, _ = table.unpack(d)
       if idx >= line1 and idx <= line2 then
         color = style.line_number2
+        break
       end
     end
   end
