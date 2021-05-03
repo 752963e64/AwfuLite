@@ -671,7 +671,7 @@ function DocView:draw_line_gutter(idx, x, y, selections)
     end
   else
     for i, d in ipairs(selections) do
-      local line1, _, line2, _ = table.unpack(d)
+      local line1, _, line2, _ = common.sort_positions(table.unpack(d))
       if idx >= line1 and idx <= line2 then
         color = style.line_number2
         break
