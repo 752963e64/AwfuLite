@@ -704,6 +704,9 @@ function DocView:draw()
       -- I need a range information based on i
       -- that is done outside there,
       -- without that it's useless to speak more about this...
+      -- best way to proceed is to overload range with a boolean continue switch...
+      -- as selection may have an mixed order... usually when using ctrl selections...
+      -- :)
       self:draw_line_gutter(i, x, y, range)
       y = y + lh
     end
