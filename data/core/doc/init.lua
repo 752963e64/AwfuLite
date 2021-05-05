@@ -161,7 +161,6 @@ function Doc:set_nodup_selections(line1, col1, line2, col2)
   for i, d in ipairs(self.selection.c) do
     local l1, c1, l2, c2 = table.unpack(d)
     if l1 == line1 then
-      -- self.selection.c[i] = { line1, col1, line2, col2 }
       line1 = nil
       break
     end
@@ -217,7 +216,8 @@ function Doc:get_range_selections(minline, maxline)
   local range = {}
   if #self.selection.c >= 1 then
     for i, d in ipairs(self:get_selections()) do
-      if d[1] >= minline and d[3] <= maxline then
+      if ( d[1] >= minline and d[1] <= maxline ) or
+        ( d[3] >= minline and d[3] <= maxline ) then
         table.insert(range, { d[1], d[2], d[3], d[4] })
       end
     end

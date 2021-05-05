@@ -712,7 +712,7 @@ function DocView:draw()
       -- would be thousand times better...
       -- get_range_selections is the best place to craft that last :)
       self:draw_line_gutter(i, x, y, range)
-      y = y + lh
+      y, rid = y + lh, rid +1
     end
   end
 
