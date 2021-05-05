@@ -696,6 +696,7 @@ function DocView:draw()
   if config.core.show_gutter then
     local _, y = self:get_line_screen_position(minline)
     local x = self.position.x
+    local rid = 1
     for i = minline, maxline do
       -- should I throw a range equal to i?
       -- so I could stop iterating the entire range
@@ -707,6 +708,9 @@ function DocView:draw()
       -- best way to proceed is to overload range with a boolean continue switch...
       -- as selection may have an mixed order... usually when using ctrl selections...
       -- :)
+      -- but wait... using an index with selection table(s) based on i
+      -- would be thousand times better...
+      -- get_range_selections is the best place to craft that last :)
       self:draw_line_gutter(i, x, y, range)
       y = y + lh
     end
