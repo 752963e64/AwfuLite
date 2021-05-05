@@ -697,6 +697,9 @@ function DocView:draw()
     local _, y = self:get_line_screen_position(minline)
     local x = self.position.x
     for i = minline, maxline do
+      -- should I throw a range equal i?
+      -- so I could stop iterating the entire range
+      -- 2 times into draw_line_body...
       self:draw_line_gutter(i, x, y, range)
       y = y + lh
     end
