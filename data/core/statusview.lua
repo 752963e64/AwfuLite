@@ -182,7 +182,7 @@ function StatusView:draw()
   self.left_width = draw_items(self, left, 0, 0, text_width)
   self.right_width = draw_items(self, right, 0, 0, text_width)
 
-  if self.left_width+self.right_width >= self.size.x then
+  if self.left_width+self.right_width >= self.size.x-style.padding.x then
     self:draw_items({ style.text, "…" })
     return
   end
