@@ -711,6 +711,8 @@ function DocView:draw()
       -- but wait... using an index with selection table(s) based on i
       -- would be thousand times better...
       -- get_range_selections is the best place to craft that last :)
+      -- hello, while looking the best sequence into get_range_selections
+      -- and while thinking next gen improvments... (at storage!) :Ð
       self:draw_line_gutter(i, x, y, range)
       y, rid = y + lh, rid +1
     end
