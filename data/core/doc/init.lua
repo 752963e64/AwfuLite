@@ -211,14 +211,26 @@ function Doc:remove_last_selections()
   self.selection.c[#self.selection.c] = nil
 end
 
-
+-- o = { }
+-- 6 1 6 1
+-- 8 1 8 1
+-- 13  2 13  2
+-- 21  7 21  7
+-- 23  8 23  16
+-- 23  20  23  29
+-- 24  16  24  20
+-- 25  10  28  6
+-- 31  13  31  13
+-- 30  11  30  5
+-- 35  9 35  13
+-- 2 4 2 4
 function Doc:get_range_selections(minline, maxline)
   local range = {}
   if #self.selection.c >= 1 then
-    for i, d in ipairs(self:get_selections()) do
-      if ( d[1] >= minline and d[1] <= maxline ) or
-        ( d[3] >= minline and d[3] <= maxline ) then
-        table.insert(range, { d[1], d[2], d[3], d[4] })
+    for i, s in ipairs(self:get_selections()) do
+      if ( s[1] >= minline and s[1] <= maxline ) or
+        ( s[3] >= minline and s[3] <= maxline ) then
+        table.insert(range, { s[1], s[2], s[3], s[4] })
       end
     end
   end
