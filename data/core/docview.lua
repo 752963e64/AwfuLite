@@ -390,24 +390,19 @@ end
 
 local function copy_selection(self)
   if self:has_x11_clipboard() then
-    local text = self.doc:get_text(self.doc:get_selection())
+    local text = ""
+    if #self.doc.selection.c >= 1 then
+      for i, d in ipairs(self.doc:get_selections()) do
+        local e = i == #self.doc.selection.c and "" or "\n"
+        text = text .. self.doc:get_text(table.unpack(d)) .. e
+      end
+    else
+      text = self.doc:get_text(self.doc:get_selection())
+    end
     if #text > 0 then
       system.set_selection_clipboard(text)
       core.log("Copy \"%d\" ßytes", #text)
     end
-  end
-end
-
-
-local function copy_selections(self)
-  if self:has_x11_clipboard() then
-    local text = ""
-    for i, d in ipairs(self.doc:get_selections()) do
-      local e = i == #self.doc.selection.c and "" or "\n"
-      text = text .. self.doc:get_text(table.unpack(d)) .. e
-    end
-    system.set_selection_clipboard(text)
-    core.log("Copy \"%d\" ßytes", #text)
   end
 end
 
@@ -444,7 +439,7 @@ function DocView:on_mouse_released(button, x, y)
   end
 
   if button == "right" then
-    if self.doc:has_selection() then copy_selections(self) end
+    if self.doc:has_selection() then copy_selection(self) end
   end
 
   self.add_cursor = nil
@@ -600,8 +595,7 @@ end
 
 function DocView:draw_line_body(idx, x, y, selections)
   local line, col = self.doc:get_selection()
-  local line1, col1, line2, col2 = self.doc:get_selection(true)
-
+  
   -- draw selection(s) and or line highlight if it overlaps this line
   if self:is_active_view() then
     if #selections >= 1 then
@@ -610,15 +604,17 @@ function DocView:draw_line_body(idx, x, y, selections)
         self:draw_selection(idx, x, y, l1, c1, l2, c2)
 
         if l1 == idx then
-          if self.doc:get_selection_mode("shift") and not self.doc:has_selection() then
+          if ( self.doc:get_selection_mode("shift") and not self.doc:has_selection() ) or
+           ( self.doc:get_selection_mode("ctrl") and not self.doc:has_selection(l1, c1, l2, c2) ) then
             self:draw_line_highlight(x + self.scroll.x, y)
           end
-          if self.doc:get_selection_mode("ctrl") and not self.doc:has_selection(l1, c1, l2, c2) then
-            self:draw_line_highlight(x + self.scroll.x, y)
-          end
+          -- if self.doc:get_selection_mode("ctrl") and not self.doc:has_selection(l1, c1, l2, c2) then
+          --   self:draw_line_highlight(x + self.scroll.x, y)
+          -- end
         end
       end
     else
+      local line1, col1, line2, col2 = self.doc:get_selection(true)
       self:draw_selection(idx, x, y, line1, col1, line2, col2)
       if line == idx and not self.doc:has_selection() then
         self:draw_line_highlight(x + self.scroll.x, y)
