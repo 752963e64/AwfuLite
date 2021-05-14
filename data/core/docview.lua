@@ -414,9 +414,9 @@ function DocView:on_mouse_released(button, x, y)
   DocView.super.on_mouse_released(self, button, x, y)
 
   local selections = #self.doc.selection.c >= 1
+  local do_copy = nil
 
   if button == "left" then
-    local do_copy = nil
     if selections then
       local l1, c1, l2, c2 = self.doc:get_last_selections()
       if self.doc:has_selection(l1, c1, l2, c2) then
@@ -427,15 +427,16 @@ function DocView:on_mouse_released(button, x, y)
         do_copy = true
       end
     end
-    if do_copy then copy_selection(self) end
   end
 
   if button == "right" then
     if self.doc:has_selection() and
       self.doc:get_selection_mode("shift") then
-      copy_selection(self)
+      do_copy = true
     end
   end
+
+  if do_copy then copy_selection(self) end
 
   if button == "middle" and self:has_x11_clipboard() then
     local text = system.get_selection_clipboard()
