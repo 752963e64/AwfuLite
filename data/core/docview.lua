@@ -412,7 +412,7 @@ function DocView:on_mouse_released(button, x, y)
 
   local selections = #self.doc.selection.c >= 1
 
-  if button == "left" and self.mouse_selecting then
+  if button == "left" and self.doc:has_selection() then
     -- add selection to the current cursor
     -- if keymap.modkeys["ctrl"] and selections then
     --   local l2, c2 = select(3, self.doc:get_selection())
