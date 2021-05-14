@@ -412,14 +412,23 @@ function DocView:on_mouse_released(button, x, y)
 
   local selections = #self.doc.selection.c >= 1
 
-  if button == "left" and self.doc:has_selection() then
+  if button == "left" then
+    if self.doc:has_selection() then
+      copy_selection(self)
+    end
     -- add selection to the current cursor
     -- if keymap.modkeys["ctrl"] and selections then
     --   local l2, c2 = select(3, self.doc:get_selection())
     --   print("released", l1, c1, l2, c2)
     --   self.doc:set_selections(l2, c2, l1, c1, nil, #self.doc.selection.c)
     -- end
-    copy_selection(self)
+  end
+
+  if button == "right" then
+    if self.doc:has_selection() and
+      self.doc:get_selection_mode("shift") then
+      copy_selection(self)
+    end
   end
 
   if button == "middle" and self:has_x11_clipboard() then
@@ -436,10 +445,6 @@ function DocView:on_mouse_released(button, x, y)
         end
       end
     end
-  end
-
-  if button == "right" then
-    if self.doc:has_selection() then copy_selection(self) end
   end
 
   self.add_cursor = nil
