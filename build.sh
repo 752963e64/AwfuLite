@@ -24,7 +24,7 @@ done
 
 if [[ ! $got_error ]]; then
   echo "linking..."
-  $compiler *.o $lflags
+  $compiler *.o -s $lflags
 fi
 
 sed -i "s:x11_clipboard = true:x11_clipboard = false:" ./data/core/config.lua
