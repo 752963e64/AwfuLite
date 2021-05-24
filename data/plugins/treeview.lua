@@ -12,13 +12,14 @@ config.dprint("treeview.lua -> loaded")
 
 local mimetypes = {
   code = { "%.c$", "%.h$", "%.inl$", "%.cpp$", "%.hpp$",
-  "%.sh$", "%.rc$", "%.lua$", "%.js$", "%.css$", "%.html?$", "%.md$",
+  "%.sh$", "%.rc$", "%.lua[c]$", "%.js$", "%.css$", "%.html?$", "%.md$",
   "%.py$", "%.xml$", "%.pl$" },
   video = { "%.avi$", "%.mov$", "%.mp4$", "%.og[vg]$", "%.wmv$" },
   audio = { "%.mp3$", "%.wma$", "%.oga$" },
   shitty_document_abstraction = { "%.pdf$", "%.docx?$", "%.chm" },
-  image = { "%.ico$", "%.png$", "%.jpe?g$", "%.gif$", "%.tiff$", "%.tga$", "%.p[pbn]m%" },
-  archive = { "%.tar$", "%.[gx]z$", "%.bz2?$", "%.zip$" },
+  image = { "%.ico$", "%.png$", "%.jpe?g$", "%.gif$", "%.bmp$", 
+  "%.tiff$", "%.tga$", "%.p[pbn]m%" },
+  archive = { "%.tar$", "%.[gx]z$", "%.bz2?$", "%.zip$", "%.pyc$" },
 }
 
 
@@ -153,6 +154,11 @@ end
 
 function TreeView:on_mouse_moved(px, py)
   self.hovered_item = nil
+  if not self.visible or px > self.width
+  or ( core.active_view and core.active_view.mouse_selecting ) then
+    return
+  end
+
   for item, x,y,w,h in self:each_item() do
     if px > x and py > y and px <= x + w and py <= y + h then
       self.hovered_item = item
@@ -163,6 +169,7 @@ end
 
 
 function TreeView:on_mouse_pressed(button, x, y, clicks)
+  if not self.visible and x > self.width then return end
   if button == "left" then
     self._update = true
     if not self.hovered_item then
@@ -195,6 +202,7 @@ end
 
 
 function TreeView:draw()
+  if not self.visible then return end
   self:draw_background(style.background2)
   local font = self.get_font()
   local icon_width = style.xft.icon:get_width(style.icons["folder-open"])
