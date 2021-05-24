@@ -110,7 +110,7 @@ end
 function StatusView:get_items()
   if getmetatable(core.active_view) == DocView then
     local dv = core.active_view
-    local is_multiple = #dv.doc.selection.c >= 1
+    local is_multiple = not dv.doc:get_selection_mode("single")
     local line, col = dv:rectify_column_position()
     local dirty = dv.doc:is_dirty()
     local node = core.root_view:get_active_node()
