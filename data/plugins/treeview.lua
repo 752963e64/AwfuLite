@@ -14,10 +14,10 @@ local mimetypes = {
   code = { "%.c$", "%.h$", "%.inl$", "%.cpp$", "%.hpp$",
   "%.sh$", "%.rc$", "%.lua$", "%.js$", "%.css$", "%.html?$", "%.md$",
   "%.py$", "%.xml$", "%.pl$" },
-  video = { "%.avi$", "%.mov$", "%.mp4$" },
-  audio = { "%.mp3$", "%.wma$", "%.ogg$" },
-  pdf = { "%.pdf$" },
-  image = { "%.ico$", "%.png$", "%.jpe?g$", "%.gif$" },
+  video = { "%.avi$", "%.mov$", "%.mp4$", "%.og[vg]$", "%.wmv$" },
+  audio = { "%.mp3$", "%.wma$", "%.oga$" },
+  shitty_document_abstraction = { "%.pdf$", "%.docx?$", "%.chm" },
+  image = { "%.ico$", "%.png$", "%.jpe?g$", "%.gif$", "%.tiff$", "%.tga$", "%.p[pbn]m%" },
   archive = { "%.tar$", "%.[gx]z$", "%.bz2?$", "%.zip$" },
 }
 
@@ -73,7 +73,7 @@ function TreeView:get_cached(item)
         t.icon = style.icons["file-video"]
       elseif common.matches_ext(t.name, mimetypes.audio) then
         t.icon = style.icons["file-audio"]
-      elseif common.matches_ext(t.name, mimetypes.pdf) then
+      elseif common.matches_ext(t.name, mimetypes.shitty_document_abstraction) then
         t.icon = style.icons["file-pdf"]
       elseif common.matches_ext(t.name, mimetypes.image) then
         t.icon = style.icons["file-image"]
