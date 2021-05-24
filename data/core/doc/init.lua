@@ -252,7 +252,6 @@ function Doc:get_first_selections(sort)
   local line, col, line1, col1 = table.unpack(self.selection.c[1])
   if sort then
     line, col, line1, col1 = common.sort_positions(line, col, line2, col2)
-    return line, col, line1, col1
   end
 
   return line, col, line1, col1
