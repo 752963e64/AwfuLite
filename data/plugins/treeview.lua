@@ -243,11 +243,7 @@ function TreeView:draw()
     -- text
     x = x + spacing
     local item_name = nil
-    if self.visible then
-      item_name = common.truncate_text(font, item.name, x, self.size.x)
-    else
-      item_name = item.name
-    end
+    item_name = common.truncate_text(font, item.name, x, self.size.x)
     x = common.draw_text(font, color, item_name, nil, x, y, 0, h)
   end
 end
