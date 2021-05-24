@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
   atexit(SDL_Quit);
 
 #if SDL_VERSION_ATLEAST(2, 0, 8)
-  SDL_SetHint(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, "0");
+  SDL_SetHint(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, "1");
 #endif
 #if SDL_VERSION_ATLEAST(2, 0, 5)
   SDL_SetHint(SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, "1");
