@@ -58,15 +58,18 @@ top:
         lua_pushstring(L, "exposed");
         return 1;
       }
+#ifndef _AWESOMEWM_
       /* on some systems, when alt-tabbing to the window SDL will queue up
       ** several KEYDOWN events for the `tab` key; we flush all keydown
       ** events on focus so these are discarded
       ** if you plan to drop "some" meaning not all behaviors on focus... catch them...
-      ** using awesomeWM, it uses OEM mod key to switch between running apps...
-      ** if (e.window.event == SDL_WINDOWEVENT_FOCUS_GAINED) {
-      **   SDL_FlushEvent(SDL_KEYDOWN);
-      ** } */
+      ** using awesomeWM, it uses OEM mod key to switch between running apps... */
+      if (e.window.event == SDL_WINDOWEVENT_FOCUS_GAINED) {
+        SDL_FlushEvent(SDL_KEYDOWN);
+      }
+#endif
       goto top;
+
 
     case SDL_DROPFILE:
       SDL_GetGlobalMouseState(&mx, &my);
