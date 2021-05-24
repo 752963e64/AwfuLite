@@ -201,6 +201,9 @@ end
 function ConsoleView:on_mouse_moved(mx, my, ...)
   ConsoleView.super.on_mouse_moved(self, mx, my, ...)
   self.hovered_idx = 0
+  if not self.visible or my < core.active_view.size.y then
+    return
+  end
   for i, item, x,y,w,h in self:each_visible_line() do
     if mx >= x and my >= y and mx < x + w and my < y + h then
       if item.text:find(item.file_pattern) then

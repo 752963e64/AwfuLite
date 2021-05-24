@@ -169,7 +169,11 @@ end
 
 
 function TreeView:on_mouse_pressed(button, x, y, clicks)
-  if not self.visible or x > self.width then return end
+  local caught = TreeView.super.on_mouse_pressed(self, button, x, y, clicks)
+  if caught then
+    return
+  end
+
   if button == "left" then
     self._update = true
     if not self.hovered_item then
