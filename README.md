@@ -111,6 +111,7 @@ see workspace screenshot for an overview...
 ### Some TODO
 
 ```
+- iam tease by writing a standalone selection module that could be accessed through the doc buffer module... I like trees... :)
 - implement a timeline player.
 - overlaping box which act as menu pop... 
 - mouse feedback in statusview doesn't handle multiple workspace
