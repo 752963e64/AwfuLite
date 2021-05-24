@@ -111,7 +111,6 @@ see workspace screenshot for an overview...
 ### Some TODO
 
 ```
-- problem with window focus... it doesn't hold keypress event while focus states
 - implement a timeline player.
 - overlaping box which act as menu pop... 
 - mouse feedback in statusview doesn't handle multiple workspace

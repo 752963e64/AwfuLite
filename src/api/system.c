@@ -61,9 +61,9 @@ top:
       /* on some systems, when alt-tabbing to the window SDL will queue up
       ** several KEYDOWN events for the `tab` key; we flush all keydown
       ** events on focus so these are discarded */
-      if (e.window.event == SDL_WINDOWEVENT_FOCUS_GAINED) {
-        SDL_FlushEvent(SDL_KEYDOWN);
-      }
+      // if (e.window.event == SDL_WINDOWEVENT_FOCUS_GAINED) {
+      //   SDL_FlushEvent(SDL_KEYDOWN);
+      // }
       goto top;
 
     case SDL_DROPFILE:
