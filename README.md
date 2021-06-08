@@ -102,7 +102,7 @@ see workspace screenshot for an overview...
 - ( ctrl + left mouse button => permits to place cursors anywhere you wish )
 - ( shift + right mouse button => permits to select vertically up'n down right'to left )
 - added correct column tracking over unicode
-
+- fixed focus through nodes...
 
      # statusview scheme
      (document changes appears orange) dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending | (mixed tab/space document ~= config appears orange) tabtype tabsize
@@ -111,6 +111,8 @@ see workspace screenshot for an overview...
 ### Some TODO
 
 ```
+- add a debug mode to docview... surface usually split to show debug info into an non editable(docview)
+or something like this... :Ð
 - abrupt selections kills the feel someone human did it... gotta test smooth methods :Ð
 - implement a timeline player.
 - overlaping box which act as menu pop... 
