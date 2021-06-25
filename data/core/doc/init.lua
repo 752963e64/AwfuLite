@@ -367,7 +367,7 @@ function Doc:get_text(line1, col1, line2, col2)
   return table.concat(lines)
 end
 
-
+-- is this unicode resistant?
 function Doc:get_char(line, col)
   line, col = self:sanitize_position(line, col)
   return self.lines[line]:sub(col, col)

@@ -111,8 +111,8 @@ see workspace screenshot for an overview...
 ### Some TODO
 
 ```
-- add a debug mode to docview... surface usually split to show debug info into an non editable(docview)
-or something like this... :Ð
+- dynamic font scaling...
+- add a debug mode to docview... surface usually split verticaly to print step information
 - abrupt selections kills the feel someone human did it... gotta test smooth methods :Ð
 - implement a timeline player.
 - overlaping box which act as menu pop... 
