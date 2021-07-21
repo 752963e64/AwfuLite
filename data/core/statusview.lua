@@ -37,6 +37,7 @@ function StatusView:get_font()
   return style.xft.mono_regular
 end
 
+
 function StatusView:show_message(icon, icon_color, text)
   local font = self.get_font()
   local xsize = font:get_width(text)
