@@ -62,7 +62,7 @@ keymap.add {
 }
 
 -- light theme:
--- require "colors.summer"
+require "colors.summer"
 
 
 -- key binding:
