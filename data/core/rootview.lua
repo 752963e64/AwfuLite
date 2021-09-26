@@ -17,7 +17,6 @@ function RootView:new()
   RootView.super.new(self)
   self.root_node = Node()
   self.deferred_draws = {}
-  self.mouse = { x = 0, y = 0 }
 end
 
 
