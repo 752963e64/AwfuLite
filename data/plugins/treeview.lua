@@ -18,7 +18,7 @@ local mimetypes = {
   audio = { "%.mp3$", "%.wma$", "%.oga$" },
   shitty_document_abstraction = { "%.pdf$", "%.docx?$", "%.chm" },
   image = { "%.ico$", "%.png$", "%.jpe?g$", "%.gif$", "%.bmp$", 
-  "%.tiff$", "%.tga$", "%.p[pbn]m%" },
+  "%.tiff$", "%.tga$", "%.p[pbn]m$" },
   archive = { "%.tar$", "%.[gx]z$", "%.bz2?$", "%.zip$", "%.pyc$" },
 }
 
