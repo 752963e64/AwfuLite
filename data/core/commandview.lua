@@ -19,7 +19,7 @@ end
 
 local CommandView = DocView:extend()
 
-local max_suggestions = 10
+config.commandview.max_suggestions = 10
 
 local noop = function() end
 
@@ -148,7 +148,7 @@ function CommandView:update_suggestions()
   local t = self.state.suggest(self:get_text()) or {}
   local res = {}
   for i, item in ipairs(t) do
-    if i == max_suggestions then
+    if i == config.commandview.max_suggestions then
       break
     end
     if type(item) == "string" then

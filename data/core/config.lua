@@ -46,6 +46,10 @@ config.core.show_spaces = true
 config.core.show_block_rulers = true
 --
 
+config.commandview = {}
+config.commandview.max_suggestions = 10
+--
+
 config.statusview = {}
 config.statusview.message_timeout = 3
 --

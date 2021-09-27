@@ -36,6 +36,7 @@ local function capitalize_first(str)
   return str:sub(1, 1):upper() .. str:sub(2)
 end
 
+
 function command.prettify_name(name)
   return name:gsub(":", ": "):gsub("-", " "):gsub("%S+", capitalize_first)
 end
