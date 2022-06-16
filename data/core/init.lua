@@ -74,6 +74,11 @@ local function project_scan_thread()
 
     -- wait for next scan
     coroutine.yield(config.project.scan_rate)
+
+    -- return to initial rate
+    if config.project.scan_rate < 1 then
+      config.project.scan_rate = 5
+    end
   end
 end
 
@@ -122,6 +127,11 @@ function core.init()
 
   local info = ARGS[2] and system.get_file_info(ARGS[2])
   system.chdir(info and info.type == "dir" and ARGS[2] or ".")
+end
+
+
+function core.force_update_project()
+  config.project.scan_rate = 0.2
 end
 
 

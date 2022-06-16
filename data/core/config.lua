@@ -16,7 +16,7 @@ config.dprint("config.lua -> loaded")
 config.project = {}
 config.project.scan_rate = 5
 config.project.file_size_limit = 10
-config.project.ignore_files = {}
+config.project.ignore_files = { "^%.", "^lite$" }
 --
 
 config.window = {}
@@ -29,7 +29,7 @@ config.window.blink_period = 0.8
 config.core = {}
 config.core.max_log_items = 80
 config.core.mouse_wheel_scroll = 50 * SCALE
-config.core.mouse_x11_clipboard = true
+config.core.mouse_x11_clipboard = false
 config.core.symbol_pattern = "[%a_][%w_]*"
 config.core.non_word_chars = " \t\n/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-"
 config.core.undo_merge_timeout = 0.3

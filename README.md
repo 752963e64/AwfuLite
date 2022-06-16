@@ -115,6 +115,8 @@ see workspace screenshot for an overview...
 ### Some TODO
 
 ```
+- I want selection store to atleast work in lite... workaround can be applied with xsel if it exists.
+- bottom file navigator is a bit ill... to be reworked with abrain :Ð.
 - dynamic font scaling...
 - add a debug mode to docview... surface usually split verticaly to print step information
 - abrupt selections kills the feel someone human did it... gotta test smooth methods :Ð
@@ -163,7 +165,5 @@ To be clear I do not accept someone making money from my fork while I starve... 
 You can read the terms of the MIT license for all code covered by rxi & contributors. See [LICENSE](LICENSE) for details.
 
 ###### All been told, Enjoy.                                              by HackIT.
-
-###### BTC: bc1q5jw0dsgc4x96l0um6vqexp5kq7wthlfvz944uc
 
 

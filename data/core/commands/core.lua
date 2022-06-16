@@ -54,6 +54,7 @@ command.add(nil, {
         return
       end
       core.cwd = text
+      core.force_update_project()
     end, common.path_suggest_only_dirs)
   end,
 

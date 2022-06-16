@@ -30,6 +30,9 @@ config.log.size = config.common.default_split_size
 config.log.visible = false
 
 
+-- core/commandview.lua
+config.commandview.max_suggestions = 20
+
 config.plugins = {
   "plugins.treeview",
   "plugins.color",
