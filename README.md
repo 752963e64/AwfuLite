@@ -1,21 +1,23 @@
 ## AwfuLite - My next text editor ...
 
-![screenshot](https://raw.githubusercontent.com/HackIT/lite/master/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/752963e64/lite/master/screenshot.png)
 
-![screenshot](https://raw.githubusercontent.com/HackIT/lite/master/workspace.png)
+![screenshot](https://raw.githubusercontent.com/75963e64/lite/master/workspace.png)
+
+HackIT is me, also [Awaxx] and 752963e64. I'm not schizo :)
 
 ### How to install
 
 ```bash
-# this SDL2 adds support to default X11 clipboards used with GNU/Linux®
-git clone https://github.com/HackIT/mySDL2
-cd mySDL2
-./configure --prefix=/usr
-make
-make install
-cd ../
-git clone https://github.com/HackIT/lite
-cd lite
+# this SDL2 adds support to default X11 clipboards used with GNU/Linux® made by me :)
+# git clone https://github.com/HackIT/mySDL2
+# cd mySDL2
+# ./configure --prefix=/usr
+# make
+# make install
+# cd ../
+git clone https://github.com/752963e64/AwfuLite
+cd AwfuLite
 ./build.sh
 ./lite
 ```
