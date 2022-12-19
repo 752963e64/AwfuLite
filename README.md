@@ -1,8 +1,8 @@
 ## AwfuLite - My next text editor ...
 
-![screenshot](https://raw.githubusercontent.com/752963e64/lite/master/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/752963e64/AwfuLite/master/screenshot.png)
 
-![screenshot](https://raw.githubusercontent.com/759263e64/lite/master/workspace.png)
+![screenshot](https://raw.githubusercontent.com/752963e64/AwfuLite/master/workspace.png)
 
 HackIT is me, also [Awaxx] and 752963e64. I'm not schizo :)
 
