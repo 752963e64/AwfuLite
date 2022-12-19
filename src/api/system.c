@@ -320,6 +320,11 @@ Get/Set X11 PRIMARY BUFFER(selection clipboard)
 
 #ifdef _XSEL_CALL_
 
+static int f_is_xsel_available(lua_State *L) {
+  /* check that xsel is available at initialisation depending given option */
+  return 0;
+}
+
 static int f_get_selection_clipboard(lua_State *L) {
   /* need fast safe thread call */
   // char *text = SDL_GetSelectionClipboardText();
