@@ -33,6 +33,7 @@ config.log.visible = false
 -- core/commandview.lua
 config.commandview.max_suggestions = 20
 
+
 config.plugins = {
   "plugins.treeview",
   "plugins.color",
@@ -46,7 +47,6 @@ for _, plugin in ipairs(config.plugins) do
   core.try(require, plugin)
   core.log_quiet("Loaded %q", plugin)
 end
-
 
 
 -- key binding:
