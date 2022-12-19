@@ -1,12 +1,12 @@
 #!/bin/bash
 
-cflags="-pipe -Wall -std=gnu11 -Isrc"
+cflags="-pipe -Wall -std=c11 -Isrc"
 lflags="-lSDL2 -lm"
 
 platform="unix"
 outfile="lite"
 compiler="gcc"
-cflags="$cflags -DLUA_USE_POSIX" # -D_MYSDL2_ -D_AWESOMEWM_"
+cflags="$cflags -D_DEFAULT_SOURCE -DLUA_USE_POSIX" # -D_MYSDL2_ -D_AWESOMEWM_"
 lflags="$lflags -o $outfile"
 
 
