@@ -318,18 +318,20 @@ Get/Set X11 PRIMARY BUFFER(selection clipboard)
 
  */
 
-#ifdef _MYSDL2_
+#ifdef _XSEL_CALL_
 
 static int f_get_selection_clipboard(lua_State *L) {
-  char *text = SDL_GetSelectionClipboardText();
-  lua_pushstring(L, text);
-  SDL_free(text);
+  /* need fast safe thread call */
+  // char *text = SDL_GetSelectionClipboardText();
+  // lua_pushstring(L, text);
+  // SDL_free(text);
   return 1;
 }
 
 static int f_set_selection_clipboard(lua_State *L) {
-  const char *text = luaL_checkstring(L, 1);
-  if (text) { SDL_SetSelectionClipboardText(text); }
+  /* throw in without trace... */
+  // const char *text = luaL_checkstring(L, 1);
+  // if (text) { SDL_SetSelectionClipboardText(text); }
   return 0;
 }
 
