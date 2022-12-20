@@ -339,17 +339,18 @@ static int f_set_selection_clipboard(lua_State *L) {
   size_t len;
   const char *clipboard = luaL_checklstring(L, 1, &len);
   char *xsel_call = calloc(1, (len+64));
-  /* need store error messages to avoid allocating same static buffer repeatedly...
-  as a compiler feature would be nice, maybe it's done already anywayz makes clear I understood :) */
-  if (!xsel_call) { luaL_error(L, "buffer allocation failed"); }
+  if (!xsel_call) {
+    luaL_error(L, "buffer allocation failed");
+    return 0;
+  }
+  if (!clipboard) {
+    luaL_error(L, "clipboard allocation failed");
+    return 0;
+  }	  
   sprintf(xsel_call, "xsel -p -i<<<'%s' &", clipboard);
   system(xsel_call);
   free(xsel_call);
-  /* throw in without trace...
-  -p PRIMARY
-  -i input */
-  // const char *text = luaL_checkstring(L, 1);
-  // if (text) { SDL_SetSelectionClipboardText(text); }
+  
   return 0;
 }
 
