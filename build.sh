@@ -6,7 +6,7 @@ lflags="-lSDL2 -lm"
 platform="unix"
 outfile="lite"
 compiler="gcc"
-cflags="$cflags -D_DEFAULT_SOURCE -DLUA_USE_POSIX" # -D_MYSDL2_ -D_AWESOMEWM_"
+cflags="$cflags -D_DEFAULT_SOURCE -DLUA_USE_POSIX -D_XSEL_CALL_" # -D_MYSDL2_ -D_AWESOMEWM_"
 lflags="$lflags -o $outfile"
 
 

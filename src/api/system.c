@@ -322,7 +322,9 @@ Get/Set X11 PRIMARY BUFFER(selection clipboard)
 
 static int f_is_xsel_available(lua_State *L) {
   /* check that xsel is available at initialisation depending given option */
-  return 0;
+  int is_xsel = open("/usr/bin/xsel", O_RDONLY);
+  lua_pushboolean(L, is_xsel);
+  return 1;
 }
 
 static int f_get_selection_clipboard(lua_State *L) {
@@ -334,7 +336,18 @@ static int f_get_selection_clipboard(lua_State *L) {
 }
 
 static int f_set_selection_clipboard(lua_State *L) {
-  /* throw in without trace... */
+  size_t len;
+  const char *clipboard = luaL_checklstring(L, 1, &len);
+  char *xsel_call = calloc(1, (len+64));
+  /* need store error messages to avoid allocating same static buffer repeatedly...
+  as a compiler feature would be nice, maybe it's done already anywayz makes clear I understood :) */
+  if (!xsel_call) { luaL_error(L, "buffer allocation failed"); }
+  sprintf(xsel_call, "xsel -p -i<<<'%s' &", clipboard);
+  system(xsel_call);
+  free(xsel_call);
+  /* throw in without trace...
+  -p PRIMARY
+  -i input */
   // const char *text = luaL_checkstring(L, 1);
   // if (text) { SDL_SetSelectionClipboardText(text); }
   return 0;
@@ -418,9 +431,10 @@ static const luaL_Reg lib[] = {
   { "list_dir",                         f_list_dir            },
   { "absolute_path",                    f_absolute_path       },
   { "get_file_info",                    f_get_file_info       },
-#ifdef _MYSDL2_
-  { "get_selection_clipboard",          f_get_selection_clipboard       },
-  { "set_selection_clipboard",          f_set_selection_clipboard       },
+#ifdef _XSEL_CALL_
+  { "is_xsel_available",                f_is_xsel_available        },
+  { "get_selection_clipboard",          f_get_selection_clipboard  },
+  { "set_selection_clipboard",          f_set_selection_clipboard  },
 #endif
   { "get_clipboard",                    f_get_clipboard       },
   { "set_clipboard",                    f_set_clipboard       },
