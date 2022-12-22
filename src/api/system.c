@@ -4,7 +4,9 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <errno.h>
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 #include "api.h"
 #include "rencache.h"
 
@@ -328,10 +330,15 @@ static int f_is_xsel_available(lua_State *L) {
 }
 
 static int f_get_selection_clipboard(lua_State *L) {
-  /* need fast safe thread call */
-  // char *text = SDL_GetSelectionClipboardText();
-  // lua_pushstring(L, text);
-  // SDL_free(text);
+  char *clipboard = calloc(1, (BUFSIZ*4));
+  FILE *retf = popen("/usr/bin/xsel -p", "r");
+  fread(clipboard, sizeof *clipboard, (BUFSIZ*4), retf);
+  if(ferror(retf)) {
+    perror("ferror");
+  }
+  lua_pushstring(L, clipboard);
+  pclose(retf);
+  free(clipboard);
   return 1;
 }
 
@@ -347,7 +354,7 @@ static int f_set_selection_clipboard(lua_State *L) {
     luaL_error(L, "clipboard allocation failed");
     return 0;
   }	  
-  sprintf(xsel_call, "xsel -p -i<<<'%s' &", clipboard);
+  sprintf(xsel_call, "/usr/bin/xsel -p -i<<<'%s' &", clipboard);
   system(xsel_call);
   free(xsel_call);
   
