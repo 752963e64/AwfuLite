@@ -326,6 +326,7 @@ static int f_is_xsel_available(lua_State *L) {
   /* check that xsel is available at initialisation depending given option */
   int is_xsel = open("/usr/bin/xsel", O_RDONLY);
   lua_pushboolean(L, is_xsel);
+  close(is_xsel);
   return 1;
 }
 
