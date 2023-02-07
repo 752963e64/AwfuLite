@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cflags="-pipe -Wall -std=c11 -Isrc"
+cflags="-pipe -O3 -Wall -std=c11 -Isrc"
 lflags="-lSDL2 -lm"
 
 platform="unix"
