@@ -5,9 +5,7 @@ local command = require "core.command"
 local keymap = require "core.keymap"
 local View = require "core.view"
 
-
 config.dprint("log.lua -> loaded")
-
 
 local LogView = View:extend()
 
