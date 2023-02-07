@@ -16,7 +16,7 @@ local mimetypes = {
   "%.py$", "%.xml$", "%.pl$" },
   video = { "%.avi$", "%.mov$", "%.mp4$", "%.og[vg]$", "%.wmv$" },
   audio = { "%.mp3$", "%.wma$", "%.oga$" },
-  shitty_document_abstraction = { "%.pdf$", "%.docx?$", "%.chm" },
+  document = { "%.pdf$", "%.docx?$", "%.chm" },
   image = { "%.ico$", "%.png$", "%.jpe?g$", "%.gif$", "%.bmp$", 
   "%.tiff$", "%.tga$", "%.p[pbn]m$" },
   archive = { "%.tar$", "%.[gx]z$", "%.bz2?$", "%.zip$", "%.pyc$" },
@@ -74,7 +74,7 @@ function TreeView:get_cached(item)
         t.icon = style.icons["file-video"]
       elseif common.matches_ext(t.name, mimetypes.audio) then
         t.icon = style.icons["file-audio"]
-      elseif common.matches_ext(t.name, mimetypes.shitty_document_abstraction) then
+      elseif common.matches_ext(t.name, mimetypes.document) then
         t.icon = style.icons["file-pdf"]
       elseif common.matches_ext(t.name, mimetypes.image) then
         t.icon = style.icons["file-image"]
