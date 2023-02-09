@@ -27,7 +27,7 @@ if [[ ! $got_error ]]; then
   $compiler *.o -s $lflags
 fi
 
-sed -i "s:x11_clipboard = true:x11_clipboard = false:" ./data/core/config.lua
+# sed -i "s:x11_clipboard = true:x11_clipboard = false:" ./data/core/config.lua
 
 echo "cleaning up..."
 rm *.o
