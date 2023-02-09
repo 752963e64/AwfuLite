@@ -153,7 +153,7 @@ end
 
 
 function TreeView:on_mouse_moved(px, py)
-  self.hovered_item = nil
+  if self.hovered_item then self.hovered_item = nil end
   if not self.visible or px > self.width
   or ( core.active_view and core.active_view.mouse_selecting ) then
     return
