@@ -1,7 +1,7 @@
 local syntax = require "core.syntax"
 
 syntax.add {
-  files = { "%.xml$", "%.html?$" },
+  files = { "%.xml$", "%.x?html?$" },
   patterns = {
     { pattern = { "<!%-%-", "%-%->" },     type = "comment"  },
     { pattern = { '%f[^>][^<]', '%f[<]' }, type = "normal"   },
