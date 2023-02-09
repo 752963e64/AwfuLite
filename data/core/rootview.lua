@@ -81,7 +81,7 @@ function RootView:on_mouse_released(button, x, y, clicks)
     end -- do not forward when grabing divider
   end
   if node then
-    core.active_view:on_mouse_released(button, x, y, clicks)
+    node.active_view:on_mouse_released(button, x, y, clicks)
   end
   -- self.root_node:on_mouse_released(button, x, y, clicks)
 end
