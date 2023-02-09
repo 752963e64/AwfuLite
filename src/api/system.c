@@ -346,19 +346,15 @@ static int f_get_selection_clipboard(lua_State *L) {
 static int f_set_selection_clipboard(lua_State *L) {
   size_t len;
   const char *clipboard = luaL_checklstring(L, 1, &len);
-  char *xsel_call = calloc(1, (len+64));
-  if (!xsel_call) {
-    luaL_error(L, "buffer allocation failed");
-    return 0;
-  }
+  
   if (!clipboard) {
     luaL_error(L, "clipboard allocation failed");
     return 0;
-  }	  
-  sprintf(xsel_call, "/usr/bin/xsel -p -i<<<'%s' &", clipboard);
-  system(xsel_call);
-  free(xsel_call);
+  }
   
+  FILE *retf = popen("/usr/bin/xsel -p -i", "w");
+  fprintf(retf, "%.*s", (int)len, clipboard);
+  pclose(retf);
   return 0;
 }
 
