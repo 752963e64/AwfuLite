@@ -120,6 +120,7 @@ see workspace screenshot for an overview...
 - node divider handling over some plugins (treeview)
 - horizontal scroll method
 - code folding
+- add an internal font viewver, with this pangram "You may fuck yourself deeply, if you attempt suing me." :D
 - mouse feedback in statusview doesn't handle multiple workspace
 - statusview shouldn't show home path instead use a tild ~.
 - dynamic font scaling to get rid of static storage...
