@@ -9,12 +9,9 @@ local StatusView
 local CommandView
 local Doc
 
-
 config.dprint("core.lua -> loaded")
 
-
 local core = {}
-
 
 local function project_scan_thread()
   local function diff_files(a, b)
@@ -391,9 +388,9 @@ function core.step()
   -- update window title
   local name = core.active_view:get_name()
   if name ~= "---" then
-    system.set_window_title(name .. " - lite")
+    system.set_window_title(name .. " - AwfuLite")
   else
-    system.set_window_title("lite")
+    system.set_window_title("AwfuLite")
   end
 
   -- draw
