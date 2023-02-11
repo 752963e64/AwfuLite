@@ -4,18 +4,15 @@
 
 ![screenshot](https://raw.githubusercontent.com/752963e64/AwfuLite/master/workspace.png)
 
+2 way to demo something... you fuel the engine or you engineering the fuel.
+
 HackIT is me, also [Awaxx] and 752963e64. I'm not schizo :)
 
 ### How to install
 
+depends on SDL2 and xsel & hexdump comand line tools.
+
 ```bash
-# this SDL2 adds support to default X11 clipboards used with GNU/Linux® made by me :)
-# git clone https://github.com/HackIT/mySDL2
-# cd mySDL2
-# ./configure --prefix=/usr
-# make
-# make install
-# cd ../
 git clone https://github.com/752963e64/AwfuLite
 cd AwfuLite
 ./build.sh
