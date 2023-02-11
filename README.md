@@ -1,16 +1,18 @@
 ## AwfuLite - My next text editor ...
 
+- It's actually my main text editor... live patching in public...
+
 ![screenshot](https://raw.githubusercontent.com/752963e64/AwfuLite/master/screenshot.png)
 
 ![screenshot](https://raw.githubusercontent.com/752963e64/AwfuLite/master/workspace.png)
 
-2 way to demo something... you fuel the engine or you engineering the fuel.
+- 2 way to demo something... you fuel the engine or you engineering the fuel.
 
 HackIT is me, also [Awaxx] and 752963e64. I'm not schizo :)
 
 ### How to install
 
-depends on SDL2 and xsel & hexdump comand line tools.
+- depends on SDL2 library, xsel & hexdump comand line tools.
 
 ```bash
 git clone https://github.com/752963e64/AwfuLite
