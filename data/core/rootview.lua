@@ -55,14 +55,14 @@ end
 
 function RootView:on_mouse_pressed(button, x, y, clicks)
   local node = self.root_node:get_child_overlapping_point(x, y)
-
   if button == "left" then
+    -- test if we are hover a node divider
     local div = self.root_node:get_divider_overlapping_point(x, y)
     if div then
       self.dragged_divider = div
-      return
+      return -- do not forward when grabing divider
     end
-  end  -- do not forward when grabing divider
+  end
   if node then
     if node.active_view ~= core.active_view then
       core.set_active_view(node.active_view)
@@ -77,8 +77,8 @@ function RootView:on_mouse_released(button, x, y, clicks)
   if button == "left" then
     if self.dragged_divider then
       self.dragged_divider = nil
-      return
-    end -- do not forward when grabing divider
+      return -- do not forward when grabing divider
+    end
   end
   if node then
     node.active_view:on_mouse_released(button, x, y, clicks)
