@@ -391,7 +391,7 @@ end
 local function copy_selection(self)
   if self:has_x11_clipboard() then
     local text, e = "", ""
-    
+
     if #self.doc.selection.c >= 1 then
       for i, d in ipairs(self.doc:get_selections()) do
         if self.doc:get_selection_mode("shift") then
@@ -448,6 +448,7 @@ function DocView:on_mouse_released(button, x, y)
         local av = node.active_view
         if av.doc == self.doc then
           av.doc:insert(line, col, text)
+          self.doc:set_selection(line, #text+col, line, #text+col)
           core.log("Paste \"%d\" ßytes", #text)
         end
       end
