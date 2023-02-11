@@ -12,7 +12,7 @@ HackIT is me, also [Awaxx] and 752963e64. I'm not schizo :)
 
 ### How to install
 
-- depends on SDL2 library, xsel & hexdump comand line tools.
+- depends on SDL2 library, xsel & hexdump command line tools.
 
 ```bash
 git clone https://github.com/752963e64/AwfuLite
@@ -83,7 +83,7 @@ see workspace screenshot for an overview...
 ### Stuff DONE
 
 ```
-- linux clipboards
+- linux clipboards - handled by xsel avoiding savagery over SDL2.
 - added more font icons
 - moved syntaxes and colors to their own dir...
 - removed plugins and now loading them using a list.
@@ -109,6 +109,7 @@ see workspace screenshot for an overview...
 - added correct column tracking over unicode
 - fixed focus through nodes...
 
+
      # statusview scheme
      (document changes appears orange) dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending | (mixed tab/space document ~= config appears orange) tabtype tabsize
 ```
@@ -116,14 +117,16 @@ see workspace screenshot for an overview...
 ### Some TODO
 
 ```
-- I want selection store to atleast work in lite... workaround can be applied with xsel if it exists.
-- bottom file navigator is a bit ill... to be reworked with abrain :Ð.
-- dynamic font scaling...
+- node divider handling over some plugins (treeview)
+- horizontal scroll method
+- code folding
+- mouse feedback in statusview doesn't handle multiple workspace
+- statusview shouldn't show home path instead use a tild ~.
+- dynamic font scaling to get rid of static storage...
 - add a debug mode to docview... surface usually split verticaly to print step information
 - abrupt selections kills the feel someone human did it... gotta test smooth methods :Ð
 - implement a timeline player.
 - overlaping box which act as menu pop... 
-- mouse feedback in statusview doesn't handle multiple workspace
 - git driver driven by commands/shortcuts
 - add an acceleration method for autoscroll
 - add pattern text matching methods to multi selection
@@ -138,7 +141,6 @@ see workspace screenshot for an overview...
 - binary report tools
 - store session
 - rounded rectangle
-- code folding
 - more plugins
 ```
 
@@ -157,14 +159,13 @@ print("hello world o/")
 ```
 
 ## License
-**[lite](https://github.com/rxi/lite)** is MIT licensed. I still didn't decide what license to use for my additions...
 
-I retain copyright & terms from my additions following the BERN convention while deciding what I do.
+**[lite](https://github.com/rxi/lite)** is MIT licensed.
 
-To be clear I do not accept someone making money from my fork while I starve... however you can use it and modify it personally or even get inspired of it ... just don't fucking copy for a bad context :)
+**[AwfuLite](https://github.com/752963e64/AwfuLite)** is MIT licensed.
 
-You can read the terms of the MIT license for all code covered by rxi & contributors. See [LICENSE](LICENSE) for details.
+See [LICENSE](LICENSE) for details.
 
-###### All been told, Enjoy.                                              by HackIT.
+###### by HackIT.
 
 
