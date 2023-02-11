@@ -53,95 +53,95 @@ style.xft.icon_statusview = renderer.font.load(EXEDIR .. xft.icon, 12 * SCALE)
 
 style.xft.logo = renderer.font.load(EXEDIR .. xft.mono_bold, 32 * SCALE)
 
-style.background = { common.color "#2e2e32" }
-style.background2 = { common.color "#252529" }
-style.background3 = { common.color "#252529" }
-style.text = { common.color "#97979c" }
-style.caret = { common.color "#FFA94D" }
-style.accent = { common.color "#e1e1e6" }
-style.accent2 = { common.color "#FFA94D" }
-style.dim = { common.color "#757e84" }
+style.background      = { common.color "#2e2e32" }
+style.background2     = { common.color "#252529" }
+style.background3     = { common.color "#252529" }
+style.text            = { common.color "#97979c" }
+style.caret           = { common.color "#FFA94D" }
+style.accent          = { common.color "#e1e1e6" }
+style.accent2         = { common.color "#FFA94D" }
+style.dim             = { common.color "#757e84" }
 -- style.dim = { common.color "#525257" }
-style.divider = { common.color "#202024" }
-style.selection = { common.color "#48484f" }
-style.line_number = { common.color "#525259" }
-style.line_number2 = { common.color "#83838f" }
-style.line_highlight = { common.color "#343438" }
-style.scrollbar = { common.color "#414146" }
-style.scrollbar2 = { common.color "#4b4b52" }
+style.divider         = { common.color "#202024" }
+style.selection       = { common.color "#48484f" }
+style.line_number     = { common.color "#525259" }
+style.line_number2    = { common.color "#83838f" }
+style.line_highlight  = { common.color "#343438" }
+style.scrollbar       = { common.color "#414146" }
+style.scrollbar2      = { common.color "#4b4b52" }
 
 style.warn = { common.color "#FF0000" }
 
 style.syntax = {}
-style.syntax["tab"] = { common.color "#676b6f" }
-style.syntax["space"] = { common.color "#676b6f" }
-style.syntax["normal"] = { common.color "#e1e1e6" }
-style.syntax["symbol"] = { common.color "#e1e1e6" }
-style.syntax["comment"] = { common.color "#676b6f" }
-style.syntax["keyword"] = { common.color "#E58AC9" }
-style.syntax["keyword2"] = { common.color "#F77483" }
-style.syntax["number"] = { common.color "#FFA94D" }
-style.syntax["literal"] = { common.color "#FFA94D" }
-style.syntax["string"] = { common.color "#f7c95c" }
-style.syntax["operator"] = { common.color "#93DDFA" }
-style.syntax["function"] = { common.color "#93DDFA" }
+style.syntax["tab"]       = { common.color "#676b6f" }
+style.syntax["space"]     = { common.color "#676b6f" }
+style.syntax["normal"]    = { common.color "#e1e1e6" }
+style.syntax["symbol"]    = { common.color "#e1e1e6" }
+style.syntax["comment"]   = { common.color "#676b6f" }
+style.syntax["keyword"]   = { common.color "#E58AC9" }
+style.syntax["keyword2"]  = { common.color "#F77483" }
+style.syntax["number"]    = { common.color "#FFA94D" }
+style.syntax["literal"]   = { common.color "#FFA94D" }
+style.syntax["string"]    = { common.color "#f7c95c" }
+style.syntax["operator"]  = { common.color "#93DDFA" }
+style.syntax["function"]  = { common.color "#93DDFA" }
 
 
 style.icons = {
-  ["attention"] = "!",
-  ["angle-circled-down"] = "\"",
-  ["angle-circled-up"] = ",",
-  ["angle-circled-left"] = ")",
-  ["angle-circled-right"] = "*",
+  ["attention"]             = "!",
+  ["angle-circled-down"]    = "\"",
+  ["angle-circled-up"]      = ",",
+  ["angle-circled-left"]    = ")",
+  ["angle-circled-right"]   = "*",
   -- document
-  ["doc-text"] = "#",
-  ["file-archive"] = "/",
-  ["file-image"] = "0",
-  ["file-pdf"] = "1",
-  ["file-video"] = "J",
-  ["file-audio"] = "K",
-  ["file-code"] = "f",
+  ["doc-text"]              = "#",
+  ["file-archive"]          = "/",
+  ["file-image"]            = "0",
+  ["file-pdf"]              = "1",
+  ["file-video"]            = "J",
+  ["file-audio"]            = "K",
+  ["file-code"]             = "f",
   -- align
-  ["align-left"] = "5",
-  ["align-center"] = "6",
-  ["align-right"] = "7",
+  ["align-left"]            = "5",
+  ["align-center"]          = "6",
+  ["align-right"]           = "7",
   -- lock
-  ["lock"] = "$",
-  ["lock-open-alt"] = "%",
+  ["lock"]                  = "$",
+  ["lock-open-alt"]         = "%",
   -- feed back icon
-  ["ok"] = "&",
-  ["cancel"] = "x",
-  ["check-empty"] = "B",
-  ["check"] = "C",
-  ["sort"] = ";",
-  ["sort-down"] = "<",
-  ["sort-up"] = "=",
-  ["dot"] = ".",
-  ["dot-3"] = "I",
-  ["unlink"] = "?",
-  ["folder-open"] = "D",
-  ["folder-close"] = "d",
-  ["fold-close"] = "+",
-  ["fold-open"] = "-",
+  ["ok"]                    = "&",
+  ["cancel"]                = "x",
+  ["check-empty"]           = "B",
+  ["check"]                 = "C",
+  ["sort"]                  = ";",
+  ["sort-down"]             = "<",
+  ["sort-up"]               = "=",
+  ["dot"]                   = ".",
+  ["dot-3"]                 = "I",
+  ["unlink"]                = "?",
+  ["folder-open"]           = "D",
+  ["folder-close"]          = "d",
+  ["fold-close"]            = "+",
+  ["fold-open"]             = "-",
   -- button
-  ["toggle-on"] = "@",
-  ["toggle-off"] = "A",
+  ["toggle-on"]             = "@",
+  ["toggle-off"]            = "A",
   -- icon symbol
-  ["info-circled"] = "i",
-  ["chart-line"] = "g",
-  ["chart-bar"] = "G",
-  ["book"] = "p",
-  ["build"] = "'",
-  ["code"] = "3",
-  ["menu"] = "4",
-  ["git"] = "8",
-  ["fork"] = "9",
-  ["cube"] = ":",
-  ["right-angle"] = ">",
-  ["undo"] = "F",
-  ["redo"] = "H",
-  ["share"] = "L",
-  ["terminal"] = "T",
+  ["info-circled"]          = "i",
+  ["chart-line"]            = "g",
+  ["chart-bar"]             = "G",
+  ["book"]                  = "p",
+  ["build"]                 = "'",
+  ["code"]                  = "3",
+  ["menu"]                  = "4",
+  ["git"]                   = "8",
+  ["fork"]                  = "9",
+  ["cube"]                  = ":",
+  ["right-angle"]           = ">",
+  ["undo"]                  = "F",
+  ["redo"]                  = "H",
+  ["share"]                 = "L",
+  ["terminal"]              = "T",
 }
 
 return style
