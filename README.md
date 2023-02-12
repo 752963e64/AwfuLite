@@ -6,7 +6,7 @@
 
 ![screenshot](https://raw.githubusercontent.com/752963e64/AwfuLite/master/workspace.png)
 
-- 2 way to demo something... you fuel the engine or you engineering the fuel.
+- 2 way to demo something... you fuel the engine or you engineers the fuel.
 
 HackIT is me, also [Awaxx] and 752963e64. I'm not schizo :)
 
