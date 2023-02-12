@@ -360,6 +360,9 @@ function DocView:on_mouse_moved(x, y, dx, dy)
   DocView.super.on_mouse_moved(self, x, y, dx, dy)
 
   local line1, col1 = self:resolve_screen_position(x+dx, y+dy)
+  if self.cursor ~= "ibeam" then
+    self.cursor = "ibeam"
+  end
   local selections = #self.doc.selection.c >= 1
 
   -- handle single|ctrl selection(s)

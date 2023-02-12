@@ -100,14 +100,14 @@ end
 
 function View:on_mouse_moved(x, y, dx, dy)
   self.mouse.x, self.mouse.y = x, y
-  if self.hovered_scrollbar or self.hold_scrollbar then
+  if self.cursor ~= "arrow" then
     self.cursor = "arrow"
+  end
+  if self.hovered_scrollbar or self.hold_scrollbar then
     if self.hold_scrollbar then
       local delta = self:get_scrollable_size() / self.size.y * dy
       self.scroll.to.y = self.scroll.to.y + delta
     end
-  else
-    self.cursor = "ibeam"
   end
   self.hovered_scrollbar = self:scrollbar_overlaps_point(x, y)
 end

@@ -43,6 +43,7 @@ function TreeView:new()
   self.width = config.treeview.size
   self.cache = {}
   self._update = nil
+  self.cursor = "arrow"
   self.visible_item = 0
 end
 
@@ -158,7 +159,9 @@ function TreeView:on_mouse_moved(px, py)
   or ( core.active_view and core.active_view.mouse_selecting ) then
     return
   end
-
+  if self.cursor ~= "arrow" then
+    self.cursor = "arrow"
+  end
   for item, x,y,w,h in self:each_item() do
     if px > x and py > y and px <= x + w and py <= y + h then
       self.hovered_item = item
