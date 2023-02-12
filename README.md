@@ -142,18 +142,18 @@ see workspace screenshot for an overview...
 - add a debug mode to docview... surface usually split verticaly to print step information
 - abrupt selections kills the feel someone human did it... gotta test smooth methods :Ð
 - implement a timeline player.
-- overlaping box which act as menu pop... 
+- overlaping box which act as menu pop...
 - git driver driven by commands/shortcuts
 - add an acceleration method for autoscroll
 - add pattern text matching methods to multi selection
 - fix undo/redo with multi selection
 - <s>independent documents</s> now needs to track on disk file changes?...
 - user styles loads after logging...
-- a markdown viewer from lite engine... will need img renderer...
+- a markdown viewer... (needs stateful engines)
 - highlight gutter instead line
 - phased rendering, orchestration and composition
-- windowed plugins using lite
-- audio engine
+- windowed plugins using lite renderer
+- stateful engines (obj) around components (audio, network, media)
 - binary report tools
 - store session
 - rounded rectangle
