@@ -360,6 +360,9 @@ function DocView:on_mouse_moved(x, y, dx, dy)
   DocView.super.on_mouse_moved(self, x, y, dx, dy)
 
   local line1, col1 = self:resolve_screen_position(x+dx, y+dy)
+  if self.hovered_scrollbar or self.hold_scrollbar then
+    return
+  end 
   if self.cursor ~= "ibeam" then
     self.cursor = "ibeam"
   end
