@@ -23,6 +23,21 @@ cd AwfuLite
 
 ### How to handle the beast
 
+- first time you'll use it.
+```sh
+[[ -d ~/bin ]] || mkdir ~/bin
+ln -sv $PATH_TO_LITE_DIR/lite ~/bin/awfulite
+export PATH=~/bin:$PATH # if it's not already assumed... check it, first...
+```
+
+- Go to directory you are about to work on, Now startup the beast.
+
+```sh
+awfulite &
+```
+
+- type **ctrl+shift+t**, Now you are on your own rdy to impress or deceive...
+
 #### the console behavior is non-interactive, throw a cmd and get feedback... nah enouf? use your terminal...
 - **ctrl+:** => open a console view...
 - **ctrl+shift+:** => throw a command to your bash shell...
