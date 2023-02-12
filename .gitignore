@@ -2,4 +2,5 @@ lite
 .lite_project.lua
 *.c
 *.report
+*.txt
 
