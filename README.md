@@ -124,7 +124,6 @@ see workspace screenshot for an overview...
 - added correct column tracking over unicode
 - fixed focus through nodes...
 
-
      # statusview scheme
      (document changes appears orange) dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending | (mixed tab/space document ~= config appears orange) tabtype tabsize
 ```
@@ -135,12 +134,9 @@ see workspace screenshot for an overview...
 - node divider handling over some plugins (treeview)
 - horizontal scroll method
 - code folding
-- add an internal font viewver, with this pangram "You may fuck yourself deeply, if you attempt suing me." :D
 - mouse feedback in statusview doesn't handle multiple workspace
 - statusview shouldn't show home path instead use a tild ~.
-- dynamic font scaling to get rid of static storage...
 - add a debug mode to docview... surface usually split verticaly to print step information
-- abrupt selections kills the feel someone human did it... gotta test smooth methods :Ð
 - implement a timeline player.
 - overlaping box which act as menu pop...
 - git driver driven by commands/shortcuts
@@ -151,9 +147,12 @@ see workspace screenshot for an overview...
 - user styles loads after logging...
 - a markdown viewer... (needs stateful engines)
 - highlight gutter instead line
+- abrupt selections kills the feel someone human did it... gotta test smooth methods :Ð
 - phased rendering, orchestration and composition
 - windowed plugins using lite renderer
-- stateful engines (obj) around components (audio, network, media)
+- add an internal font viewver, with this pangram "You may fuck yourself deeply, if you attempt suing me." :D
+- dynamic font scaling to get rid of static storage...
+- stateful engines (obj) around components (audio, network, media, data)
 - binary report tools
 - store session
 - rounded rectangle
