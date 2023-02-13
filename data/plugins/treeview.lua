@@ -155,13 +155,15 @@ end
 
 function TreeView:on_mouse_moved(px, py)
   if self.hovered_item then self.hovered_item = nil end
+  if self.cursor ~= "arrow" then
+    self.cursor = "arrow"
+  end
+
   if not self.visible or px > self.width
   or ( core.active_view and core.active_view.mouse_selecting ) then
     return
   end
-  if self.cursor ~= "arrow" then
-    self.cursor = "arrow"
-  end
+
   for item, x,y,w,h in self:each_item() do
     if px > x and py > y and px <= x + w and py <= y + h then
       self.hovered_item = item
@@ -178,6 +180,9 @@ function TreeView:on_mouse_pressed(button, x, y, clicks)
   end
 
   if button == "left" then
+    if self.visible and core.active_view and core.active_view.mouse_selecting then
+      core.active_view:on_mouse_released(button, x, y)
+    end
     self._update = true
     if not self.hovered_item then
       return
@@ -190,6 +195,18 @@ function TreeView:on_mouse_pressed(button, x, y, clicks)
       core.try(function()
         core.root_view:open_doc(core.open_doc(self.hovered_item.filename))
       end)
+    end
+  end
+end
+
+
+function TreeView:on_mouse_released(button, x, y)
+  local caught = TreeView.super.on_mouse_released(self, button, x, y)
+  if caught then return end
+
+  if button == "left" then
+    if core.active_view and core.active_view.mouse_selecting then
+      core.active_view:on_mouse_released(button, x, y)
     end
   end
 end

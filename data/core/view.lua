@@ -84,7 +84,7 @@ end
 function View:on_mouse_pressed(button, x, y, clicks)
   if button == "left" and self.hovered_scrollbar then
     self.hold_scrollbar = true
-    return true
+    return
   end
 end
 
@@ -93,6 +93,9 @@ function View:on_mouse_released(button, x, y)
   if button == "left" then
     if self.hold_scrollbar then
       self.hold_scrollbar = false
+      if self.cursor ~= "ibeam" then
+        self.cursor = "ibeam"
+      end
     end
   end
 end

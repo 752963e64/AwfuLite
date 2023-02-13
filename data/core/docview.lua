@@ -236,7 +236,7 @@ function DocView:update_shift_selections(line1, col1)
   local el1, ec1 = self.doc:get_last_selections()
   -- primary selection
   local pl1, pc1, _, pc2 = self.doc:get_first_selections()
-  
+
   if not self.doc:has_selection() and
     pc1 == 1 and pc1 == pc2 and
     not self.primary_col then
