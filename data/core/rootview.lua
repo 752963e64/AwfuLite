@@ -83,6 +83,7 @@ function RootView:on_mouse_released(button, x, y, clicks)
   if node then
     node.active_view:on_mouse_released(button, x, y, clicks)
   end
+  system.set_cursor(node.active_view.cursor)
   -- self.root_node:on_mouse_released(button, x, y, clicks)
 end
 

@@ -397,7 +397,6 @@ end
 local function copy_selection(self)
   if self:has_x11_clipboard() then
     local text, e = "", ""
-
     if #self.doc.selection.c >= 1 then
       for i, d in ipairs(self.doc:get_selections()) do
         if self.doc:get_selection_mode("shift") then
