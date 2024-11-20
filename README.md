@@ -1,6 +1,6 @@
 ## AwfuLite - Ray of lite...
 
-![rayoflight HoneyBadger](./BLIPPYPIXEL-RAYS_OF_LIGHT.JPG)
+![rayoflight HoneyBadger](./BLIPPYPIXEL-RAYS_OF_LIGHT.PNG)
 
 - It's actually my main text editor... live patching in public...
 
