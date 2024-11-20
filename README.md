@@ -153,7 +153,8 @@ see workspace screenshot for an overview...
 - ( shift + right mouse button => permits to select vertically up'n down right'to left )
 - added correct column tracking over unicode
 - fixed focus through nodes...
-
+- git driver driven by commands/shortcuts - ./data/core/commands/git.lua
+     
      # statusview scheme
      (document changes appears orange) dirty | openfiles/index | filename | line/col percent    icon | total lines | line ending | (mixed tab/space document ~= config appears orange) tabtype tabsize
 ```
@@ -169,7 +170,6 @@ see workspace screenshot for an overview...
 - add a debug mode to docview... surface usually split verticaly to print step information
 - implement a timeline player.
 - overlaping box which act as menu pop...
-- git driver driven by commands/shortcuts
 - add an acceleration method for autoscroll
 - add pattern text matching methods to multi selection
 - fix undo/redo with multi selection
