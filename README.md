@@ -2,6 +2,8 @@
 
 - It's actually my main text editor... live patching in public...
 
+- It's actually not anymore true... I use vscode... But this may change for some reason.
+
 ![screenshot](https://raw.githubusercontent.com/752963e64/AwfuLite/master/screenshot.png)
 
 ![screenshot](https://raw.githubusercontent.com/752963e64/AwfuLite/master/workspace.png)
@@ -34,6 +36,32 @@ export PATH=~/bin:$PATH # if it's not already assumed... check it, first...
 
 ```sh
 awfulite &
+```
+
+- Another way is to take in consideration that you gonna seriously mess it up...
+
+following this way, let you test your additions first.
+```sh
+cd ~
+git clone https://github.com/752963e64/AwfuLite
+[[ -d ~/bin ]] || mkdir ~/bin
+cp -rf AwfuLite work_on
+ln -sv ~/AwfuLite/lite ~/bin/awfulite
+export PATH=~/bin:$PATH # if it's not already assumed... check it, first...
+
+function apply_shit()
+{
+  [[ -x ./lite ]] && { cp -rvf $(pwd)/* ~/AwfuLite; return 0; }
+}
+
+cd work_on
+awfulite &
+# you keep testing additions by launching ./lite aside...
+# you throw apply_shit when you feel okay with your mess...
+apply_shit
+# Now you should apply/commit changes to ~/AwfuLite
+awfulite & # back to camp fire 
+# simple...
 ```
 
 - type **ctrl+shift+t**, Now you are on your own rdy to impress or deceive...
