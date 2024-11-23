@@ -2,7 +2,6 @@ local core = require "core"
 local View = require "core.view"
 local DocView = require "core.docview"
 local Node = require "core.node"
-local EmptyView = require "core.emptyview"
 local common = require "core.common"
 local config = require "core.config"
 
@@ -26,13 +25,15 @@ end
 
 
 function RootView:get_active_node()
-  return self.root_node:get_node_for_view(core.active_view)
+  if core.active_view then
+    return self.root_node:get_node_for_view(core.active_view)
+  end
 end
 
 
 function RootView:open_doc(doc)
   local node = self:get_active_node()
-  if node.locked and core.last_active_view then
+  if node and node.locked and core.last_active_view then
     core.set_active_view(core.last_active_view)
     node = self:get_active_node()
   end
@@ -84,7 +85,6 @@ function RootView:on_mouse_released(button, x, y, clicks)
     node.active_view:on_mouse_released(button, x, y, clicks)
   end
   system.set_cursor(node.active_view.cursor)
-  -- self.root_node:on_mouse_released(button, x, y, clicks)
 end
 
 

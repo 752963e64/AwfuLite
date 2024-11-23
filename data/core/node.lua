@@ -71,8 +71,9 @@ function Node:split(dir, view, locked)
   
   if locked then
     self.b.locked = locked
-    core.set_active_view(last_active)
   end
+  core.set_active_view(last_active)
+  -- end
   
   if dir == "up" or dir == "left" then
     self.a, self.b = self.b, self.a

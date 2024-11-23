@@ -9,7 +9,6 @@ compiler="gcc"
 cflags="$cflags -D_DEFAULT_SOURCE -DLUA_USE_POSIX -D_XSEL_CALL_" # -D_MYSDL2_ -D_AWESOMEWM_"
 lflags="$lflags -o $outfile"
 
-
 if command -v ccache >/dev/null; then
   compiler="ccache $compiler"
 fi

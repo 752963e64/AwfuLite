@@ -153,19 +153,35 @@ function TreeView:each_item()
 end
 
 
-function TreeView:on_mouse_moved(px, py)
-  if self.hovered_item then self.hovered_item = nil end
-  if self.cursor ~= "arrow" then
-    self.cursor = "arrow"
-  end
+function TreeView:on_mouse_moved(x, y, px, py)
+  local caught = TreeView.super.on_mouse_moved(self, x, y, px, py)
+  if caught then return end
 
-  if not self.visible or px > self.width
+  if self.hovered_item then self.hovered_item = nil end
+
+  if not self.visible or x > self.width
   or ( core.active_view and core.active_view.mouse_selecting ) then
     return
   end
 
-  for item, x,y,w,h in self:each_item() do
-    if px > x and py > y and px <= x + w and py <= y + h then
+  if self.cursor ~= "arrow" then
+    self.cursor = "arrow"
+  end
+
+  if self.divider then
+    if not view.init_size then
+      view.init_size = true
+    end
+    if x > self.width then
+      view.width = view.width + 10
+    else
+      view.width = view.width - 10
+    end
+    config.treeview.size = view.width
+  end
+
+  for item, lx,ly,lw,lh in self:each_item() do
+    if x > lx and y > ly and x <= lx + lw and y <= ly + lh then
       self.hovered_item = item
       break
     end
@@ -175,9 +191,9 @@ end
 
 function TreeView:on_mouse_pressed(button, x, y, clicks)
   local caught = TreeView.super.on_mouse_pressed(self, button, x, y, clicks)
-  if caught then
-    return
-  end
+  if caught then return end
+
+  -- print( x.."  "..y  )
 
   if button == "left" then
     if self.visible and core.active_view and core.active_view.mouse_selecting then
@@ -277,7 +293,7 @@ end
 local view = TreeView()
 local node = core.root_view:get_active_node()
 node:split("left", view, true)
-
+node.treeview = view
 -- register commands and keymap
 command.add(nil, {
   ["treeview:toggle"] = function()
