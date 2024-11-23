@@ -151,14 +151,20 @@ function StatusView:get_items()
         and style.icons["sort-down"]
         or style.icons["sort-up"]
     end
-    last_yoffset = dv.scroll.to.y
+
+    if last_yoffset ~= dv.scroll.to.y then
+      last_yoffset = dv.scroll.to.y
+    end
+
+    local rpath = system.absolute_path(core.cwd):gsub("/home/%w*/", "~/")
+    rpath = " "..rpath.." - "
 
     return {
       dirty and style.accent2 or style.text,
       style.xft.icon_statusview, style.icons["code"],
       style.dim, xft, self.separator2,
       style.xft.icon_statusview, style.icons["folder-open"], xft,
-      style.text, " "..system.absolute_path(core.cwd).." - ",
+      style.text, rpath,
       style.text, xft, #node.views .."/"..idx, style.text,
       style.dim, xft, self.separator2, style.text,
       dv.doc.filename and style.text or style.dim, 
