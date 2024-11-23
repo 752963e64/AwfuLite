@@ -7,7 +7,6 @@ config.dprint("emptyview.lua -> loaded")
 
 local EmptyView = View:extend()
 
-
 local function draw_text(x, y, color)
   local th = style.xft.logo:get_height()
   local dh = th + style.padding.y * 2
@@ -32,6 +31,7 @@ end
 
 
 function EmptyView:draw()
+  if self.cursor ~= "arrow" then self.cursor = "arrow" end
   self:draw_background(style.background)
   local w, h = draw_text(0, 0, { 0, 0, 0, 0 })
   local x = self.position.x + math.max(style.padding.x, (self.size.x - w) / 2)
