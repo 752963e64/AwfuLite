@@ -162,6 +162,7 @@ see workspace screenshot for an overview...
 ### Some TODO
 
 ```
+- keyboard navigation handling over interface
 - node divider handling over some plugins (treeview)
 - horizontal scroll method
 - code folding
