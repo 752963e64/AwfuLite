@@ -196,9 +196,6 @@ function TreeView:on_mouse_pressed(button, x, y, clicks)
   -- print( x.."  "..y  )
 
   if button == "left" then
-    if self.visible and core.active_view and core.active_view.mouse_selecting then
-      core.active_view:on_mouse_released(button, x, y)
-    end
     self._update = true
     if not self.hovered_item then
       return
