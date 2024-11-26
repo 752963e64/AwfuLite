@@ -154,9 +154,6 @@ end
 
 
 function TreeView:on_mouse_moved(x, y, px, py)
-  local caught = TreeView.super.on_mouse_moved(self, x, y, px, py)
-  if caught then return end
-
   if self.hovered_item then self.hovered_item = nil end
 
   -- wth is this trying to handle? clean this...
@@ -191,11 +188,6 @@ end
 
 
 function TreeView:on_mouse_pressed(button, x, y, clicks)
-  local caught = TreeView.super.on_mouse_pressed(self, button, x, y, clicks)
-  if caught then return end
-
-  -- print( x.."  "..y  )
-
   if button == "left" then
     self._update = true
     if not self.hovered_item then
@@ -215,9 +207,6 @@ end
 
 
 function TreeView:on_mouse_released(button, x, y)
-  local caught = TreeView.super.on_mouse_released(self, button, x, y)
-  if caught then return end
-
   if button == "left" then
     if core.active_view and core.active_view.mouse_selecting then
       core.active_view:on_mouse_released(button, x, y)

@@ -239,11 +239,6 @@ end
 
 
 function ConsoleView:on_mouse_pressed(...)
-  local caught = ConsoleView.super.on_mouse_pressed(self, ...)
-  if caught then
-    return
-  end
-
   local item = output[self.hovered_idx]
   if item then
     local file, line, col = item.text:match(item.file_pattern)
@@ -282,7 +277,6 @@ end
 
 
 function ConsoleView:update(...)
-  
   if self.last_output_id ~= output_id then
     self.scroll.to.y = self:get_scrollable_size()
     self.last_output_id = output_id
