@@ -156,12 +156,6 @@ end
 function TreeView:on_mouse_moved(x, y, px, py)
   if self.hovered_item then self.hovered_item = nil end
 
-  -- wth is this trying to handle? clean this...
-  if not self.visible or x > self.width
-  or ( core.active_view and core.active_view.mouse_selecting ) then
-    return
-  end
-
   if self.cursor ~= "arrow" then
     self.cursor = "arrow"
   end
@@ -223,7 +217,7 @@ function TreeView:update(...)
   else
     self:move_towards(self.size, "x", dest)
   end
-
+  
   TreeView.super.update(self)
 end
 

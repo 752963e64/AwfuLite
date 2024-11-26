@@ -295,11 +295,6 @@ end
 
 
 function DocView:on_mouse_pressed(button, x, y, clicks)
-  local caught = DocView.super.on_mouse_pressed(self, button, x, y, clicks)
-  if caught then
-    return
-  end
-
   -- reset multi selection
   local selections = #self.doc.selection.c >= 1
   if selections then

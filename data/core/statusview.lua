@@ -35,8 +35,6 @@ end
 
 
 function StatusView:on_mouse_moved(x, y, dx, dy)
-  local caught = StatusView.super.on_mouse_moved(self, x, y, dx, dy)
-  if caught then return end
   if self.cursor ~= "arrow" then
     self.cursor = "arrow"
   end
@@ -44,9 +42,6 @@ end
 
 
 function StatusView:on_mouse_released(button, x, y)
-  local caught = StatusView.super.on_mouse_released(self, button, x, y)
-  if caught then return end
-
   if button == "left" then
     if core.active_view and core.active_view.mouse_selecting then
       core.active_view:on_mouse_released(button, x, y)
