@@ -69,6 +69,13 @@ local function draw_text_multiline(font, text, x, y, color)
 end
 
 
+function LogView:on_mouse_moved(mx, my, ...)
+  if self.cursor ~= "arrow" then
+    self.cursor = "arrow"
+  end
+end
+
+
 function LogView:draw()
   self:draw_background(style.background)
 

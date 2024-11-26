@@ -93,9 +93,6 @@ function View:on_mouse_released(button, x, y)
   if button == "left" then
     if self.hold_scrollbar then
       self.hold_scrollbar = false
-      if self.cursor ~= "ibeam" then
-        self.cursor = "ibeam"
-      end
     end
   end
 end
@@ -110,7 +107,7 @@ function View:on_mouse_moved(x, y, dx, dy)
     if self.hold_scrollbar then
       local delta = self:get_scrollable_size() / self.size.y * dy
       self.scroll.to.y = self.scroll.to.y + delta
-      return true
+      return
     end
   end
   self.hovered_scrollbar = self:scrollbar_overlaps_point(x, y)

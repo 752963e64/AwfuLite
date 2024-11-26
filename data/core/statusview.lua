@@ -37,7 +37,6 @@ end
 function StatusView:on_mouse_moved(x, y, dx, dy)
   local caught = StatusView.super.on_mouse_moved(self, x, y, dx, dy)
   if caught then return end
-
   if self.cursor ~= "arrow" then
     self.cursor = "arrow"
   end

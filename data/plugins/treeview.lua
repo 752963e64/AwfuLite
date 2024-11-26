@@ -159,6 +159,7 @@ function TreeView:on_mouse_moved(x, y, px, py)
 
   if self.hovered_item then self.hovered_item = nil end
 
+  -- wth is this trying to handle? clean this...
   if not self.visible or x > self.width
   or ( core.active_view and core.active_view.mouse_selecting ) then
     return
@@ -277,7 +278,7 @@ function TreeView:draw()
       x = x + icon_width
     end
 
-    -- text
+    -- label
     x = x + spacing
     local item_name = nil
     item_name = common.truncate_text(font, item.name, x, self.size.x)

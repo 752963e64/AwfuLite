@@ -199,6 +199,10 @@ end
 
 
 function ConsoleView:on_mouse_moved(mx, my, ...)
+  if self.cursor ~= "arrow" then
+    self.cursor = "arrow"
+  end
+
   self.hovered_idx = 0
   if not self.visible or my < core.active_view.size.y then
     return
@@ -239,6 +243,7 @@ function ConsoleView:on_mouse_pressed(...)
   if caught then
     return
   end
+
   local item = output[self.hovered_idx]
   if item then
     local file, line, col = item.text:match(item.file_pattern)
