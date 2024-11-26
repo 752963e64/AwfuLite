@@ -109,11 +109,8 @@ function RootView:on_mouse_moved(x, y, dx, dy)
   if node then
     -- make a call to the last_node if there is...
     -- it permits to update its state & refresh things that need to be refresh... 
-    if self.last_node ~= nil then
-      if node ~= self.last_node then
-        self.last_node:on_mouse_moved(x, y, dx, dy)
-        self.last_node = node
-      end
+    if self.last_node ~= nil and node ~= self.last_node then
+      self.last_node:on_mouse_moved(x, y, dx, dy)
     end
     node.active_view:on_mouse_moved(x, y, dx, dy)
     self.last_node = node
