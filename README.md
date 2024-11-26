@@ -6,6 +6,10 @@
 
 - It's actually not anymore true... I use vscode... But this may change for some reason.
 
+
+
+![screenshot](https://raw.githubusercontent.com/752963e64/AwfuLite/master/modern-screenshoot.png)
+
 ![screenshot](https://raw.githubusercontent.com/752963e64/AwfuLite/master/screenshot.png)
 
 ![screenshot](https://raw.githubusercontent.com/752963e64/AwfuLite/master/workspace.png)
