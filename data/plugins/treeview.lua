@@ -217,7 +217,7 @@ function TreeView:update(...)
   else
     self:move_towards(self.size, "x", dest)
   end
-  
+
   TreeView.super.update(self)
 end
 

@@ -16,6 +16,7 @@ function RootView:new()
   RootView.super.new(self)
   self.root_node = Node()
   self.deferred_draws = {}
+  self.last_node = nil
 end
 
 
@@ -104,8 +105,18 @@ function RootView:on_mouse_moved(x, y, dx, dy)
   
   local node = self.root_node:get_child_overlapping_point(x, y)
   local div = self.root_node:get_divider_overlapping_point(x, y)
+  -- self.root_node:on_mouse_moved(x, y, dx, dy)
   if node then
+    -- make a call to the last_node if there is...
+    -- it permits to update its state & refresh things that need to be refresh... 
+    if self.last_node ~= nil then
+      if node ~= self.last_node then
+        self.last_node:on_mouse_moved(x, y, dx, dy)
+        self.last_node = node
+      end
+    end
     node.active_view:on_mouse_moved(x, y, dx, dy)
+    self.last_node = node
   end
   if div then
     node.active_view.cursor = (div.type == "hsplit" and "sizeh" or "sizev")
