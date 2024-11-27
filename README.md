@@ -6,17 +6,9 @@
 
 - It's actually not anymore true... I use vscode... But this may change for some reason.
 
-
-
 ![screenshot](https://raw.githubusercontent.com/752963e64/AwfuLite/master/modern-screenshoot.png)
 
-![screenshot](https://raw.githubusercontent.com/752963e64/AwfuLite/master/screenshot.png)
-
-![screenshot](https://raw.githubusercontent.com/752963e64/AwfuLite/master/workspace.png)
-
-- 2 way to demo something... you fuel the engine or you engineers the fuel.
-
-HackIT is me, also [Awaxx] and 752963e64. I'm not schizo :)
+HackIT is me, also [Awaxx], DragonTalk and 752963e64. I'm not schizo :)
 
 ### How to install
 
