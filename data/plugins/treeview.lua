@@ -201,11 +201,7 @@ end
 
 
 function TreeView:on_mouse_released(button, x, y)
-  if button == "left" then
-    if core.active_view and core.active_view.mouse_selecting then
-      core.active_view:on_mouse_released(button, x, y)
-    end
-  end
+  -- no op
 end
 
 
