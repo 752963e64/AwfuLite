@@ -26,7 +26,7 @@ config.console.visible = false
 
 -- plugins/log.lua
 config.log = {}
-config.log.size = config.common.default_split_size
+config.log.size = config.common.default_split_size/2
 config.log.visible = false
 
 
