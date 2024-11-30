@@ -124,6 +124,7 @@ see workspace screenshot for an overview...
 ### Stuff DONE
 
 ```
+- mouse feedback applies to statuview.
 - linux clipboards - handled by xsel avoiding savagery over SDL2.
 - added more font icons
 - moved syntaxes and colors to their own dir...
@@ -162,7 +163,6 @@ see workspace screenshot for an overview...
 - node divider handling over some plugins (treeview)
 - horizontal scroll method
 - code folding
-- mouse feedback in statusview doesn't handle multiple workspace
 - statusview shouldn't show home path instead use a tild ~.
 - add a debug mode to docview... surface usually split verticaly to print step information
 - implement a timeline player.
