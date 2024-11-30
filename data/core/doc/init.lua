@@ -84,7 +84,7 @@ end
 
 function Doc:load(filename)
   self.filename = filename
-  local fp = assert( io.open(filename, "rb") )
+  local fp = assert( io.open(self.filename, "rb") )
   local sane = true
   for c in fp:lines(1) do
     if c:byte() == 0 then
@@ -96,7 +96,7 @@ function Doc:load(filename)
     fp:seek("set")
   else
     fp:close()
-    fp = assert( io.popen( "hexdump -C " .. filename ) )
+    fp = assert( io.popen( "hexdump -C " .. self.filename ) )
     self.editable = false
   end
   self:reset()
@@ -104,7 +104,7 @@ function Doc:load(filename)
   for line in fp:lines() do
     if line:byte(-1) == 13 then
       line = line:sub(1, -2)
-      self.crlf = true
+      if not self.crlf then self.crlf = true end
     end
     table.insert(self.lines, line .. "\n")
   end
