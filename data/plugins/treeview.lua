@@ -159,19 +159,7 @@ function TreeView:on_mouse_moved(x, y, px, py)
   if self.cursor ~= "arrow" then
     self.cursor = "arrow"
   end
-
-  if self.divider then
-    if not view.init_size then
-      view.init_size = true
-    end
-    if x > self.width then
-      view.width = view.width + 10
-    else
-      view.width = view.width - 10
-    end
-    config.treeview.size = view.width
-  end
-
+  
   for item, lx,ly,lw,lh in self:each_item() do
     if x > lx and y > ly and x <= lx + lw and y <= ly + lh then
       self.hovered_item = item

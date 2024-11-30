@@ -100,7 +100,7 @@ function RootView:on_mouse_moved(x, y, dx, dy)
       node.divider = node.divider + dy / node.size.y
     end
     node.divider = common.clamp(node.divider, 0.01, 0.99)
-    return
+    return -- doesn't forward mouse event when handling divider
   end
   
   local node = self.root_node:get_child_overlapping_point(x, y)

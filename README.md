@@ -33,7 +33,7 @@ export PATH=~/bin:$PATH # if it's not already assumed... check it, first...
 - Go to directory you are about to work on, Now startup the beast.
 
 ```sh
-awfulite &
+lite &
 ```
 
 - Another way is to take in consideration that you gonna seriously mess it up...
@@ -60,6 +60,13 @@ apply_shit
 # Now you should apply/commit changes to ~/AwfuLite
 awfulite & # back to camp fire 
 # simple...
+```
+
+- functions sumary from lua code.
+
+```
+cd Awfulite
+for i in $(find . -type f -name '*.lua'); do echo "$i" && egrep -o "function [a-z_].*\(.*\)" "$i"; done
 ```
 
 - type **ctrl+shift+t**, Now you are on your own rdy to impress or deceive...
