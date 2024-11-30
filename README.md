@@ -66,7 +66,7 @@ awfulite & # back to camp fire
 
 ```
 cd Awfulite
-for i in $(find . -type f -name '*.lua'); do echo "$i" && egrep -o "function [a-z_].*\(.*\)" "$i"; done
+for i in $(find . -type f -name '*.lua'); do echo "$i" && egrep -o "function .*\(.*\)" "$i"; done
 ```
 
 - type **ctrl+shift+t**, Now you are on your own rdy to impress or deceive...
