@@ -324,7 +324,7 @@ Get/Set X11 PRIMARY BUFFER(selection clipboard)
 
 static int f_is_xsel_available(lua_State *L) {
   /* check that xsel is available at initialisation depending given option */
-  int is_xsel = open("/usr/bin/xsel", O_RDONLY);
+  int is_xsel = open("xsel", O_RDONLY);
   lua_pushboolean(L, is_xsel);
   close(is_xsel);
   return 1;
@@ -332,7 +332,7 @@ static int f_is_xsel_available(lua_State *L) {
 
 static int f_get_selection_clipboard(lua_State *L) {
   char *clipboard = calloc(1, (BUFSIZ*4));
-  FILE *retf = popen("/usr/bin/xsel -p", "r");
+  FILE *retf = popen("xsel -p", "r");
   fread(clipboard, sizeof *clipboard, (BUFSIZ*4), retf);
   if(ferror(retf)) {
     perror("ferror");
@@ -352,7 +352,7 @@ static int f_set_selection_clipboard(lua_State *L) {
     return 0;
   }
   
-  FILE *retf = popen("/usr/bin/xsel -p -i", "w");
+  FILE *retf = popen("xsel -p -i", "w");
   fprintf(retf, "%.*s", (int)len, clipboard);
   pclose(retf);
   return 0;
