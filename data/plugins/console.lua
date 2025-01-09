@@ -111,7 +111,7 @@ function console.run(opt)
       %s
       touch %q
     ]], opt.command, files.complete))
-    os.execute(string.format("bash %q >%q 2>&1 &", files.script, files.output))
+    os.execute(string.format("sh %q >%q 2>&1 &", files.script, files.output))
 
     -- checks output file for change and reads
     local last_size = 0
