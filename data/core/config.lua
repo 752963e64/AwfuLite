@@ -16,7 +16,8 @@ config.dprint("config.lua -> loaded")
 config.project = {}
 config.project.scan_rate = 5
 config.project.file_size_limit = 10
-config.project.ignore_files = { "^%.", "^lite$" }
+-- config.project.ignore_files = { "^%.", "^lite$" }
+config.project.ignore_files = { "^lite$" }
 --
 
 config.window = {}
