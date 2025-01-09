@@ -4,8 +4,6 @@
 
 - It's actually my main text editor... live patching in public...
 
-- It's actually not anymore true... I use vscode... But this may change for some reason.
-
 ![screenshot](https://raw.githubusercontent.com/752963e64/AwfuLite/master/modern-screenshoot.png)
 
 HackIT is me, also [Awaxx], DragonTalk and 752963e64. I'm not schizo :)
