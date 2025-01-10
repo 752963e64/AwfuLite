@@ -164,6 +164,7 @@ see workspace screenshot for an overview...
 ### Some TODO
 
 ```
+- I WANT REDBEAN's SHELL EMBEDED =]
 - keyboard navigation handling over interface
 - node divider handling over some plugins (treeview)
 - horizontal scroll method
